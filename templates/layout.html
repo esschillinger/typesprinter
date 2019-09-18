@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href="/static/styles.css" rel="stylesheet">
+    <link href="/static/favicon.ico" rel="icon">
+    
+    <title>TypeSprinter{% block title %}{% endblock %}</title>
+    
+    {% block head %}
+    
+    {% endblock %}
+    
+  </head>
+  <body>
+    
+    <nav class="navbar navbar-expand-md navbar-light bg-light border-light shadow-sm p-3 mb-5 height-adjust">
+            <a class="navbar-brand logo" href="/"><span class="pink">T</span><span class="pink">y</span><span class="pink">p</span><span class="orange">e</span><span class="orange">S</span><span class="orange">P</span><span class="aqua">R</span><span class="aqua">I</span><span class="aqua">N</span><span class="blueviolet">T</span><span class="blueviolet">E</span><span class="blueviolet">R</span></a>
+            <div class="collapse navbar-collapse links" id="navbar">
+                    <ul class="navbar-nav mr-auto mt-2">
+                        <li class="nav-item"><a class="nav-link text-dark" href="/">Practice</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" href="/1v1">One-on-One</a></li>
+                        {% block tabs %}
+                        
+                        {% endblock %}
+                    </ul>
+            </div>
+        </nav>
+    
+    {% block body %}
+    
+    {% endblock %}
+    
+  </body>
+</html>

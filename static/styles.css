@@ -1,0 +1,112 @@
+body {
+    background-color: #ffffff;
+}
+
+.terminal-input:focus {
+    outline: none;
+}
+
+.terminal {
+    width: 1000px;
+    height: 400px;
+    margin: auto;
+    margin-top: 10%;
+    background-color: black;
+    border-radius: 10px;
+    font-size: 25px;
+}
+
+.terminal-top {
+    background-color: lightgray;
+    text-align: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.terminal-body {
+    font-size: 45px;
+    color: white;
+    background-color: black;
+}
+
+.command-start {
+    margin-left: 15px;
+    margin-top: 10px;
+    float: left;
+}
+
+.command-main {
+    float: left;
+    width: 5px; /* accommodate for the caret */
+}
+
+.command-end {
+    margin-top: 10px;
+    float: left;
+}
+
+.terminal-input {
+    margin-top: 7px;
+    width: 100%;
+    color: white;
+    border-color: black;
+    background-color: black;
+}
+
+.code {
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+    user-select: none;
+}
+
+.response {
+    width: 50%;
+    margin: auto;
+}
+
+.response-input {
+    width: 100%;
+}
+
+.logo {
+    font-family: "Montserrat";
+    width: 85%;
+}
+
+#incorrect {
+    background-color: #bc3f5c;
+}
+
+#correct {
+    background-color: #3f8e68;
+}
+
+nav .navbar-brand .pink
+{
+    color: #ff157e;
+}
+
+nav .navbar-brand .orange
+{
+    color: #ffa30e;
+}
+
+nav .navbar-brand .aqua
+{
+    color: #00e0ff;
+}
+
+nav .navbar-brand .blueviolet
+{
+    color: #873cff;
+}
+
+/*
+ * Nav-bar link text/styling adapted from https://openai.com/blog/better-language-models/
+ */
+.links {
+    font-family: ColfaxAI,Helvetica,sans-serif;
+    font-size: .75em;
+    letter-spacing: 0.25em;
+    font-weight: bold;
+    text-transform: uppercase;
+}

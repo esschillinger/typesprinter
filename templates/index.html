@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+  
+{% endblock %}
+
+
+{% block head %}
+    <script type="text/javascript" src="static/terminal.js"></script>
+    <script>
+        window.onload = function() { load() };
+    </script>
+{% endblock %}
+
+
+{% block body %}
+  <div class="terminal code shadow-lg">
+      <div class="terminal-top">
+          tph - bash
+      </div>
+      <div class="terminal-body">
+          <div class="command-start">
+              $ generate --"
+          </div>
+          <div class="command-main">
+              <form name="starter" action="/" method="post" class="code">
+                  <input type="text" name="first_word" id="term_command" class="terminal-input" oninput="stretch()" autocomplete="off" autocorrect="off" spellcheck="off" autofocus>
+              </form>
+          </div>
+          <div class="command-end" id="term_command_end">
+              "
+          </div>
+      </div>
+  </div>
+
+
+{% block tabs %}
+{% endblock %}
+
+
+{% endblock %}
