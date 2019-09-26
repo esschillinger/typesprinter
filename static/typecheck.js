@@ -29,9 +29,16 @@ function check() {
     current_text = document.getElementById("user_input").value;
     
     if (value.length == 0) {
-        error_index = -1;
+        if (error_index != -1) {
+            correct.innerHTML = original_passage.substring(0, correct.innerHTML.length - (error_index - user_progress.length));
+        } else {
+            correct.innerHTML = original_passage.substring(0, correct.innerHTML.length - prev_length)
+        }
+        
         incorrect.innerHTML = "";
         incomplete.innerHTML = original_passage.substring(correct.innerHTML.length);
+        error_index = -1;
+        prev_length = 0;
         
         return;
     } else if ((value.length == 1 && value[0] == " ") || Math.abs(value.length - prev_length) > 3) { // Ideally Math.abs(...) > 1 to eliminate copy-paste but we don't live in a perfect world -- code doesn't run enough times/second to identify two keys being pressed "at once" as valid input
