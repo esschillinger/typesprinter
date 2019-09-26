@@ -1,10 +1,10 @@
-awscli==1.16.239
-botocore==1.12.229
-CacheControl==0.12.5
-cachetools==3.1.1
-cs50==4.0.2
-firebase-admin==3.0.0
-Flask==1.1.1
+awscli
+botocore
+CacheControl
+cachetools
+cs50
+firebase-admin
+Flask
 Flask-Session
 google-api-core
 google-api-python-client
