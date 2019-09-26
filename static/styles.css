@@ -12,15 +12,15 @@ body {
     margin: auto;
     margin-top: 10%;
     background-color: black;
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: 25px;
 }
 
 .terminal-top {
-    background-color: lightgray;
+    background-color: darkgray;
     text-align: center;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
 }
 
 .terminal-body {
@@ -54,13 +54,25 @@ body {
 }
 
 .code {
-    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+    /*font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;*/
+    
+    font-family: "Ubuntu", "Adobe Blank", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    
     user-select: none;
 }
 
 .response {
     width: 50%;
     margin: auto;
+    margin-top: 10%;
+    font-size: 20px;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
 }
 
 .response-input {
@@ -69,7 +81,7 @@ body {
 
 .logo {
     font-family: "Montserrat";
-    width: 85%;
+    width: 50%;
 }
 
 #incorrect {
@@ -109,4 +121,6 @@ nav .navbar-brand .blueviolet
     letter-spacing: 0.25em;
     font-weight: bold;
     text-transform: uppercase;
+    margin-left: auto;
+    margin-right: 0px;
 }

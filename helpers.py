@@ -25,7 +25,7 @@ def load_tagset(db, tag):
 def generate_random_tag(db, initial_word):
     initial_word = initial_word.lower()
 
-    initial_doc = load_word(db, initial_word)[0] # Force unpack - not advised
+    initial_doc = load_word(db, initial_word)[0] # Force unpack - not advised, but should be resolved post-database-clean
     keys = list(initial_doc.keys())
     keys.remove('word')
     vals = []
@@ -75,7 +75,12 @@ def generate_passage(initial_condition):
         else:
             word = generate_random_word(database, tag)
             word = re_substitute(word)
-            sentence += ' ' + word
+            
+            if word == ',':
+                sentence += word
+            else:
+                sentence += ' ' + word
+                
             initial_condition = word
             
     return sentence
