@@ -12,11 +12,11 @@ function stretch() {
     let length = value.length;
     
     if (length == 0) {
-        width = 5;
+        width = 10;
         offset = 0;
     } else {
-        width = length * 30;
-        offset = width - (5 * length);
+        width = length * 25;
+        offset = width - 2 * length;
     }
     
     conn1.style.width = width.toString(10) + "px";
