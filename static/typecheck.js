@@ -38,6 +38,7 @@ function check() {
         incorrect.innerHTML = "";
         incomplete.innerHTML = original_passage.substring(correct.innerHTML.length);
         error_index = -1;
+        conn.style.backgroundColor = "transparent";
         prev_length = 0;
         
         return;
@@ -52,7 +53,8 @@ function check() {
         if (original_passage[offset + ch] != value[ch]) {
             //conn.value = conn.value.substring(0, ch);
             error_index = offset + ch;
-            //ADD CODE TO PROPERLY CHANGE VALUE OF "incorrect" AND "correct" SPANS
+            
+            conn.style.backgroundColor = "#bc3f5c";
             correct.innerHTML = original_passage.substring(0, error_index);
             incorrect.innerHTML = original_passage.substring(error_index, offset + value.length);
             incomplete.innerHTML = original_passage.substring(offset + value.length);
@@ -61,6 +63,7 @@ function check() {
         }
         
         error_index = -1;
+        conn.style.backgroundColor = "transparent";
         correct.innerHTML = original_passage.substring(0, offset + value.length);
         incorrect.innerHTML = "";
         incomplete.innerHTML = original_passage.substring(offset + value.length);
