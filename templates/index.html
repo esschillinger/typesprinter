@@ -8,17 +8,21 @@
 
 {% block head %}
     <script type="text/javascript" src="static/terminal.js"></script>
+    <script type="text/javascript" src="static/canvas.js"></script>
     <script>
-        window.onload = function() { load() };
+        window.onload = function() { load_term(); load_canvas(); };
     </script>
 {% endblock %}
 
 
 {% block body %}
   <div class="terminal code shadow-lg">
+      <canvas id="canvas_terminal" class="canvas-terminal" width="1000px"; height="40px;"></canvas>
+      <!--
       <div class="terminal-top">
-          tph - bash
+          tph/bash
       </div>
+      -->
       <div class="terminal-body">
           <div class="command-start">
               $ generate -m "

@@ -2,7 +2,7 @@ let width = 0;
 let conn1 = "";
 let conn2 = "";
 
-function load() {
+function load_term() {
     conn1 = document.getElementById("term_command");
     conn2 = document.getElementById("term_command_end");
 }
