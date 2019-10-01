@@ -15,11 +15,11 @@
 
 
 {% block body %}
-<div class="code response container">
-    <div id="passage">
+<div class="code container">
+    <div id="passage" class="response">
         <span id="correct"></span><span id="incorrect"></span><span id="incomplete">{{ passage }}</span>
+        <p id="end_message"></p>
+        <input type="text" id="user_input" class="response-input" oninput="check()" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
     </div>
-    <p id="end_message"></p>
-    <input type="text" id="user_input" class="response-input" oninput="check()" autocomplete="off" autocorrect="off" spellcheck="off" autofocus>
 </div>
 {% endblock %}

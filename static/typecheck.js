@@ -79,7 +79,7 @@ function check() {
                 
                 user_progress += value;
                 conn.value = "";
-                document.getElementById("end_message").innerHTML = "Race finished in " + (tWPM * 60) + "s at a rate of " + ((user_progress.length / 5) / tWPM) + " WPM."
+                document.getElementById("end_message").innerHTML = "Race finished in " + Math.round(tWPM * 60) + "s at a rate of " + Math.ceil((user_progress.length / 5) / tWPM) + " WPM."
             }
         }
     }
