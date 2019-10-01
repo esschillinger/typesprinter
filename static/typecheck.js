@@ -74,8 +74,7 @@ function check() {
                 conn.value = "";
             } else if (user_progress + value == original_passage) {
                 tf = performance.now();
-                let ttotal = tf - ti;
-                let tWPM = ttotal / 60000;
+                let tWPM = (tf - ti) / 60000;
                 
                 user_progress += value;
                 conn.value = "";
