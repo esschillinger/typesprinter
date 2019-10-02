@@ -22,10 +22,10 @@ def load_tagset(db, tag):
 
     return [doc.to_dict() for doc in docs]
 
-def generate_random_tag(db, initial_word):
-    initial_word = initial_word.lower()
+def generate_random_tag(db, starter):
+    initial_word = starter.split(' ')[-1].lower()
 
-    initial_doc = load_word(db, initial_word)[0] # Force unpack - not advised, but should be resolved post-database-clean
+    initial_doc = load_word(db, initial_word)[0] # Force unpack--not advised, but should be resolved post-database-clean
     keys = list(initial_doc.keys())
     keys.remove('word')
     vals = []
