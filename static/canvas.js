@@ -19,5 +19,5 @@ function load_canvas() {
     
     context.font = "25px Ubuntu Mono";
     context.fillStyle = "black";
-    context.fillText("tph/bash", 450, 30);
+    context.fillText("tph/bash", 450, 27.5);
 }
