@@ -2,6 +2,18 @@ body {
     background-color: #ffffff;
 }
 
+.gradient {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background-size: 100% 100%;
+    background-image: url(https://www.openai.com/assets/images/home-gradient.gif?v=adf514ba8e); /* REPLACE THIS IMAGE TO BE MY OWN GRADIENT OR GENERAL BACKGROUND IMAGE */
+}
+
 .terminal-input:focus {
     outline: none;
 }
