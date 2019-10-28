@@ -16,13 +16,10 @@
 
 
 {% block body %}
+<!--  TERMINAL CODE
+
   <div class="terminal code shadow-lg">
       <canvas id="canvas_terminal" class="canvas-terminal" width="1000px"; height="40px;"></canvas>
-      <!--
-      <div class="terminal-top">
-          tph/bash
-      </div>
-      -->
       <div class="terminal-body">
           <div class="command-start">
               $ generate -m "
@@ -38,7 +35,23 @@
       </div>
   </div>
 
-
+-->
+<section class="panels">
+  <div class="row">
+    
+    <div class="col-12 col-sm-6 col-md-4 col-xl-3">
+      <a href="/practice" class="panel-a">
+        <figure class="panel shadow">
+          <div class="panel-title">
+            <b>Title</b>
+          </div>
+          <img src="/static/favicon.ico" class="panel-preview">
+        </figure>
+      </a>
+    </div>
+    
+  </div>
+</section>
 {% block tabs %}
 {% endblock %}
 
