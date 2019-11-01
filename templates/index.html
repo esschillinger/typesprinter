@@ -7,41 +7,50 @@
 
 
 {% block head %}
-    <script type="text/javascript" src="static/terminal.js"></script>
-    <script type="text/javascript" src="static/canvas.js"></script>
-    <script>
-        window.onload = function() { load_term(); load_canvas(); };
-    </script>
 {% endblock %}
 
 
 {% block body %}
-<!--  TERMINAL CODE
-
-  <div class="terminal code shadow-lg">
-      <canvas id="canvas_terminal" class="canvas-terminal" width="1000px"; height="40px;"></canvas>
-      <div class="terminal-body">
-          <div class="command-start">
-              $ generate -m "
-          </div>
-          <div class="command-main">
-              <form name="starter" action="/" method="post" class="code">
-                  <input type="text" name="first_word" id="term_command" class="terminal-input" oninput="stretch()" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
-              </form>
-          </div>
-          <div class="command-end" id="term_command_end">
-              "
-          </div>
-      </div>
-  </div>
-
--->
+<div class="gradient header">
 <section class="panels">
-  <div class="row">
+  <div class="row row-height-adjust">
     
-    <div class="col-12 col-sm-6 col-md-4 col-xl-3">
-      <a href="/practice" class="panel-a">
-        <figure class="panel shadow">
+    <div class="col col-adjust"> <!-- col-12 col-sm-6 col-md-4 col-xl-3 -->
+      <a href="/ml_practice_index" class="panel-a">
+        <figure class="panel shadow-lg">
+          <div class="panel-title">
+            <b>Better Language Models</b>
+          </div>
+          <img src="/static/blm.jpg" class="panel-preview">
+        </figure>
+      </a>
+    </div>
+    
+    <div class="col col-adjust"> <!-- col-12 col-sm-6 col-md-4 col-xl-3 -->
+      <a href="/ml_practice_index" class="panel-a">
+        <figure class="panel shadow-lg">
+          <div class="panel-title">
+            <b>Generate Your Own Passage</b>
+          </div>
+          <img src="/static/atom-removebg-preview.png" class="panel-preview">
+        </figure>
+      </a>
+    </div>
+    
+    <div class="col col-adjust"> <!-- col-12 col-sm-6 col-md-4 col-xl-3 -->
+      <a href="/ml_practice_index" class="panel-a">
+        <figure class="panel shadow-lg">
+          <div class="panel-title">
+            <b>Title</b>
+          </div>
+          <img src="/static/favicon.ico" class="panel-preview">
+        </figure>
+      </a>
+    </div>
+    
+    <div class="col col-adjust"> <!-- col-12 col-sm-6 col-md-4 col-xl-3 -->
+      <a href="/ml_practice_index" class="panel-a">
+        <figure class="panel shadow-lg">
           <div class="panel-title">
             <b>Title</b>
           </div>
@@ -52,6 +61,7 @@
     
   </div>
 </section>
+</div>
 {% block tabs %}
 {% endblock %}
 

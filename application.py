@@ -32,10 +32,15 @@ Session(app)
 # db = SQL(os.environ.get("DATABASE_URL")) # replace "DATABASE_URL" with the actual PostgreSQL URL - used to store RNN weights
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def index():
+    return render_template("index.html")
+
+
+@app.route("/ml_practice_index", methods=["GET", "POST"])
+def ml():
     if request.method == "GET":
-        return render_template("index.html")
+        return render_template("ml_practice_index.html")
     
     condition = request.form.get("first_word")
     passage = generate_passage(condition)
@@ -43,7 +48,7 @@ def index():
     session["passage"] = passage
     
     return redirect("/practice")
-
+    
 
 @app.route("/practice")
 def generate():
