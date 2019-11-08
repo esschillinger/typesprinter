@@ -5,6 +5,7 @@ let conn = "";
 let correct = "";
 let incorrect = "";
 let incomplete = "";
+let wpm_counter = "";
 let start = false;
 let error_index = -1;
 let ti = 0;
@@ -16,6 +17,7 @@ function load(first, second, third) {
     correct = document.getElementById("correct");
     incorrect = document.getElementById("incorrect");
     incomplete = document.getElementById("incomplete");
+    wpm_counter = document.getElementById("wpm_counter");
 }
 
 function check() {
@@ -23,6 +25,9 @@ function check() {
         start = true;
         ti = performance.now();
     }
+  
+    tf = performance.now();
+    wpm_counter.innerHTML = Math.ceil((user_progress.length / 5) / (((tf - ti)/60000)));
     
     let value = conn.value;
     
@@ -75,10 +80,13 @@ function check() {
             } else if (user_progress + value == original_passage) {
                 tf = performance.now();
                 let tWPM = (tf - ti) / 60000;
+                let WPM = Math.ceil((user_progress.length / 5) / tWPM);
                 
                 user_progress += value;
                 conn.value = "";
-                document.getElementById("end_message").innerHTML = "Race finished in " + Math.round(tWPM * 60) + "s at a rate of " + Math.ceil((user_progress.length / 5) / tWPM) + " WPM."
+                document.getElementById("end_message").innerHTML = "Race finished in " + Math.round(tWPM * 60) + "s at a rate of " + WPM + " WPM.";
+                document.getElementById("wpm_counter").innerHTML = WPM;
+                document.getElementById("race-link").style.display = "block";
             }
         }
     }

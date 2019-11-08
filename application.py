@@ -6,6 +6,7 @@ from flask_session import Session
 from tempfile import mkdtemp
 
 from helpers import generate_passage
+from helpers import pick_passage
 
 # Configure application
 
@@ -34,6 +35,7 @@ Session(app)
 
 @app.route("/")
 def index():
+    session.pop("passage", None)
     return render_template("index.html")
 
 
@@ -51,8 +53,11 @@ def ml():
     
 
 @app.route("/practice")
-def generate():
-    passage = session["passage"]
+def practice():
+    try:
+        passage = session["passage"]
+    except:
+        passage = pick_passage()
     
     '''
     first = passage[0]
@@ -67,6 +72,11 @@ def generate():
     '''
     
     return render_template("practice.html", passage=passage)
+
+
+@app.route("/again")
+def again():
+    return render_template("practice.html", passage=pick_passage())
 
 
 @app.route("/1v1")

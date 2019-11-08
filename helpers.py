@@ -1,9 +1,21 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
 from numpy.random import choice
+import random
 
 TAGSETS_COLLECTION = 'tagsets'
 WORDS_COLLECTION = 'words'
+PRESET_PASSAGES = [
+    'The time I waited seemed endless, and I felt doubts and fears crowding upon me. What sort of place had I come to, and among what kind of people? What sort of grim adventure was it on which I had embarked?',
+    'Most of what I learnt at Cambridge had to be painfully unlearnt later; on the whole, what I had learnt for myself from being left alone in an old library had proved more solid.',
+    'But I can\'t imagine a life without breathless moments breaking me down.',
+    'Waits at the window, wearing the face that she keeps in a jar by the door. Who is it for?',
+    'A few minutes ago, I almost made the biggest mistake of my professional life and it was because I was doing something that just wasn\'t me.',
+    'It was hard to toss things I had once thought were valuable enough to spend money on and just as hard to separate myself from worn and ragged clothing I had for sentimental reasons. Once I\'d passed through the first few tough decisions, though, the momentum had been built and it was a breeze.',
+    'Say what you will. But a person just cannot know what he doesn\'t know. And you can\'t always see that a bad thing is going to happen before it happens. If you could, no bad would ever come.',
+    'I only know that learning to believe in the power of my own words has been the most freeing experience of my life. It has brought me the most light. And isn\'t that what a poem is? A lantern glowing in the dark.',
+    'It feels scary to talk, because once the words are out, you can\'t put them back in. But if you write words and they don\'t come out the way you want them to, you can erase them and start over.'
+]
 
 def initialize_database():
     cred = credentials.Certificate('./ServiceAccountKey.json')
@@ -84,3 +96,7 @@ def generate_passage(initial_condition):
             initial_condition = word
             
     return sentence
+
+def pick_passage():
+    random.seed()
+    return PRESET_PASSAGES[random.randint(0, len(PRESET_PASSAGES) - 1)]
