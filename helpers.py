@@ -14,7 +14,16 @@ PRESET_PASSAGES = [
     'It was hard to toss things I had once thought were valuable enough to spend money on and just as hard to separate myself from worn and ragged clothing I had for sentimental reasons. Once I\'d passed through the first few tough decisions, though, the momentum had been built and it was a breeze.',
     'Say what you will. But a person just cannot know what he doesn\'t know. And you can\'t always see that a bad thing is going to happen before it happens. If you could, no bad would ever come.',
     'I only know that learning to believe in the power of my own words has been the most freeing experience of my life. It has brought me the most light. And isn\'t that what a poem is? A lantern glowing in the dark.',
-    'It feels scary to talk, because once the words are out, you can\'t put them back in. But if you write words and they don\'t come out the way you want them to, you can erase them and start over.'
+    'It feels scary to talk, because once the words are out, you can\'t put them back in. But if you write words and they don\'t come out the way you want them to, you can erase them and start over.',
+    'Maybe, the only thing that has to make sense about being somebody\'s friend is that you help them be their best self on any given day. That you give them a home when they don\'t want to be in their own.',
+    'Soon, the sky darkened, the streetlights brightened, and it was finally time for dinner.',
+    'When you realize you want to spend the rest of your life with somebody, you want the rest of your life to start as soon as possible.',
+    'I didn\'t know it would be people you barely knew becoming friends that harbored you. And dreams you didn\'t even know you had - coming true. I didn\'t know it would be superpowers rising up out of tragedies, and perfect moments in a nearly empty classroom.',
+    'There is freedom in coming and going for no other reason than because you can. There is freedom in choosing to sit and be still when everything is always telling you to move, move fast.',
+    'No one would ever say, "Come and join us, Caroline," so I would then spend the rest of the lunch period feeling sorry for myself and trying to remember that the lonely children like me are the ones who grow up to be someone that everyone wishes they could be.',
+    'Your silence furnishes a dark house. But even at the risk of burning, the moth always seeks the light.',
+    'I could tell he was trying to shake off his feelings. He didn\'t like to be angry. I loved that about him, that he really wanted to be happy.',
+    'Everyone is to blame. He says that when you separate people into groups, they start to believe that one group is better than another. I think about Papa\'s medical books and how we all have the same blood, and organs, and bones inside us, no matter what religion we\'re supposed to be.'
 ]
 
 def initialize_database():
