@@ -23,7 +23,8 @@ PRESET_PASSAGES = [
     'No one would ever say, "Come and join us, Caroline," so I would then spend the rest of the lunch period feeling sorry for myself and trying to remember that the lonely children like me are the ones who grow up to be someone that everyone wishes they could be.',
     'Your silence furnishes a dark house. But even at the risk of burning, the moth always seeks the light.',
     'I could tell he was trying to shake off his feelings. He didn\'t like to be angry. I loved that about him, that he really wanted to be happy.',
-    'Everyone is to blame. He says that when you separate people into groups, they start to believe that one group is better than another. I think about Papa\'s medical books and how we all have the same blood, and organs, and bones inside us, no matter what religion we\'re supposed to be.'
+    'Everyone is to blame. He says that when you separate people into groups, they start to believe that one group is better than another. I think about Papa\'s medical books and how we all have the same blood, and organs, and bones inside us, no matter what religion we\'re supposed to be.',
+    'We know that there is not one person who, after hearing these words, would deny their truth and say that he wanted something else, but he would believe that he had heard exactly what he had desired for a long time - namely, to be melted in unison with his beloved, and the two of them become one. The reason is that our ancient nature was thus and we were whole. And so love is merely the name for the desire and pursuit of the whole.'
 ]
 
 def initialize_database():
