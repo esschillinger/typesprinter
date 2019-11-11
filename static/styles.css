@@ -100,7 +100,7 @@ a.panel-a:hover {
 
 .command-start {
     margin-left: 15px;
-    margin-top: 10px;
+    margin-right: 15px;
     float: left;
 }
 
@@ -115,7 +115,6 @@ a.panel-a:hover {
 }
 
 .terminal-input {
-    margin-top: 7px;
     width: 100%;
     color: white;
     border-color: black;
@@ -123,12 +122,18 @@ a.panel-a:hover {
 }
 
 .code {
-    /*font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;*/
-    
     font-family: "Ubuntu Mono", "Adobe Blank", sans-serif;
     font-weight: 500;
     font-style: normal;
     user-select: none;
+}
+
+.cheat-form {
+    float: left;
+}
+
+.friendly-font {
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 }
 
 .container {
