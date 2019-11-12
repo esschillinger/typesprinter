@@ -86,7 +86,7 @@ function check() {
                 conn.value = "";
                 document.getElementById("end_message").innerHTML = "Race finished in " + Math.round(tWPM * 60) + "s at a rate of " + WPM + " WPM.";
                 document.getElementById("wpm_counter").innerHTML = WPM;
-                document.getElementById("race-link").style.display = "block";
+                document.getElementById("div-links").style.display = "block";
             }
         }
     }

@@ -207,10 +207,14 @@ nav .navbar-brand .blueviolet
     margin-right: 0px;
 }
 
-.race-link {
+.race-links {
     display: none;
     float: right;
-    margin-top: 10%;
+    margin-top: 5%;
+}
+
+.race-link {
+    display: block;
 }
 
 .race-link:hover {

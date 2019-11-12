@@ -98,7 +98,7 @@ def generate_passage(initial_condition):
             word = generate_random_word(database, tag)
             word = re_substitute(word)
             
-            if word == ',':
+            if word == ',' or word == '\'s' or word == ':' or word == ';':
                 sentence += word
             else:
                 sentence += ' ' + word

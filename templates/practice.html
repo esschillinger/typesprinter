@@ -20,7 +20,11 @@
         <span id="correct"></span><span id="incorrect"></span><span id="incomplete">{{ passage }}</span>
         <p id="end_message"></p>
         <input type="text" id="user_input" class="response-input" oninput="check()" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
-        <a href="/again" id="race-link" class="race-link">Race Again ></a>
+        <div id="div-links" class="race-links">
+            <a href="/ml_practice_index" id="ml-link" class="race-link">Generate a Passage ></a>
+            <a href="/again" id="practice-link" class="race-link">Practice ></a>
+            <a href="/1v1" id="1v1-link" class="race-link">Race Another User ></a>
+        </div>
     </div>
     <div id="wpm_counter" class="wpm-counter">
         0
