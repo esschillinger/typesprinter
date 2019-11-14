@@ -6,6 +6,8 @@ let character_width = 20;
 let space_width = 5;
 let cursor_width = 20;
 let cursor_height = 40;
+let cursor_x = current_x;
+let cursor_y = current_y;
 let font = "40px Ubuntu Mono";
 let chars_locations = [];
 let acceptable_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
@@ -38,12 +40,13 @@ function loadCanvas() {
     context.fillText("$", 25, 40);
     
     document.addEventListener('keydown', (e) => {
-        if (acceptable_chars.includes(e.key)) {
+        if (acceptable_chars.includes(e.key.toLowerCase())) {
             addText(e.key, "white");
         } else if (e.key === "Backspace") {
             addText(e.key, "black");
+        } else if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+            moveCursor(e.key);
         }
-        console.log(e.key);
     });
 }
 
@@ -59,11 +62,8 @@ function addText(character, color) {
     var canvas_main = document.getElementById("canvas-terminal-body");
     var context = canvas_main.getContext("2d");
     
-    //if (solid_cursor) { //                      For whatever reason, if I force-clear the cursor every time it works but it doesn't work if I only clear when solid_cursor = true... whatever it works now
-        //console.log("Cleared cursor?");
-        context.fillStyle = "black";
-        context.fillRect(current_x, current_y - 33, cursor_width, cursor_height);
-    //}
+    context.fillStyle = "black";
+    context.fillRect(current_x, current_y - 33, cursor_width, cursor_height);
   
     context.font = font;
     context.fillStyle = color;
@@ -82,19 +82,18 @@ function addText(character, color) {
         context.fillRect(current_x, current_y - 33, cursor_width, cursor_height); //Keep moving the cursor to right in front of the last character
     } else {
         let i = chars_locations.length - 1;
-        //context.fillText(chars_locations[i][0], chars_locations[i][1], chars_locations[i][2]);
-        //console.log(chars_locations[i][0] + " (" + chars_locations[i][1] + ", " + chars_locations[i][2] + ")");
-        
-        let removed_character = chars_locations.pop();
-        current_x = removed_character[1];
-        current_y = removed_character[2];
-        
-        context.fillStyle = "white";
-        context.fillRect(current_x, current_y - 33, cursor_width, cursor_height); //Keep moving the cursor back
+        if (i != -1) {
+            let removed_character = chars_locations.pop();
+            current_x = removed_character[1];
+            current_y = removed_character[2];
+            
+            context.fillStyle = "white";
+            context.fillRect(current_x, current_y - 33, cursor_width, cursor_height); //Keep moving the cursor back
+        }
     }
 }
 
-function drawCursor() {
+function drawCursor(x, y) {
     var canvas_main = document.getElementById("canvas-terminal-body");
     var context = canvas_main.getContext("2d");
     
@@ -104,7 +103,17 @@ function drawCursor() {
         //context.fillRect(x + (width * 0.1), y - 30 + (width * 0.1), width * 0.8, height - 2 * (width * 0.1));        THIS IS FOR WHEN THE TERMINAL ISN'T FOCUSED
     }
     
-    context.fillRect(current_x, current_y - 33, cursor_width, cursor_height);
+    context.fillRect(x, y - 33, cursor_width, cursor_height);
+    let index = checkCoordinates(x, y);
+    if (index != -1) {
+        if (solid_cursor) {
+            context.fillStyle = "black";
+        } else {
+            context.fillStyle = "white";
+        }
+        
+        context.fillText(chars_locations[index][0], x, y)
+    }
     
     if (solid_cursor) {
         solid_cursor = false;
@@ -113,6 +122,27 @@ function drawCursor() {
     }
 }
 
+function checkCoordinates(x, y) {
+    for (var i = 0; i < chars_locations.length; i++) {
+        if (chars_locations[i][1] == x && chars_locations[i][2] == y) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+function moveCursor(key) {
+    let direction = key.substring(5);
+  
+    if (direction == "Left") {
+        if (chars_locations.length >= 1) {
+            drawCursor() // FIGURE OUT AN EFFICIENT WAY TO KEEP TRACK OF THE CURRENT CURSOR POSITION
+        }
+    } else {
+        
+    }
+}
+
 function updateCursor() {
-    setInterval(function() { drawCursor(); }, 750);
+    setInterval(function() { drawCursor(current_x, current_y); }, 750);
 }

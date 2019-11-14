@@ -70,6 +70,12 @@ a.panel-a:hover {
     outline: none;
 }
 
+.terminal-top {
+    background-color: darkgray;
+    text-align: center;
+    border-top-right-radius: 4px;
+}
+
 .terminal {
     width: 1000px;
     height: 400px;
@@ -78,12 +84,7 @@ a.panel-a:hover {
     background-color: black;
     border-radius: 5px;
     font-size: 25px;
-}
-
-.terminal-top {
-    background-color: darkgray;
-    text-align: center;
-    border-top-right-radius: 4px;
+    display: block; /* switch to display: block when the right character sequence is pressed */
 }
 
 .terminal-body {
@@ -92,7 +93,7 @@ a.panel-a:hover {
     background-color: black;
 }
 
-.canvas-terminal {
+.terminal-top {
     background-color: darkgray;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
