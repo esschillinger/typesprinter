@@ -2,21 +2,23 @@
 
 
 {% block title %}
-: Enter a word
+: Enter a cheat
 {% endblock %}
 
 
 {% block head %}
     <script type="text/javascript" src="static/canvas.js"></script>
     <script>
-        window.onload = function() { load_canvas() };
+        window.onload = function() { loadCanvas(); updateCursor(); };
     </script>
 {% endblock %}
 
 
 {% block body %}
   <div class="terminal code shadow-lg">
-      <canvas id="canvas_terminal" class="canvas-terminal" width="1000px"; height="40px;"></canvas>
+      <canvas id="canvas-terminal" class="canvas-terminal" width="1000px" height="40px"></canvas>
+      <canvas id="canvas-terminal-body" width="1000px" height="200px"></canvas>
+      <!--
       <div class="terminal-body">
           <div class="command-start">
               $  
@@ -25,6 +27,7 @@
               <input type="text" name="cheat" id="term_command" class="terminal-input" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
           </form>
       </div>
+      -->
   </div>
 {% block tabs %}
 {% endblock %}
