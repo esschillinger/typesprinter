@@ -7,9 +7,7 @@ let space_width = 5;
 let cursor_width = 20;
 let cursor_height = 40;
 let font = "40px Ubuntu Mono";
-let previous_character = "";
-let previous_x = 0;
-let previous_y = 0;
+let chars_locations = [];
 
 function loadCanvas() {
     var canvas_top = document.getElementById("canvas-terminal");
@@ -33,7 +31,6 @@ function loadCanvas() {
     document.addEventListener('keydown', (e) => {
         if (e.key != "Backspace") {
             addText(e.key, "white");
-            previous_character = e.key;
         } else {
             addText(e.key, "black");
         }
@@ -56,7 +53,7 @@ function addText(character, color) {
     //if (solid_cursor) { //                      For whatever reason, if I force-clear the cursor every time it works but it doesn't work if I only clear when solid_cursor = true... whatever it works now
         //console.log("Cleared cursor?");
         context.fillStyle = "black";
-        context.fillRect(current_x + 5, current_y - 33, cursor_width, cursor_height);
+        context.fillRect(current_x + 2, current_y - 33, cursor_width, cursor_height);
     //}
   
     context.font = font;
@@ -64,21 +61,27 @@ function addText(character, color) {
     
     if (color == "white") {
         context.fillText(character, current_x, current_y);
+        chars_locations.push([character, current_x, current_y]);
         
-        previous_x = current_x;
         current_x += character_width + space_width;
         console.log(character + " (" + current_x + ", " + current_y + ")");
         if (current_x + space_width + cursor_width >= canvas_width) {
             current_x = 65;
-            previous_y = current_y;
             current_y += 40;
         }
         
-        context.fillRect(current_x + 5, current_y - 33, cursor_width, cursor_height); //Keep moving the cursor to right in front of the last character
+        context.fillRect(current_x + 2, current_y - 33, cursor_width, cursor_height); //Keep moving the cursor to right in front of the last character
     } else {
-        context.fillText(previous_character, previous_x, previous_y);
-        current_x = previous_x;
-        current_y = previous_y; //                                                  BUT WHAT IF THE USER KEEPS HITTING BACKSPACE? SUGGESTION: USE 2D ARRAY WITH EACH ROW BEING [character, x, y]
+        let i = chars_locations.length - 1;
+        //context.fillText(chars_locations[i][0], chars_locations[i][1], chars_locations[i][2]);
+        //console.log(chars_locations[i][0] + " (" + chars_locations[i][1] + ", " + chars_locations[i][2] + ")");
+        
+        let removed_character = chars_locations.pop();
+        current_x = removed_character[1];
+        current_y = removed_character[2];
+        
+        context.fillStyle = "white";
+        context.fillRect(current_x + 2, current_y - 33, cursor_width, cursor_height); //Keep moving the cursor back
     }
 }
 
@@ -92,7 +95,7 @@ function drawCursor(x, y) {
         //context.fillRect(x + (width * 0.1), y - 30 + (width * 0.1), width * 0.8, height - 2 * (width * 0.1));        THIS IS FOR WHEN THE TERMINAL ISN'T FOCUSED
     }
     
-    context.fillRect(x + 5, y - 33, cursor_width, cursor_height);
+    context.fillRect(x + 2, y - 33, cursor_width, cursor_height);
     
     if (solid_cursor) {
         solid_cursor = false;
