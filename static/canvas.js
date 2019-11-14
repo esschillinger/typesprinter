@@ -8,6 +8,15 @@ let cursor_width = 20;
 let cursor_height = 40;
 let font = "40px Ubuntu Mono";
 let chars_locations = [];
+let acceptable_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+                       'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+                       'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+                       'y', 'z', '0', '1', '2', '3', '4', '5',
+                       '6', '7', '8', '9', '(', ')', '[', ']',
+                       '{', '}', ' ', '+', ';', ':', ',', '.',
+                       '/', '<', '>', '?', '!', '@', '#', '$',
+                       '%', '^', '&', '*', '-', '=', '_', '"',
+                       '\'', '\\'];
 
 function loadCanvas() {
     var canvas_top = document.getElementById("canvas-terminal");
@@ -29,9 +38,9 @@ function loadCanvas() {
     context.fillText("$", 25, 40);
     
     document.addEventListener('keydown', (e) => {
-        if (e.key != "Backspace") {
+        if (acceptable_chars.includes(e.key)) {
             addText(e.key, "white");
-        } else {
+        } else if (e.key === "Backspace") {
             addText(e.key, "black");
         }
         console.log(e.key);
@@ -53,7 +62,7 @@ function addText(character, color) {
     //if (solid_cursor) { //                      For whatever reason, if I force-clear the cursor every time it works but it doesn't work if I only clear when solid_cursor = true... whatever it works now
         //console.log("Cleared cursor?");
         context.fillStyle = "black";
-        context.fillRect(current_x + 2, current_y - 33, cursor_width, cursor_height);
+        context.fillRect(current_x, current_y - 33, cursor_width, cursor_height);
     //}
   
     context.font = font;
@@ -70,7 +79,7 @@ function addText(character, color) {
             current_y += 40;
         }
         
-        context.fillRect(current_x + 2, current_y - 33, cursor_width, cursor_height); //Keep moving the cursor to right in front of the last character
+        context.fillRect(current_x, current_y - 33, cursor_width, cursor_height); //Keep moving the cursor to right in front of the last character
     } else {
         let i = chars_locations.length - 1;
         //context.fillText(chars_locations[i][0], chars_locations[i][1], chars_locations[i][2]);
@@ -81,11 +90,11 @@ function addText(character, color) {
         current_y = removed_character[2];
         
         context.fillStyle = "white";
-        context.fillRect(current_x + 2, current_y - 33, cursor_width, cursor_height); //Keep moving the cursor back
+        context.fillRect(current_x, current_y - 33, cursor_width, cursor_height); //Keep moving the cursor back
     }
 }
 
-function drawCursor(x, y) {
+function drawCursor() {
     var canvas_main = document.getElementById("canvas-terminal-body");
     var context = canvas_main.getContext("2d");
     
@@ -95,7 +104,7 @@ function drawCursor(x, y) {
         //context.fillRect(x + (width * 0.1), y - 30 + (width * 0.1), width * 0.8, height - 2 * (width * 0.1));        THIS IS FOR WHEN THE TERMINAL ISN'T FOCUSED
     }
     
-    context.fillRect(x + 2, y - 33, cursor_width, cursor_height);
+    context.fillRect(current_x, current_y - 33, cursor_width, cursor_height);
     
     if (solid_cursor) {
         solid_cursor = false;
@@ -105,5 +114,5 @@ function drawCursor(x, y) {
 }
 
 function updateCursor() {
-    setInterval(function() { drawCursor(current_x, current_y); }, 750);
+    setInterval(function() { drawCursor(); }, 750);
 }
