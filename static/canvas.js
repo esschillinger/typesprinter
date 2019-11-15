@@ -1,4 +1,5 @@
 let solid_cursor = true;
+let hollow_cursor = false;
 let current_x = 65;
 let current_y = 40;
 let canvas_width = 1000;
@@ -44,8 +45,17 @@ function loadCanvas() {
             addText(e.key, "white");
         } else if (e.key === "Backspace") {
             addText(e.key, "black");
-        } else if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
-            moveCursor(e.key);
+        }
+    });
+    
+    document.addEventListener('click', function() {
+        //console.log(document.activeElement);
+        //console.log(document.getElementById("canvas-terminal-body"));
+        if (document.activeElement.tagName != "BODY") {
+            hollow_cursor = true;
+            drawHollowCursor(current_x, current_y); // Update the cursor immediately instead of waiting  <= 750 milliseconds for setInterval() to update
+        } else {
+            hollow_cursor = false;
         }
     });
 }
@@ -100,7 +110,6 @@ function drawCursor(x, y) {
     context.fillStyle = "white";
     if (!solid_cursor) {
         context.fillStyle = "black";
-        //context.fillRect(x + (width * 0.1), y - 30 + (width * 0.1), width * 0.8, height - 2 * (width * 0.1));        THIS IS FOR WHEN THE TERMINAL ISN'T FOCUSED
     }
     
     context.fillRect(x, y - 33, cursor_width, cursor_height);
@@ -122,6 +131,16 @@ function drawCursor(x, y) {
     }
 }
 
+function drawHollowCursor(x, y) {
+    var canvas_main = document.getElementById("canvas-terminal-body");
+    var context = canvas_main.getContext("2d");
+  
+    context.fillStyle = "white";
+    context.fillRect(x, y - 33, cursor_width, cursor_height);
+    context.fillStyle = "black";
+    context.fillRect(x + (cursor_width * 0.1), y - 33 + (cursor_width * 0.1), cursor_width * 0.8, cursor_height - 2 * (cursor_width * 0.1));        // THIS IS FOR WHEN THE TERMINAL ISN'T FOCUSED
+}
+
 function checkCoordinates(x, y) {
     for (var i = 0; i < chars_locations.length; i++) {
         if (chars_locations[i][1] == x && chars_locations[i][2] == y) {
@@ -131,18 +150,12 @@ function checkCoordinates(x, y) {
     return -1;
 }
 
-function moveCursor(key) {
-    let direction = key.substring(5);
-  
-    if (direction == "Left") {
-        if (chars_locations.length >= 1) {
-            drawCursor() // FIGURE OUT AN EFFICIENT WAY TO KEEP TRACK OF THE CURRENT CURSOR POSITION
-        }
-    } else {
-        
-    }
-}
-
 function updateCursor() {
-    setInterval(function() { drawCursor(current_x, current_y); }, 750);
+    setInterval(function() { 
+        if (!hollow_cursor) {
+            drawCursor(current_x, current_y);
+        } else {
+            drawHollowCursor(current_x, current_y);
+        }
+    }, 750);
 }
