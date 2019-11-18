@@ -11,6 +11,7 @@ let cursor_x = current_x;
 let cursor_y = current_y;
 let font = "40px Ubuntu Mono";
 let chars_locations = [];
+let char_sequence = [];
 let acceptable_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
                        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
                        'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
@@ -20,6 +21,28 @@ let acceptable_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
                        '/', '<', '>', '?', '!', '@', '#', '$',
                        '%', '^', '&', '*', '-', '=', '_', '"',
                        '\'', '\\'];
+
+function loadKeyboardListener() {
+    document.addEventListener('keydown', (e) => {
+        if (document.querySelector("div").style.display === "none") {
+            char_sequence.push(e.key);
+            console.log(e.key);
+            
+            let l = char_sequence.length;
+            if (l >= 4 && (char_sequence[l - 4] == "L" && char_sequence[l - 3] == "I" && char_sequence[l - 2] == "M" && char_sequence[l - 1] == "E")) {
+                document.getElementById("term").style.display = "block";
+                loadCanvas();
+                updateCursor();
+            }
+        } else {
+            if (acceptable_chars.includes(e.key.toLowerCase())) {
+                addText(e.key, "white");
+            } else if (e.key === "Backspace") {
+                addText(e.key, "black");
+            }
+        }
+    });
+}
 
 function loadCanvas() {
     var canvas_top = document.getElementById("canvas-terminal");
@@ -39,14 +62,6 @@ function loadCanvas() {
     context.font = font;
     context.fillStyle = "white";
     context.fillText("$", 25, 40);
-    
-    document.addEventListener('keydown', (e) => {
-        if (acceptable_chars.includes(e.key.toLowerCase())) {
-            addText(e.key, "white");
-        } else if (e.key === "Backspace") {
-            addText(e.key, "black");
-        }
-    });
     
     document.addEventListener('click', function() {
         //console.log(document.activeElement);

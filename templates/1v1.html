@@ -9,13 +9,15 @@
 {% block head %}
     <script type="text/javascript" src="static/canvas.js"></script>
     <script>
-        window.onload = function() { loadCanvas(); updateCursor(); };
+        window.onload = function() {
+            loadKeyboardListener();
+        }
     </script>
 {% endblock %}
 
 
 {% block body %}
-  <div class="terminal code shadow-lg">
+  <div class="terminal code shadow-lg" id="term" style="display: none;">
       <canvas id="canvas-terminal" class="terminal-top terminal-display-initial" width="1000px" height="40px"></canvas>
       <canvas id="canvas-terminal-body" class="terminal-display-initial" width="1000px" height="200px"></canvas>
       <!--

@@ -84,7 +84,6 @@ a.panel-a:hover {
     background-color: black;
     border-radius: 5px;
     font-size: 25px;
-    display: block; /* switch to display: block when the right character sequence is pressed */
 }
 
 .terminal-body {
