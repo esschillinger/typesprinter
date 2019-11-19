@@ -53,7 +53,7 @@ function loadCanvas() {
     drawCircle(80, 20, 10, "#29cd42", context);
     
     context.font = "25px Ubuntu Mono";
-    context.fillStyle = "#1e2325";
+    context.fillStyle = "white";
     context.fillText("tph/bash", 450, 27.5);
   
     var canvas_main = document.getElementById("canvas-terminal-body");
