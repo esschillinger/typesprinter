@@ -53,7 +53,7 @@ function loadCanvas() {
     drawCircle(80, 20, 10, "#29cd42", context);
     
     context.font = "25px Ubuntu Mono";
-    context.fillStyle = "black";
+    context.fillStyle = "#1e2325";
     context.fillText("tph/bash", 450, 27.5);
   
     var canvas_main = document.getElementById("canvas-terminal-body");
@@ -87,7 +87,7 @@ function addText(character, color) {
     var canvas_main = document.getElementById("canvas-terminal-body");
     var context = canvas_main.getContext("2d");
     
-    context.fillStyle = "black";
+    context.fillStyle = "#1e2325";
     context.fillRect(current_x, current_y - 33, cursor_width, cursor_height);
   
     context.font = font;
@@ -124,14 +124,14 @@ function drawCursor(x, y) {
     
     context.fillStyle = "white";
     if (!solid_cursor) {
-        context.fillStyle = "black";
+        context.fillStyle = "#1e2325";
     }
     
     context.fillRect(x, y - 33, cursor_width, cursor_height);
     let index = checkCoordinates(x, y);
     if (index != -1) {
         if (solid_cursor) {
-            context.fillStyle = "black";
+            context.fillStyle = "#1e2325";
         } else {
             context.fillStyle = "white";
         }
@@ -152,7 +152,7 @@ function drawHollowCursor(x, y) {
   
     context.fillStyle = "white";
     context.fillRect(x, y - 33, cursor_width, cursor_height);
-    context.fillStyle = "black";
+    context.fillStyle = "#1e2325";
     context.fillRect(x + (cursor_width * 0.1), y - 33 + (cursor_width * 0.1), cursor_width * 0.8, cursor_height - 2 * (cursor_width * 0.1));        // THIS IS FOR WHEN THE TERMINAL ISN'T FOCUSED
 }
 
