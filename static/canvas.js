@@ -11,6 +11,7 @@ let cursor_x = current_x;
 let cursor_y = current_y;
 let font = "40px Ubuntu Mono";
 let chars_locations = [];
+let lines = []; // Keeps track of the last index of a command when a user hits enter
 let char_sequence = [];
 let acceptable_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
                        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
@@ -38,7 +39,29 @@ function loadKeyboardListener() {
             if (acceptable_chars.includes(e.key.toLowerCase())) {
                 addText(e.key, "white");
             } else if (e.key === "Backspace") {
-                addText(e.key, "black");
+                if (chars_locations.length > 0) {
+                    if (lines.length > 0) {
+                        if (chars_locations.length > lines[lines.length - 1] + 1) {
+                            addText(e.key, "black");
+                        }
+                    } else {
+                        addText(e.key, "black");
+                    }
+                }
+            } else if (e.key === "Enter") {
+                lines.push(chars_locations.length - 1);
+                var canvas_main = document.getElementById("canvas-terminal-body");
+                var context = canvas_main.getContext("2d");
+  
+                context.fillStyle = "#1e2325";
+                context.fillRect(current_x, current_y - 33, cursor_width, cursor_height);
+                
+                current_x = 65;
+                current_y += 45;
+                
+                context.font = font;
+                context.fillStyle = "white";
+                context.fillText("$", 25, current_y);
             }
         }
     });
@@ -61,7 +84,7 @@ function loadCanvas() {
     
     context.font = font;
     context.fillStyle = "white";
-    context.fillText("$", 25, 40);
+    context.fillText("$", 25, current_y);
     
     document.addEventListener('click', function() {
         //console.log(document.activeElement);
@@ -101,7 +124,7 @@ function addText(character, color) {
         console.log(character + " (" + current_x + ", " + current_y + ")");
         if (current_x + space_width + cursor_width >= canvas_width) {
             current_x = 65;
-            current_y += 40;
+            current_y += 45;
         }
         
         context.fillRect(current_x, current_y - 33, cursor_width, cursor_height); //Keep moving the cursor to right in front of the last character
