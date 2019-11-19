@@ -12,6 +12,7 @@ let cursor_y = current_y;
 let font = "40px Ubuntu Mono";
 let chars_locations = [];
 let lines = []; // Keeps track of the last index of a command when a user hits enter
+let commands = [];
 let char_sequence = [];
 let acceptable_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
                        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
@@ -42,7 +43,7 @@ function loadKeyboardListener() {
                 if (chars_locations.length > 0) {
                     if (lines.length > 0) {
                         if (chars_locations.length > lines[lines.length - 1] + 1) {
-                            addText(e.key, "black");
+                                addText(e.key, "black");
                         }
                     } else {
                         addText(e.key, "black");
@@ -50,6 +51,9 @@ function loadKeyboardListener() {
                 }
             } else if (e.key === "Enter") {
                 lines.push(chars_locations.length - 1);
+                
+                logCommand();
+              
                 var canvas_main = document.getElementById("canvas-terminal-body");
                 var context = canvas_main.getContext("2d");
   
@@ -75,9 +79,9 @@ function loadCanvas() {
     drawCircle(50, 20, 10, "#febf2d", context);
     drawCircle(80, 20, 10, "#29cd42", context);
     
-    context.font = "25px Ubuntu Mono";
+    context.font = "24px Ubuntu Mono";
     context.fillStyle = "white";
-    context.fillText("tph/bash", 450, 27.5);
+    context.fillText(">_ Terminal", 425, 27.5);
   
     var canvas_main = document.getElementById("canvas-terminal-body");
     context = canvas_main.getContext("2d");
@@ -186,6 +190,20 @@ function checkCoordinates(x, y) {
         }
     }
     return -1;
+}
+
+function logCommand() {
+    let log = "";
+    var i = 0;
+    if (lines.length > 1) {
+        i = lines[lines.length - 2];
+    }
+    
+    for (i; i <= lines[lines.length - 1]; i++) {
+        log += chars_locations[i][0];
+    }
+    commands.push(log);
+    console.log(log);
 }
 
 function updateCursor() {
