@@ -58,6 +58,11 @@ def practice():
         passage = session["passage"]
     except:
         passage = pick_passage()
+        
+    try:
+        commands = session["commands"]
+    except:
+        commands = ""
     
     '''
     first = passage[0]
@@ -71,7 +76,7 @@ def practice():
     third = passage[stop:]
     '''
     
-    return render_template("practice.html", passage=passage)
+    return render_template("practice.html", passage=passage, commands=commands)
 
 
 @app.route("/again")
@@ -79,6 +84,11 @@ def again():
     return render_template("practice.html", passage=pick_passage())
 
 
-@app.route("/1v1")
+@app.route("/1v1", methods=["GET", "POST"])
 def race():
-    return render_template("1v1.html")
+    if request.method == "GET":
+        return render_template("1v1.html")
+    
+    session["commands"] = request.form.get("commands")
+    
+    return redirect("/practice")

@@ -10,6 +10,10 @@ let start = false;
 let error_index = -1;
 let ti = 0;
 let tf = -1;
+let wpm_style = "";
+let rainbow_colors = ["red", "orange", "yellow",
+                     "green", "blue", "indigo",
+                     "violet"];
 
 function load(first, second, third) {
     original_passage = first + second + third;
@@ -18,6 +22,17 @@ function load(first, second, third) {
     incorrect = document.getElementById("incorrect");
     incomplete = document.getElementById("incomplete");
     wpm_counter = document.getElementById("wpm_counter");
+    
+    let commands = document.getElementById("hidden-commands").innerHTML;
+    if (commands != "") {
+        //console.log(commands);
+        if (commands.includes("wpm-rainbow")) {
+            //console.log(true);
+            wpm_style = "rainbow";
+        } else {
+            wpm_style = "normal";
+        }
+    }
 }
 
 function check() {
@@ -27,6 +42,12 @@ function check() {
     }
   
     tf = performance.now();
+    
+    if (wpm_style == "rainbow") {
+        wpm_counter.style.color = rainbow_colors[Math.floor(Math.random() * rainbow_colors.length)];
+        wpm_counter.style.fontSize = "100px";
+    }
+    
     wpm_counter.innerHTML = Math.ceil((user_progress.length / 5) / (((tf - ti)/60000)));
     
     let value = conn.value;

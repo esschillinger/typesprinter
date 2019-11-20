@@ -235,11 +235,22 @@ function executeCommand(command) {
         case "color -g":
             let body = document.querySelector("body");
             body.className = "gradient header";
-            body.style.position ="relative"; // For whatever reason, this one style messes up the gradient, so manually change the position from absolute to relative
+            body.style.position = "relative"; // For whatever reason, this one style messes up the gradient, so manually change the position from absolute to relative
             current_y += 45;
         
             break;
           
+        case "wpm player --rainbow": // Figure out how to preserve this setting across the different routes and get it to actually manipulate the js
+            document.querySelector("input").value = "wpm-rainbow";
+            current_y += 45;
+        
+            break;
+        
+        case "post":
+            document.querySelector("form").submit();
+        
+            break;
+        
         default:
             current_y += 45;
     }
