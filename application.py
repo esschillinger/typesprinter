@@ -36,11 +36,15 @@ Session(app)
 @app.route("/")
 def index():
     session.pop("passage", None)
+    session.pop("commands", None)
+    
     return render_template("index.html")
 
 
 @app.route("/ml_practice_index", methods=["GET", "POST"])
 def ml():
+    session.pop("commands", None)
+    
     if request.method == "GET":
         return render_template("ml_practice_index.html")
     
@@ -81,11 +85,15 @@ def practice():
 
 @app.route("/again")
 def again():
+    session.pop("commands", None)
+    
     return render_template("practice.html", passage=pick_passage())
 
 
 @app.route("/1v1", methods=["GET", "POST"])
 def race():
+    session.pop("commands", None)
+    
     if request.method == "GET":
         return render_template("1v1.html")
     

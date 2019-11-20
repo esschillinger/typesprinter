@@ -220,7 +220,7 @@ function executeCommand(command) {
   
   
   
-    switch (command) {
+    switch (command) { // Consider using two input fields: one for commands that apply to me, the other for commands that apply to my opponent
         case "clear":
             context.fillStyle = "#1e2325";
             context.fillRect(0, 0, canvas_main.width, canvas_main.height);
@@ -230,7 +230,7 @@ function executeCommand(command) {
         
             break;
         
-        case "color -g":
+        case "color -g": // This should be a harmless cheat for me
             let body = document.querySelector("body");
             body.className = "gradient header";
             body.style.position = "relative"; // For whatever reason, this one style messes up the gradient, so manually change the position from absolute to relative
@@ -238,8 +238,20 @@ function executeCommand(command) {
         
             break;
           
-        case "wpm player --rainbow":
-            document.querySelector("input").value = "wpm-rainbow";
+        case "wpm --rainbow": // This should be a disadvantageous cheat for them
+            document.querySelector("input").value += "wpm-rainbow";
+            current_y += 45;
+        
+            break;
+        
+        case "wpm --size": // This should be a disadvantageous cheat for them
+            document.querySelector("input").value += "wpm-size";
+            current_y += 45;
+            
+            break;
+        
+        case "chars --correct": // This should be an advantageous cheat for me
+            document.querySelector("input").value += "chars-correct";
             current_y += 45;
         
             break;

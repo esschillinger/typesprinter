@@ -11,6 +11,7 @@ let error_index = -1;
 let ti = 0;
 let tf = -1;
 let wpm_style = "";
+let race_commands = "";
 let rainbow_colors = ["red", "orange", "yellow",
                      "green", "blue", "indigo",
                      "violet"];
@@ -28,9 +29,13 @@ function load(first, second, third) {
         //console.log(commands);
         if (commands.includes("wpm-rainbow")) {
             //console.log(true);
-            wpm_style = "rainbow";
-        } else {
-            wpm_style = "normal";
+            wpm_style += "rainbow";
+        }
+        if (commands.includes("wpm-size")) {
+            wpm_style += "size";
+        }
+        if (commands.includes("chars-correct")) {
+            race_commands += "correct";
         }
     }
 }
@@ -43,16 +48,19 @@ function check() {
   
     tf = performance.now();
     
-    if (wpm_style == "rainbow") {
+    // Apply visual cheats
+    if (wpm_style.includes("rainbow")) {
         wpm_counter.style.color = rainbow_colors[Math.floor(Math.random() * rainbow_colors.length)];
-        wpm_counter.style.fontSize = "" + (100 + Math.floor(Math.random() * 201)) + "px";
+    }
+    if (wpm_style.includes("size")) {
+        wpm_counter.style.fontSize = "" + (100 + Math.floor(Math.random() * 151)) + "px";
     }
     
     wpm_counter.innerHTML = Math.ceil((user_progress.length / 5) / (((tf - ti)/60000)));
     
     let value = conn.value;
     
-    current_text = document.getElementById("user_input").value;
+    //current_text = document.getElementById("user_input").value;
     
     if (value.length == 0) {
         if (error_index != -1) {
@@ -76,8 +84,11 @@ function check() {
     
     let offset = user_progress.length
     for (var ch = 0; ch < value.length; ch++) {
+        if (race_commands.includes("correct")) {
+            value = original_passage.substring(offset, offset + value.length);
+            conn.value = value;
+        }
         if (original_passage[offset + ch] != value[ch]) {
-            //conn.value = conn.value.substring(0, ch);
             error_index = offset + ch;
             
             conn.style.backgroundColor = "#bc3f5c";
@@ -101,13 +112,15 @@ function check() {
             } else if (user_progress + value == original_passage) {
                 tf = performance.now();
                 let tWPM = (tf - ti) / 60000;
+              
+                user_progress += value;
                 let WPM = Math.ceil((user_progress.length / 5) / tWPM);
                 
-                user_progress += value;
                 conn.value = "";
                 document.getElementById("end_message").innerHTML = "Race finished in " + Math.round(tWPM * 60) + "s at a rate of " + WPM + " WPM.";
                 document.getElementById("wpm_counter").innerHTML = WPM;
                 document.getElementById("div-links").style.display = "block";
+                conn.style.display = "none";
             }
         }
     }
