@@ -23,8 +23,6 @@ let acceptable_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
                        '/', '<', '>', '?', '!', '@', '#', '$',
                        '%', '^', '&', '*', '-', '=', '_', '"',
                        '\'', '\\'];
-let commands = ["clear",
-               ""];
 
 function loadKeyboardListener() {
     document.addEventListener('keydown', (e) => {
@@ -212,7 +210,7 @@ function executeCommand(command) {
   
   
   
-    // Add a case so that when I type some command, it makes my opponent's WPM counter very large and switching colors of the rainbow on every keypress
+    // Change from Flask app to SocketIO app and figure out how to get the command changes to apply only to the other player
   
   
   
@@ -240,7 +238,7 @@ function executeCommand(command) {
         
             break;
           
-        case "wpm player --rainbow": // Figure out how to preserve this setting across the different routes and get it to actually manipulate the js
+        case "wpm player --rainbow":
             document.querySelector("input").value = "wpm-rainbow";
             current_y += 45;
         
