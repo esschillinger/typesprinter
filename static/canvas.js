@@ -12,7 +12,7 @@ let cursor_y = current_y;
 let font = "40px Ubuntu Mono";
 let chars_locations = [];
 let lines = []; // Keeps track of the last index of a command when a user hits enter
-let commands = [];
+let user_commands = [];
 let char_sequence = [];
 let acceptable_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
                        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
@@ -23,6 +23,8 @@ let acceptable_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
                        '/', '<', '>', '?', '!', '@', '#', '$',
                        '%', '^', '&', '*', '-', '=', '_', '"',
                        '\'', '\\'];
+let commands = ["clear",
+               ""];
 
 function loadKeyboardListener() {
     document.addEventListener('keydown', (e) => {
@@ -53,19 +55,6 @@ function loadKeyboardListener() {
                 lines.push(chars_locations.length - 1);
                 
                 logCommand();
-              
-                var canvas_main = document.getElementById("canvas-terminal-body");
-                var context = canvas_main.getContext("2d");
-  
-                context.fillStyle = "#1e2325";
-                context.fillRect(current_x, current_y - 33, cursor_width, cursor_height);
-                
-                current_x = 65;
-                current_y += 45;
-                
-                context.font = font;
-                context.fillStyle = "white";
-                context.fillText("$", 25, current_y);
             }
         }
     });
@@ -196,14 +185,73 @@ function logCommand() {
     let log = "";
     var i = 0;
     if (lines.length > 1) {
-        i = lines[lines.length - 2];
+        i = lines[lines.length - 2] + 1;
     }
     
     for (i; i <= lines[lines.length - 1]; i++) {
         log += chars_locations[i][0];
     }
-    commands.push(log);
+    user_commands.push(log);
     console.log(log);
+    
+    executeCommand(log);
+}
+
+function executeCommand(command) {
+    var canvas_main = document.getElementById("canvas-terminal-body");
+    var context = canvas_main.getContext("2d");
+  
+    context.fillStyle = "#1e2325";
+    context.fillRect(current_x, current_y - 33, cursor_width, cursor_height);
+    
+  
+  
+  
+  
+  
+  
+  
+  
+    // Add a case so that when I type some command, it makes my opponent's WPM counter very large and switching colors of the rainbow on every keypress
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    switch (command) {
+        case "clear":
+            context.fillStyle = "#1e2325";
+            context.fillRect(0, 0, canvas_main.width, canvas_main.height);
+        
+            chars_locations = [];
+            current_y = 40;
+        
+            break;
+        
+        case "color -g":
+            let body = document.querySelector("body");
+            body.className = "gradient header";
+            body.style.position ="relative"; // For whatever reason, this one style messes up the gradient, so manually change the position from absolute to relative
+            current_y += 45;
+        
+            break;
+          
+        default:
+            current_y += 45;
+    }
+  
+    context.font = font;
+    context.fillStyle = "white";
+    context.fillText("$", 25, current_y);
+    
+    current_x = 65;
+    
+    solid_cursor = true;
+    drawCursor(current_x, current_y);
 }
 
 function updateCursor() {
