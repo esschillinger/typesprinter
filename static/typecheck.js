@@ -45,7 +45,7 @@ function check() {
     
     if (wpm_style == "rainbow") {
         wpm_counter.style.color = rainbow_colors[Math.floor(Math.random() * rainbow_colors.length)];
-        wpm_counter.style.fontSize = "100px";
+        wpm_counter.style.fontSize = "" + (75 + Math.floor(Math.random() * 51)) + "px";
     }
     
     wpm_counter.innerHTML = Math.ceil((user_progress.length / 5) / (((tf - ti)/60000)));
