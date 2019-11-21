@@ -168,7 +168,7 @@ function check() {
                     }
                     
                     let word_wpm = (passage_list[i].length / 5) / adjusted_time;
-                    if (word_wpm > WPM + 10) { // Super fast
+                    if (word_wpm > WPM + 10) { // Super fast                                CHANGE SPEED DISTINCTIONS TO BE IN TERMS OF THE STD. DEV.
                         context.fillStyle = "#3f8e68";
                     } else if (word_wpm > WPM) { // Fast
                         context.fillStyle = "#a0d58c";
