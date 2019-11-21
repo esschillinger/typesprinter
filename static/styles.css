@@ -22,9 +22,18 @@ body {
     display: block;
 }
 
-.center-vertically {
-    margin-top: 10%;
-    max-width: 100%;
+@media only screen and (min-width: 1400px) {
+    .center-vertically {
+        margin-top: 25%;
+        max-width: 100%;
+    }
+}
+
+@media only screen and (max-width: 1399px) {
+    .center-vertically {
+        margin-top: 10%;
+        max-width: 100%;
+    }
 }
 
 .panel {
@@ -215,4 +224,25 @@ nav .navbar-brand .blueviolet
 
 .race-link:hover {
     text-decoration: none;
+}
+
+.key {
+    display: none;
+    margin-top: 5%;
+}
+
+#fastest {
+    background-color: "#3f8e68";
+}
+
+#fast {
+    background-color: "#a0d58c";
+}
+
+#slow {
+    background-color: "#ea7664";
+}
+
+#slowest {
+    background-color: "#bc3f5c";
 }

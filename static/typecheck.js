@@ -11,6 +11,8 @@ let error_index = -1;
 let ti = 0;
 let tf = -1;
 let times = [];
+let adjusted_times = [];
+let word_wpms = [];
 let wpm_style = "";
 let race_commands = "";
 let rainbow_colors = ["red", "orange", "yellow",
@@ -144,7 +146,9 @@ function check() {
                 conn.style.display = "none";
                 
                 let passage_list = original_passage.split(" ");
-              
+                
+                document.getElementById("speed-breakdown-key").style.display = "block";
+                
                 let speeds = document.getElementById("speed-breakdown");
                 speeds.width = "800"; //document.getElementById("passage").style.width;
                 speeds.height = "400"; //document.getElementById("passage").style.height;
@@ -160,38 +164,53 @@ function check() {
                 let space_width = 3;
                 
                 for (var i = 0; i < times.length; i++) {
-                    let adjusted_time = 0;
                     if (i == 0) {
-                        adjusted_time = times[i] - (ti / 60000);
+                        adjusted_times.push(times[i] - (ti / 60000));
                     } else {
-                        adjusted_time = times[i] - times[i - 1];
+                        adjusted_times.push(times[i] - times[i - 1]);
                     }
                     
-                    let word_wpm = (passage_list[i].length / 5) / adjusted_time;
-                    if (word_wpm > WPM + 10) { // Super fast                                CHANGE SPEED DISTINCTIONS TO BE IN TERMS OF THE STD. DEV.
+                    word_wpms.push((passage_list[i].length / 5) / adjusted_times[i]);
+                }
+                
+                console.log(adjusted_times);
+                console.log(word_wpms);
+                
+                let mean = WPM;
+              
+                let summation = 0;
+                for (var j = 0; j < word_wpms.length; j++) {
+                    summation += Math.pow(word_wpms[j] - mean, 2);
+                }
+                let std_dev = Math.sqrt(summation / (word_wpms.length - 1));
+                
+                console.log("μ = " + mean + ", σ = " + std_dev);
+                
+                for (var k = 0; k < adjusted_times.length; k++) {
+                    if (word_wpms[k] > mean + std_dev) { // Super fast                                CHANGE SPEED DISTINCTIONS TO BE IN TERMS OF THE STD. DEV.
                         context.fillStyle = "#3f8e68";
-                    } else if (word_wpm > WPM) { // Fast
+                    } else if (word_wpms[k] > mean) { // Fast
                         context.fillStyle = "#a0d58c";
-                    } else if (word_wpm + 10 < WPM) { // Super slow
+                    } else if (word_wpms[k] + std_dev < WPM) { // Super slow
                         context.fillStyle = "#bc3f5c";
-                    } else if (word_wpm < WPM) { // Slow
+                    } else if (word_wpms[k] < WPM) { // Slow
                         context.fillStyle = "#ea7664";
                     }
                     
                     let rectangle_width = 0;
-                    if (i < times.length - 1) {
-                        rectangle_width = bkg_width * passage_list[i].length + space_width;
+                    if (k < times.length - 1) {
+                        rectangle_width = bkg_width * passage_list[k].length + space_width;
                     } else {
-                        rectangle_width = bkg_width * passage_list[i].length;
+                        rectangle_width = bkg_width * passage_list[k].length;
                     }
                     
                     context.fillRect(current_x, current_y - (0.75 * bkg_height), rectangle_width, bkg_height);
                   
                     context.fillStyle = "black";
-                    context.fillText(passage_list[i], current_x, current_y);
+                    context.fillText(passage_list[k], current_x, current_y);
                   
-                    current_x += passage_list[i].length * bkg_width + space_width;
-                    if ((i < times.length - 1) && (current_x + (passage_list[i + 1].length * bkg_width) > speeds.width)) {
+                    current_x += passage_list[k].length * bkg_width + space_width;
+                    if ((k < times.length - 1) && (current_x + (passage_list[k + 1].length * bkg_width) > speeds.width)) {
                         current_x = 0;
                         current_y += 25;
                     }
