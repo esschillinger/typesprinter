@@ -228,21 +228,22 @@ nav .navbar-brand .blueviolet
 
 .key {
     display: none;
-    margin-top: 5%;
+    margin-top: 10%;
+    font-size: 15px;
 }
 
 #fastest {
-    background-color: "#3f8e68";
+    background-color: #3f8e68;
 }
 
 #fast {
-    background-color: "#a0d58c";
+    background-color: #a0d58c;
 }
 
 #slow {
-    background-color: "#ea7664";
+    background-color: #ea7664;
 }
 
 #slowest {
-    background-color: "#bc3f5c";
+    background-color: #bc3f5c;
 }

@@ -187,11 +187,11 @@ function check() {
                 console.log("μ = " + mean + ", σ = " + std_dev);
                 
                 for (var k = 0; k < adjusted_times.length; k++) {
-                    if (word_wpms[k] > mean + std_dev) { // Super fast                                CHANGE SPEED DISTINCTIONS TO BE IN TERMS OF THE STD. DEV.
+                    if (word_wpms[k] > mean + (3 * std_dev / 4)) { // Super fast                                CHANGE SPEED DISTINCTIONS TO BE IN TERMS OF THE STD. DEV.
                         context.fillStyle = "#3f8e68";
                     } else if (word_wpms[k] > mean) { // Fast
                         context.fillStyle = "#a0d58c";
-                    } else if (word_wpms[k] + std_dev < WPM) { // Super slow
+                    } else if (word_wpms[k] + (3 * std_dev / 4 < WPM)) { // Super slow
                         context.fillStyle = "#bc3f5c";
                     } else if (word_wpms[k] < WPM) { // Slow
                         context.fillStyle = "#ea7664";
