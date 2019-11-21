@@ -19,6 +19,7 @@
     <div id="passage" class="response">
         <span id="correct"></span><span id="incorrect"></span><span id="incomplete">{{ passage }}</span>
         <p id="end_message"></p>
+        <canvas id="speed-breakdown" width="10px" height="10px" style="display: none;"></canvas>
         <input type="text" id="user_input" class="response-input" oninput="check()" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
         <div id="div-links" class="race-links">
             <a href="/ml_practice_index" id="ml-link" class="race-link">Generate a Passage ></a>

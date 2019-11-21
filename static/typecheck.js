@@ -10,6 +10,7 @@ let start = false;
 let error_index = -1;
 let ti = 0;
 let tf = -1;
+let times = [];
 let wpm_style = "";
 let race_commands = "";
 let rainbow_colors = ["red", "orange", "yellow",
@@ -39,6 +40,24 @@ function load(first, second, third) {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+// Add loads more statistical measures: mean wpm (already given), std. dev, smooth curve of wpm/time, light/dark green/red highlighting of original passage to indicate portions above/well above/below/well below the mean, etc
+
+
+
+
+
+
+
+
 
 function check() {
     if (start != true) {
@@ -108,12 +127,14 @@ function check() {
         if (ch == value.length - 1) {
             if (value[ch] == " ") {
                 user_progress += value;
+                times.push(performance.now() / 60000);
                 conn.value = "";
             } else if (user_progress + value == original_passage) {
                 tf = performance.now();
                 let tWPM = (tf - ti) / 60000;
               
                 user_progress += value;
+                times.push(performance.now() / 60000);
                 let WPM = Math.ceil((user_progress.length / 5) / tWPM);
                 
                 conn.value = "";
@@ -121,6 +142,60 @@ function check() {
                 document.getElementById("wpm_counter").innerHTML = WPM;
                 document.getElementById("div-links").style.display = "block";
                 conn.style.display = "none";
+                
+                let passage_list = original_passage.split(" ");
+              
+                let speeds = document.getElementById("speed-breakdown");
+                speeds.width = "800"; //document.getElementById("passage").style.width;
+                speeds.height = "400"; //document.getElementById("passage").style.height;
+                speeds.style.display = "block";
+              
+                let context = speeds.getContext("2d");
+                context.font = "20px Ubuntu Mono"; // Change to .friendly-font
+                
+                let current_x = 0;
+                let current_y = 20;
+                let bkg_width = 10;
+                let bkg_height = 20;
+                let space_width = 5;
+                
+                for (var i = 0; i < times.length; i++) {
+                    let adjusted_time = 0;
+                    if (i == 0) {
+                        adjusted_time = times[i] - (ti / 60000);
+                    } else {
+                        adjusted_time = times[i] - times[i - 1];
+                    }
+                    
+                    let word_wpm = (passage_list[i].length / 5) / adjusted_time;
+                    if (word_wpm > WPM + 10) { // Super fast
+                        context.fillStyle = "#3f8e68";
+                    } else if (word_wpm > WPM) { // Fast
+                        context.fillStyle = "#a0d58c";
+                    } else if (word_wpm + 10 < WPM) { // Super slow
+                        context.fillStyle = "#bc3f5c";
+                    } else if (word_wpm < WPM) { // Slow
+                        context.fillStyle = "#ea7664";
+                    }
+                    
+                    let rectangle_width = 0;
+                    if (i < times.length - 1) {
+                        rectangle_width = bkg_width * passage_list[i].length + space_width;
+                    } else {
+                        rectangle_width = bkg_width * passage_list[i].length;
+                    }
+                    
+                    context.fillRect(current_x, current_y - (0.75 * bkg_height), rectangle_width, bkg_height);
+                  
+                    context.fillStyle = "black";
+                    context.fillText(passage_list[i], current_x, current_y);
+                  
+                    current_x += passage_list[i].length * bkg_width + space_width;
+                    if ((i < times.length - 1) && (current_x + (passage_list[i + 1].length * bkg_width) > speeds.width)) {
+                        current_x = 0;
+                        current_y += 25;
+                    }
+                }
             }
         }
     }
