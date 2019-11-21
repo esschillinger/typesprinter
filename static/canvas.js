@@ -42,7 +42,8 @@ function loadKeyboardListener() {
             } else if (e.key === "Backspace") {
                 if (chars_locations.length > 0) {
                     if (lines.length > 0) {
-                        if (chars_locations.length > lines[lines.length - 1] + 1) {
+                        console.log(lines);
+                        if ((chars_locations.length > lines[lines.length - 1] + 1) || user_commands[user_commands.length - 1] == "clear") { // Deals with user trying to backspace after "clear"?
                                 addText(e.key, "black");
                         }
                     } else {
@@ -52,6 +53,8 @@ function loadKeyboardListener() {
             } else if (e.key === "Enter") {
                 lines.push(chars_locations.length - 1);
                 
+                console.log(lines);
+                console.log(chars_locations);
                 logCommand();
             }
         }
@@ -186,6 +189,10 @@ function logCommand() {
         i = lines[lines.length - 2] + 1;
     }
     
+    if (i > lines[lines.length - 1]) { // Deals with user entering "clear" command?
+        i = 0;
+    }
+  
     for (i; i <= lines[lines.length - 1]; i++) {
         log += chars_locations[i][0];
     }
@@ -273,6 +280,8 @@ function executeCommand(command) {
     
     solid_cursor = true;
     drawCursor(current_x, current_y);
+  
+    console.log(user_commands);
 }
 
 function updateCursor() {
