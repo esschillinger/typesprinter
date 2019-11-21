@@ -154,10 +154,10 @@ function check() {
                 context.font = "20px Ubuntu Mono"; // Change to .friendly-font
                 
                 let current_x = 0;
-                let current_y = 20;
+                let current_y = 30;
                 let bkg_width = 10;
                 let bkg_height = 20;
-                let space_width = 5;
+                let space_width = 3;
                 
                 for (var i = 0; i < times.length; i++) {
                     let adjusted_time = 0;
