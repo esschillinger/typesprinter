@@ -214,7 +214,26 @@ function check() {
                         current_x = 0;
                         current_y += 25;
                     }
+                    
+                    //speeds.height = current_y; // Must perform this calculation beforehand to avoid overwriting context changes
                 }
+                
+                let graph = document.getElementById("speed-graph");
+                graph.style.display = "block";
+                graph.width = "600";
+                graph.height = "300";
+              
+                context = graph.getContext("2d");
+              
+                context.fillStyle = "black";
+                
+                context.beginPath(); // Draw axes
+                context.moveTo(0, 0);
+                context.lineTo(0, 300);
+                context.lineTo(600, 300);
+                context.stroke();
+              
+                // TODO: FILL IN POINTS FOR THE GRAPH (FOR LOOP OVER word_wpms THAT CREATES A SPHERE AT (<incremented x-value>, canvas.height - word_wpms[l]) AND DRAW IN A SINGLE LINE THAT CONNECTS THEM (POPULATE A LIST OF COORDINATES AS YOU GO OVER THE FIRST LOOP AND JUST MAKE A LINE CONNECTING EACH COORDINATE))
             }
         }
     }
