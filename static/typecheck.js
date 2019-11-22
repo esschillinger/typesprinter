@@ -144,99 +144,120 @@ function check() {
                 document.getElementById("wpm_counter").innerHTML = WPM;
                 document.getElementById("div-links").style.display = "block";
                 conn.style.display = "none";
-                
-                let passage_list = original_passage.split(" ");
-                
-                document.getElementById("speed-breakdown-key").style.display = "block";
-                
-                let speeds = document.getElementById("speed-breakdown");
-                speeds.width = "800"; //document.getElementById("passage").style.width;
-                speeds.height = "400"; //document.getElementById("passage").style.height;
-                speeds.style.display = "block";
               
-                let context = speeds.getContext("2d");
-                context.font = "20px Ubuntu Mono"; // Change to .friendly-font
-                
-                let current_x = 0;
-                let current_y = 30;
-                let bkg_width = 10;
-                let bkg_height = 20;
-                let space_width = 3;
-                
-                for (var i = 0; i < times.length; i++) {
-                    if (i == 0) {
-                        adjusted_times.push(times[i] - (ti / 60000));
-                    } else {
-                        adjusted_times.push(times[i] - times[i - 1]);
-                    }
-                    
-                    word_wpms.push((passage_list[i].length / 5) / adjusted_times[i]);
-                }
-                
-                console.log(adjusted_times);
-                console.log(word_wpms);
-                
-                let mean = WPM;
-              
-                let summation = 0;
-                for (var j = 0; j < word_wpms.length; j++) {
-                    summation += Math.pow(word_wpms[j] - mean, 2);
-                }
-                let std_dev = Math.sqrt(summation / (word_wpms.length - 1));
-                
-                console.log("μ = " + mean + ", σ = " + std_dev);
-                
-                for (var k = 0; k < adjusted_times.length; k++) {
-                    if (word_wpms[k] > mean + (3 * std_dev / 4)) { // Super fast                                CHANGE SPEED DISTINCTIONS TO BE IN TERMS OF THE STD. DEV.
-                        context.fillStyle = "#3f8e68";
-                    } else if (word_wpms[k] > mean) { // Fast
-                        context.fillStyle = "#a0d58c";
-                    } else if (word_wpms[k] + (3 * std_dev / 4 < WPM)) { // Super slow
-                        context.fillStyle = "#bc3f5c";
-                    } else if (word_wpms[k] < WPM) { // Slow
-                        context.fillStyle = "#ea7664";
-                    }
-                    
-                    let rectangle_width = 0;
-                    if (k < times.length - 1) {
-                        rectangle_width = bkg_width * passage_list[k].length + space_width;
-                    } else {
-                        rectangle_width = bkg_width * passage_list[k].length;
-                    }
-                    
-                    context.fillRect(current_x, current_y - (0.75 * bkg_height), rectangle_width, bkg_height);
-                  
-                    context.fillStyle = "black";
-                    context.fillText(passage_list[k], current_x, current_y);
-                  
-                    current_x += passage_list[k].length * bkg_width + space_width;
-                    if ((k < times.length - 1) && (current_x + (passage_list[k + 1].length * bkg_width) > speeds.width)) {
-                        current_x = 0;
-                        current_y += 25;
-                    }
-                    
-                    //speeds.height = current_y; // Must perform this calculation beforehand to avoid overwriting context changes
-                }
-                
-                let graph = document.getElementById("speed-graph");
-                graph.style.display = "block";
-                graph.width = "600";
-                graph.height = "300";
-              
-                context = graph.getContext("2d");
-              
-                context.fillStyle = "black";
-                
-                context.beginPath(); // Draw axes
-                context.moveTo(0, 0);
-                context.lineTo(0, 300);
-                context.lineTo(600, 300);
-                context.stroke();
-              
-                // TODO: FILL IN POINTS FOR THE GRAPH (FOR LOOP OVER word_wpms THAT CREATES A SPHERE AT (<incremented x-value>, canvas.height - word_wpms[l]) AND DRAW IN A SINGLE LINE THAT CONNECTS THEM (POPULATE A LIST OF COORDINATES AS YOU GO OVER THE FIRST LOOP AND JUST MAKE A LINE CONNECTING EACH COORDINATE))
+                statsAnalysis(WPM);
             }
         }
     }
     
     prev_length = conn.value.length;
+}
+
+function statsAnalysis(WPM) {
+    let passage_list = original_passage.split(" ");
+                
+    document.getElementById("speed-breakdown-key").style.display = "block";
+                
+    speedsHeatmap(WPM, passage_list);  
+    speedsGraph();
+              
+    // TODO: FILL IN POINTS FOR THE GRAPH (FOR LOOP OVER word_wpms THAT CREATES A SPHERE AT (<incremented x-value>, canvas.height - word_wpms[l]) AND DRAW IN A SINGLE LINE THAT CONNECTS THEM (POPULATE A LIST OF COORDINATES AS YOU GO OVER THE FIRST LOOP AND JUST MAKE A LINE CONNECTING EACH COORDINATE))
+}
+
+function speedsHeatmap(WPM, passage_list) {
+    let speeds = document.getElementById("speed-breakdown");
+    speeds.width = "800"; //document.getElementById("passage").style.width;
+    speeds.height = "400"; //document.getElementById("passage").style.height;
+    speeds.style.display = "block";
+              
+    let context = speeds.getContext("2d");
+    
+    let current_x = 0;
+    let current_y = 20;
+    let bkg_width = 10;
+    let bkg_height = 20;
+    let space_width = 3;
+                
+    for (var i = 0; i < times.length; i++) {
+        if (i == 0) {
+            adjusted_times.push(times[i] - (ti / 60000));
+        } else {
+            adjusted_times.push(times[i] - times[i - 1]);
+        }
+                    
+        word_wpms.push((passage_list[i].length / 5) / adjusted_times[i]);
+    }
+                
+    console.log(adjusted_times);
+    console.log(word_wpms);
+                
+    let mean = WPM;
+              
+    let summation = 0;
+    for (var j = 0; j < word_wpms.length; j++) {
+        summation += Math.pow(word_wpms[j] - mean, 2);
+    }
+    let std_dev = Math.sqrt(summation / (word_wpms.length - 1));
+                
+    console.log("μ = " + mean + ", σ = " + std_dev);
+             
+    let temp_x = 0;
+    let temp_y = 20;
+    for (var h = 0; h < passage_list.length; h++) {
+        temp_x += passage_list[h].length * bkg_width + space_width;
+        if ((h < passage_list.length - 1) && (temp_x + passage_list[h].length * bkg_width + space_width > speeds.width)) {
+            temp_x = 0;
+            temp_y += 25;
+        }
+    }
+    
+    speeds.height = (temp_y + 25).toString();
+    context.font = "20px Ubuntu Mono"; // TODO: Change to .friendly-font
+  
+    for (var k = 0; k < adjusted_times.length; k++) {
+        if (word_wpms[k] > mean + (3 * std_dev / 4)) { // Super fast                                CHANGE SPEED DISTINCTIONS TO BE IN TERMS OF THE STD. DEV.
+            context.fillStyle = "#3f8e68";
+        } else if (word_wpms[k] > mean) { // Fast
+            context.fillStyle = "#a0d58c";
+        } else if (word_wpms[k] + (3 * std_dev / 4) < WPM) { // Super slow
+            context.fillStyle = "#bc3f5c";
+        } else if (word_wpms[k] < WPM) { // Slow
+            context.fillStyle = "#ea7664";
+        }
+                    
+        let rectangle_width = 0;
+        if (k < times.length - 1) {
+            rectangle_width = bkg_width * passage_list[k].length + space_width;
+        } else {
+            rectangle_width = bkg_width * passage_list[k].length;
+        }
+                    
+        context.fillRect(current_x, current_y - (0.75 * bkg_height), rectangle_width, bkg_height);
+                  
+        context.fillStyle = "black";
+        context.fillText(passage_list[k], current_x, current_y);
+              
+        current_x += passage_list[k].length * bkg_width + space_width;
+        if ((k < times.length - 1) && (current_x + (passage_list[k + 1].length * bkg_width + space_width) > speeds.width)) {
+            current_x = 0;
+            current_y += 25;
+        }
+    }
+}
+
+function speedsGraph() {
+    let graph = document.getElementById("speed-graph");
+    graph.style.display = "block";
+    graph.width = "600";
+    graph.height = "300";
+              
+    context = graph.getContext("2d");
+              
+    context.fillStyle = "black";
+                
+    context.beginPath(); // Draw axes
+    context.moveTo(0, 0);
+    context.lineTo(0, 300);
+    context.lineTo(600, 300);
+    context.stroke();
 }

@@ -19,6 +19,11 @@
     <div id="passage" class="response">
         <span id="correct"></span><span id="incorrect"></span><span id="incomplete">{{ passage }}</span>
         <p id="end_message"></p>
+        <div id="div-links" class="race-links">
+            <a href="/ml_practice_index" id="ml-link" class="race-link">Generate a Passage ></a>
+            <a href="/again" id="practice-link" class="race-link">Practice ></a>
+            <a href="/1v1" id="1v1-link" class="race-link">Race Another User ></a>
+        </div>
         <div id="speed-breakdown-key" class="key">
             <p>
                 <span id="fastest">&nbsp;&nbsp;&nbsp;</span><span> Fastest Typing</span> <!-- CONSIDER CHANGING TO THE ACTUAL VALUES WHEN THE PASSAGE IS FINISHED -->
@@ -34,13 +39,8 @@
             </p>
         </div>
         <canvas id="speed-breakdown" width="10px" height="10px" style="display: none;"></canvas>
-        <canvas id="speed-graph" width="10px" height="10px" style="display: none;"></canvas>
+        <canvas id="speed-graph" width="10px" height="10px" style="display: none; margin-top: 5%;"></canvas>
         <input type="text" id="user_input" class="response-input" oninput="check()" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
-        <div id="div-links" class="race-links">
-            <a href="/ml_practice_index" id="ml-link" class="race-link">Generate a Passage ></a>
-            <a href="/again" id="practice-link" class="race-link">Practice ></a>
-            <a href="/1v1" id="1v1-link" class="race-link">Race Another User ></a>
-        </div>
     </div>
     <div id="wpm_counter" class="wpm-counter">
         0
