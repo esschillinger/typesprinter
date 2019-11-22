@@ -158,8 +158,8 @@ function statsAnalysis(WPM) {
                 
     document.getElementById("speed-breakdown-key").style.display = "block";
                 
-    speedsHeatmap(WPM, passage_list);  
-    speedsGraph();
+    let std_dev = speedsHeatmap(WPM, passage_list);  
+    speedsGraph(std_dev);
               
     // TODO: FILL IN POINTS FOR THE GRAPH (FOR LOOP OVER word_wpms THAT CREATES A SPHERE AT (<incremented x-value>, canvas.height - word_wpms[l]) AND DRAW IN A SINGLE LINE THAT CONNECTS THEM (POPULATE A LIST OF COORDINATES AS YOU GO OVER THE FIRST LOOP AND JUST MAKE A LINE CONNECTING EACH COORDINATE))
 }
@@ -243,9 +243,11 @@ function speedsHeatmap(WPM, passage_list) {
             current_y += 25;
         }
     }
+  
+    return std_dev;
 }
 
-function speedsGraph() {
+function speedsGraph(std_dev) {
     let graph = document.getElementById("speed-graph");
     graph.style.display = "block";
     graph.width = "600";
@@ -260,4 +262,52 @@ function speedsGraph() {
     context.lineTo(0, 300);
     context.lineTo(600, 300);
     context.stroke();
+    
+    let max = word_wpms[0];
+    let min = word_wpms[0];
+    for (var i = 1; i < word_wpms.length; i++) {
+        if (word_wpms[i] > max) {
+            max = word_wpms[i];
+        } else if (word_wpms[i] < min) {
+            min = word_wpms[i];
+        }
+    }
+    console.log("[" + min + ", " + max + "]");
+    
+    let upper = max + std_dev / 4;
+    let lower = 0;
+    if (min - std_dev / 4 > 0) {
+        lower = min - std_dev / 4;
+    }
+    
+    context.font = "15px Ubuntu Mono";
+    context.fillText(upper.toString(), 10, 20);
+    context.fillText(lower.toString(), 10, graph.height - 10)
+    
+    let interval_length = Math.floor(graph.width / word_wpms.length);
+    let vertical_scale = Math.floor(graph.height / (upper - lower));
+    
+    let point_x = 0;
+    let point_y = graph.height;
+    let point_coords = [];
+    for (var j = 0; j < word_wpms.length; j++) {
+        point_coords.push([point_x, point_y - (vertical_scale * (word_wpms[j]) - (min - std_dev))]);
+        drawCircle(point_x, point_coords[j][2], 5, "black", context);
+        point_x += interval_length;
+    }
+    
+    context.beginPath();
+    context.moveTo(point_coords[0][0], point_coords[0][1]);
+    for (var k = 0; k < point_coords.length; k++) {
+        context.lineTo(point_coords[k][0], point_coords[k][1]);
+    }
+    
+    context.stroke();
+}
+
+function drawCircle(x, y, r, color, context) {
+    context.beginPath();
+    context.arc(x, y, r, 0, 2 * Math.PI, true);
+    context.fillStyle = color;
+    context.fill();
 }
