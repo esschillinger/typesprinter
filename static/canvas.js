@@ -263,6 +263,12 @@ function executeCommand(command) {
             current_y += 45;
         
             break;
+          
+        case "passage --best":
+            document.querySelector("input").value += "passage-best";
+            current_y += 45;
+            
+            break;
         
         case "post":
             document.querySelector("form").submit();

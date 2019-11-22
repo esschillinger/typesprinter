@@ -234,6 +234,22 @@ function speedsHeatmap(WPM, passage_list) {
                     
         context.fillRect(current_x, current_y - (0.75 * bkg_height), rectangle_width, bkg_height);
                   
+      
+      
+      
+      
+      
+      
+        
+        // FIGURE OUT A GOOD COLOR FOR THIS
+      
+      
+      
+      
+      
+      
+      
+      
         context.fillStyle = "black";
         context.fillText(passage_list[k], current_x, current_y);
               
@@ -292,7 +308,7 @@ function speedsGraph(std_dev) {
     let point_coords = [];
     for (var j = 0; j < word_wpms.length; j++) {
         point_coords.push([point_x, point_y - (vertical_scale * (word_wpms[j]) - (min - std_dev))]);
-        drawCircle(point_x, point_coords[j][2], 5, "black", context);
+        drawCircle(point_x, point_coords[j][2], 20, "black", context);
         point_x += interval_length;
     }
     

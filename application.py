@@ -7,6 +7,7 @@ from tempfile import mkdtemp
 
 from helpers import generate_passage
 from helpers import pick_passage
+from helpers import BEST_PASSAGE
 
 # Configure application
 
@@ -67,6 +68,9 @@ def practice():
         commands = session["commands"]
     except:
         commands = ""
+        
+    if "passage-best" in commands:
+        passage = BEST_PASSAGE
     
     '''
     first = passage[0]
