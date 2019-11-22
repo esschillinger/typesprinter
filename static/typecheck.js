@@ -308,7 +308,7 @@ function speedsGraph(std_dev) {
     let point_coords = [];
     for (var j = 0; j < word_wpms.length; j++) {
         point_coords.push([point_x, point_y - (vertical_scale * (word_wpms[j]) - (min - std_dev))]);
-        drawCircle(point_x, point_coords[j][2], 20, "black", context);
+        drawCircle(point_x, point_coords[j][1], 3, "black", context);
         point_x += interval_length;
     }
     
