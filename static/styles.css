@@ -152,6 +152,7 @@ a.panel-a:hover {
     float: left;
     margin-left: 20%;
     margin-top: 20%;
+    user-select: none;
 }
 
 .response-input {
