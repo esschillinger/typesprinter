@@ -13,6 +13,8 @@ let tf = -1;
 let times = [];
 let adjusted_times = [];
 let word_wpms = [];
+let num_categories = 5;
+let category_wpms = [];
 let wpm_style = "";
 let race_commands = "";
 let rainbow_colors = ["red", "orange", "yellow",
@@ -187,7 +189,43 @@ function speedsHeatmap(WPM, passage_list) {
                     
         word_wpms.push((passage_list[i].length / 5) / adjusted_times[i]);
     }
-                
+    
+  
+  
+  
+  
+  
+  
+    // WORK ON THIS BLOCK OF CODE--YOU NEED TO SPLIT UP THE PASSAGE INTO <num_categories> INTERVALS TO MAKE PLOTTING MORE CONSISTENT
+  
+  
+  
+  
+  
+  
+  
+    let l_interval = times.length / num_categories; // Length of a standard interval
+    let remainder = times.length % num_categories; // Remainder
+    let start = 0;
+    for (var i = 0; i < times.length; i++) {
+        if (i != 0 && ((i - start) % (l_interval - 1) == 0)) { // If i is where the end of an interval should be
+            let stop = i;
+            if (remainder > 0) {
+                stop++;
+                remainder--;
+            }
+            let length = 0; // Total character length over the interval
+            for (let j = start; j <= stop; j++) {
+                length += passage_list[j].length;
+            }
+            
+            category_wpms.push((length / 5) / (adjusted_times[stop] - adjusted_times[start]));
+        }
+        
+        start = stop + 1;
+    }
+    
+    console.log(category_wpms);
     console.log(adjusted_times);
     console.log(word_wpms);
                 
