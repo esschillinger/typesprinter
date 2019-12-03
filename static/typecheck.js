@@ -204,25 +204,41 @@ function speedsHeatmap(WPM, passage_list) {
   
   
   
-    let l_interval = times.length / num_categories; // Length of a standard interval
+    let l_interval = Math.floor(times.length / num_categories); // Length of a standard interval
     let remainder = times.length % num_categories; // Remainder
+  
+    console.log("Intervals: n = " + l_interval + ", remainder = " + remainder);
+  
     let start = 0;
-    for (var i = 0; i < times.length; i++) {
-        if (i != 0 && ((i - start) % (l_interval - 1) == 0)) { // If i is where the end of an interval should be
-            let stop = i;
+    let stop = 0;
+    for (var g = 0; g < passage_list.length; g++) {
+        console.log("g = " + g + ", start = " + start);
+        if (g != 0 && ((g - start) % (l_interval - 1) == 0)) { // If g is where the end of an interval should be
+            stop = g;
             if (remainder > 0) {
                 stop++;
                 remainder--;
             }
             let length = 0; // Total character length over the interval
-            for (let j = start; j <= stop; j++) {
-                length += passage_list[j].length;
+            for (var h = start; h <= stop; h++) {
+                length += passage_list[h].length;
+            }
+          
+            length += (stop - start); // Add the number of spaces to the characters typed
+            
+            let time_interval = -1;
+            if (start == 0) {
+                time_interval = times[stop] - (ti / 60000);
+            } else {
+                time_interval = times[stop] - times[start];
             }
             
-            category_wpms.push((length / 5) / (adjusted_times[stop] - adjusted_times[start]));
+            category_wpms.push((length / 5) / time_interval);
+            start = stop + 1;
+            g = start;
         }
         
-        start = stop + 1;
+        //console.log("start = " + start + ", stop = " + stop);
     }
     
     console.log(category_wpms);
