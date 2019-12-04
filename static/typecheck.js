@@ -66,10 +66,10 @@ function load(first, second, third) {
 function check() {
     if (start != true) {
         start = true;
-        ti = performance.now();
+        ti = Date.now();
     }
   
-    tf = performance.now();
+    tf = Date.now();
     
     // Apply visual cheats
     if (wpm_style.includes("rainbow")) {
@@ -131,14 +131,14 @@ function check() {
         if (ch == value.length - 1) {
             if (value[ch] == " ") {
                 user_progress += value;
-                times.push(performance.now() / 60000);
+                times.push(Date.now() / 60000);
                 conn.value = "";
             } else if (user_progress + value == original_passage) {
-                tf = performance.now();
+                tf = Date.now();
                 let tWPM = (tf - ti) / 60000;
               
                 user_progress += value;
-                times.push(performance.now() / 60000);
+                times.push(Date.now() / 60000);
                 let WPM = Math.ceil((user_progress.length / 5) / tWPM);
                 
                 conn.value = "";
@@ -207,12 +207,12 @@ function speedsHeatmap(WPM, passage_list) {
     let l_interval = Math.floor(times.length / num_categories); // Length of a standard interval
     let remainder = times.length % num_categories; // Remainder
   
+    console.log(times);
     console.log("Intervals: n = " + l_interval + ", remainder = " + remainder);
   
     let start = 0;
     let stop = 0;
     for (var g = 0; g < passage_list.length; g++) {
-        console.log("g = " + g + ", start = " + start);
         if (g != 0 && ((g - start) % (l_interval - 1) == 0)) { // If g is where the end of an interval should be
             stop = g;
             if (remainder > 0) {
@@ -223,22 +223,23 @@ function speedsHeatmap(WPM, passage_list) {
             for (var h = start; h <= stop; h++) {
                 length += passage_list[h].length;
             }
-          
+            
             length += (stop - start); // Add the number of spaces to the characters typed
             
             let time_interval = -1;
+            
             if (start == 0) {
                 time_interval = times[stop] - (ti / 60000);
             } else {
-                time_interval = times[stop] - times[start];
+                time_interval = times[stop] - times[start - 1];
             }
+            
+            console.log("start = " + start + ", stop = " + stop + ", length = " + length + ", time_interval = " + time_interval);
             
             category_wpms.push((length / 5) / time_interval);
             start = stop + 1;
             g = start;
         }
-        
-        //console.log("start = " + start + ", stop = " + stop);
     }
     
     console.log(category_wpms);
