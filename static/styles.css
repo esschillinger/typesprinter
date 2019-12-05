@@ -233,6 +233,15 @@ nav .navbar-brand .blueviolet
     font-size: 15px;
 }
 
+.stats {
+    display: none;
+}
+
+.graphs {
+    margin-top: 5%;
+    float: left;
+}
+
 #fastest {
     background-color: #3f8e68;
 }

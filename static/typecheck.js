@@ -157,17 +157,17 @@ function check() {
 
 function statsAnalysis(WPM) {
     let passage_list = original_passage.split(" ");
-                
+    
     document.getElementById("speed-breakdown-key").style.display = "block";
-                
-    let std_dev = speedsHeatmap(WPM, passage_list);  
-    speedsGraph(std_dev);
+    
+    let std_dev = speedsHeatmap(WPM, passage_list);
+    speedsGraph(category_wpms, word_wpms, std_dev);
               
     // TODO: FILL IN POINTS FOR THE GRAPH (FOR LOOP OVER word_wpms THAT CREATES A SPHERE AT (<incremented x-value>, canvas.height - word_wpms[l]) AND DRAW IN A SINGLE LINE THAT CONNECTS THEM (POPULATE A LIST OF COORDINATES AS YOU GO OVER THE FIRST LOOP AND JUST MAKE A LINE CONNECTING EACH COORDINATE))
 }
 
 function speedsHeatmap(WPM, passage_list) {
-    let speeds = document.getElementById("speed-breakdown");
+    let speeds = document.getElementById("speed-breakdown-text");
     speeds.width = "800"; //document.getElementById("passage").style.width;
     speeds.height = "400"; //document.getElementById("passage").style.height;
     speeds.style.display = "block";
@@ -318,14 +318,24 @@ function speedsHeatmap(WPM, passage_list) {
     return std_dev;
 }
 
-function speedsGraph(std_dev) {
-    let graph = document.getElementById("speed-graph");
+function speedsGraph(interval, instantaneous, std_dev) {
+    let graph = document.getElementById("speed-graph-interval");
     graph.style.display = "block";
     graph.width = "600";
     graph.height = "300";
               
-    context = graph.getContext("2d");
-              
+    createGraph(graph, interval, [std_dev]);
+    
+    graph = document.getElementById("speed-graph-instantaneous");
+    graph.style.display = "block";
+    graph.width = "600";
+    graph.height = "300";
+    
+    createGraph(graph, instantaneous, [std_dev]);
+}
+
+function createGraph(elem, wpms, stats) {
+    context = elem.getContext("2d");
     context.fillStyle = "black";
                 
     context.beginPath(); // Draw axes
@@ -334,38 +344,40 @@ function speedsGraph(std_dev) {
     context.lineTo(600, 300);
     context.stroke();
     
-    let max = word_wpms[0];
-    let min = word_wpms[0];
-    for (var i = 1; i < word_wpms.length; i++) {
-        if (word_wpms[i] > max) {
-            max = word_wpms[i];
-        } else if (word_wpms[i] < min) {
-            min = word_wpms[i];
+    let max = wpms[0];
+    let min = wpms[0];
+    for (var i = 1; i < wpms.length; i++) {
+        if (wpms[i] > max) {
+            max = wpms[i];
+        } else if (wpms[i] < min) {
+            min = wpms[i];
         }
     }
     console.log("[" + min + ", " + max + "]");
     
-    let upper = max + std_dev / 4;
+    let upper = max + stats[0] / 4;
     let lower = 0;
-    if (min - std_dev / 4 > 0) {
-        lower = min - std_dev / 4;
+    if (min - stats[0] / 4 > 0) {
+        lower = min - stats[0] / 4;
     }
     
     context.font = "15px Ubuntu Mono";
     context.fillText(upper.toString(), 10, 20);
-    context.fillText(lower.toString(), 10, graph.height - 10)
+    context.fillText(lower.toString(), 10, elem.height - 10)
     
-    let interval_length = Math.floor(graph.width / word_wpms.length);
-    let vertical_scale = Math.floor(graph.height / (upper - lower));
+    let interval_length = Math.floor(elem.width / word_wpms.length);
+    let vertical_scale = Math.floor(elem.height / (upper - lower));
     
     let point_x = 0;
-    let point_y = graph.height;
+    let point_y = elem.height;
     let point_coords = [];
-    for (var j = 0; j < word_wpms.length; j++) {
-        point_coords.push([point_x, point_y - (vertical_scale * (word_wpms[j]) - (min - std_dev))]);
+    for (var j = 0; j < wpms.length; j++) {
+        point_coords.push([point_x, point_y - (vertical_scale * (wpms[j]) - (min - stats[0]))]);
         drawCircle(point_x, point_coords[j][1], 3, "black", context);
         point_x += interval_length;
     }
+    
+    console.log(point_coords);
     
     context.beginPath();
     context.moveTo(point_coords[0][0], point_coords[0][1]);
