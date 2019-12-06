@@ -287,25 +287,9 @@ function speedsHeatmap(WPM, passage_list) {
             rectangle_width = bkg_width * passage_list[k].length;
         }
                     
-        context.fillRect(current_x, current_y - (0.75 * bkg_height), rectangle_width, bkg_height);
-                  
-      
-      
-      
-      
-      
-      
+        //context.fillRect(current_x, current_y - (0.75 * bkg_height), rectangle_width, bkg_height);
         
-        // FIGURE OUT A GOOD COLOR FOR THIS
-      
-      
-      
-      
-      
-      
-      
-      
-        context.fillStyle = "black";
+        //context.fillStyle = "black";
         context.fillText(passage_list[k], current_x, current_y);
               
         current_x += passage_list[k].length * bkg_width + space_width;
@@ -365,14 +349,15 @@ function createGraph(elem, wpms, stats) {
     context.fillText(upper.toString(), 10, 20);
     context.fillText(lower.toString(), 10, elem.height - 10)
     
-    let interval_length = Math.floor(elem.width / word_wpms.length);
-    let vertical_scale = Math.floor(elem.height / (upper - lower));
+    let interval_length = Math.floor(elem.width / wpms.length);
+    //let vertical_scale = Math.floor(elem.height / (upper - lower));
     
     let point_x = 0;
     let point_y = elem.height;
     let point_coords = [];
     for (var j = 0; j < wpms.length; j++) {
-        point_coords.push([point_x, point_y - (vertical_scale * (wpms[j]) - (min - stats[0]))]);
+        //point_coords.push([point_x, point_y - (vertical_scale * (wpms[j]) - lower)]);
+        point_coords.push([point_x, point_y - (((wpms[j] - lower) / (upper - lower)) * (point_y))]);
         drawCircle(point_x, point_coords[j][1], 3, "black", context);
         point_x += interval_length;
     }
