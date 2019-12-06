@@ -270,7 +270,7 @@ function executeCommand(command) {
             
             break;
         
-        case "post":
+        case "run":
             document.querySelector("form").submit();
         
             break;

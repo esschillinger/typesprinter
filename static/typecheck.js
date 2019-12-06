@@ -356,7 +356,6 @@ function createGraph(elem, wpms, stats) {
     let point_y = elem.height;
     let point_coords = [];
     for (var j = 0; j < wpms.length; j++) {
-        //point_coords.push([point_x, point_y - (vertical_scale * (wpms[j]) - lower)]);
         point_coords.push([point_x, point_y - (((wpms[j] - lower) / (upper - lower)) * (point_y))]);
         drawCircle(point_x, point_coords[j][1], 3, "black", context);
         point_x += interval_length;
