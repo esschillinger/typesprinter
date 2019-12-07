@@ -32,15 +32,15 @@ function load(first, second, third) {
     let commands = document.getElementById("hidden-commands").innerHTML;
     if (commands != "") {
         //console.log(commands);
-        if (commands.includes("wpm-rainbow")) {
+        if (commands.includes("wpm -rb")) {
             //console.log(true);
             wpm_style += "rainbow";
         }
-        if (commands.includes("wpm-size")) {
+        if (commands.includes("wpm -sz")) {
             wpm_style += "size";
         }
-        if (commands.includes("chars-correct")) {
-            race_commands += "correct";
+        if (commands.includes("autowin")) {
+            race_commands += "autowin";
         }
     }
 }
@@ -107,7 +107,7 @@ function check() {
     
     let offset = user_progress.length
     for (var ch = 0; ch < value.length; ch++) {
-        if (race_commands.includes("correct")) {
+        if (race_commands.includes("autowin")) {
             value = original_passage.substring(offset, offset + value.length);
             conn.value = value;
         }

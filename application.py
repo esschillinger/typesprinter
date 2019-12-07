@@ -69,7 +69,7 @@ def practice():
     except:
         commands = ""
         
-    if "passage-best" in commands:
+    if "p best" in commands:
         passage = BEST_PASSAGE
     
     '''

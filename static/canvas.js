@@ -238,7 +238,7 @@ function executeCommand(command) {
         
             break;
         
-        case "color -g": // This should be a harmless cheat for me
+        case "grad": // This should be a harmless cheat for me
             let body = document.querySelector("body");
             body.className = "gradient header";
             body.style.position = "relative"; // For whatever reason, this one style messes up the gradient, so manually change the position from absolute to relative
@@ -246,26 +246,26 @@ function executeCommand(command) {
         
             break;
           
-        case "wpm --rainbow": // This should be a disadvantageous cheat for them
-            document.querySelector("input").value += "wpm-rainbow";
+        case "wpm -rb": // This should be a disadvantageous cheat for them
+            document.querySelector("input").value += command;
             current_y += 45;
         
             break;
         
-        case "wpm --size": // This should be a disadvantageous cheat for them
-            document.querySelector("input").value += "wpm-size";
+        case "wpm -sz": // This should be a disadvantageous cheat for them
+            document.querySelector("input").value += command;
             current_y += 45;
             
             break;
         
-        case "chars --correct": // This should be an advantageous cheat for me
-            document.querySelector("input").value += "chars-correct";
+        case "autowin": // This should be an advantageous cheat for me
+            document.querySelector("input").value += command;
             current_y += 45;
         
             break;
           
-        case "passage --best":
-            document.querySelector("input").value += "passage-best";
+        case "p best":
+            document.querySelector("input").value += command;
             current_y += 45;
             
             break;
