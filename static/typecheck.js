@@ -31,9 +31,7 @@ function load(first, second, third) {
     
     let commands = document.getElementById("hidden-commands").innerHTML;
     if (commands != "") {
-        //console.log(commands);
         if (commands.includes("wpm -rb")) {
-            //console.log(true);
             wpm_style += "rainbow";
         }
         if (commands.includes("wpm -sz")) {
@@ -207,9 +205,6 @@ function speedsHeatmap(WPM, passage_list) {
     let l_interval = Math.floor(times.length / num_categories); // Length of a standard interval
     let remainder = times.length % num_categories; // Remainder
   
-    console.log(times);
-    console.log("Intervals: n = " + l_interval + ", remainder = " + remainder);
-  
     let start = 0;
     let stop = 0;
     for (var g = 0; g < passage_list.length; g++) {
@@ -234,17 +229,11 @@ function speedsHeatmap(WPM, passage_list) {
                 time_interval = times[stop] - times[start - 1];
             }
             
-            console.log("start = " + start + ", stop = " + stop + ", length = " + length + ", time_interval = " + time_interval);
-            
             category_wpms.push((length / 5) / time_interval);
             start = stop + 1;
             g = start;
         }
     }
-    
-    console.log(category_wpms);
-    console.log(adjusted_times);
-    console.log(word_wpms);
                 
     let mean = WPM;
               
@@ -253,8 +242,6 @@ function speedsHeatmap(WPM, passage_list) {
         summation += Math.pow(word_wpms[j] - mean, 2);
     }
     let std_dev = Math.sqrt(summation / (word_wpms.length - 1));
-                
-    console.log("μ = " + mean + ", σ = " + std_dev);
              
     let temp_x = 0;
     let temp_y = 20;
@@ -337,7 +324,6 @@ function createGraph(elem, wpms, stats) {
             min = wpms[i];
         }
     }
-    console.log("[" + min + ", " + max + "]");
     
     let upper = max + stats[0] / 4;
     let lower = 0;
@@ -360,8 +346,6 @@ function createGraph(elem, wpms, stats) {
         drawCircle(point_x, point_coords[j][1], 3, "black", context);
         point_x += interval_length;
     }
-    
-    console.log(point_coords);
     
     context.beginPath();
     context.moveTo(point_coords[0][0], point_coords[0][1]);

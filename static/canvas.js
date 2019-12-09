@@ -28,7 +28,6 @@ function loadKeyboardListener() {
     document.addEventListener('keydown', (e) => {
         if (document.querySelector("div").style.display === "none") {
             char_sequence.push(e.key);
-            console.log(e.key);
             
             let l = char_sequence.length;
             if (l >= 4 && (char_sequence[l - 4] == "L" && char_sequence[l - 3] == "I" && char_sequence[l - 2] == "M" && char_sequence[l - 1] == "E")) {
@@ -42,7 +41,6 @@ function loadKeyboardListener() {
             } else if (e.key === "Backspace") {
                 if (chars_locations.length > 0) {
                     if (lines.length > 0) {
-                        console.log(lines);
                         if ((chars_locations.length > lines[lines.length - 1] + 1) || user_commands[user_commands.length - 1] == "clear") { // Deals with user trying to backspace after "clear"?
                                 addText(e.key, "black");
                         }
@@ -53,8 +51,6 @@ function loadKeyboardListener() {
             } else if (e.key === "Enter") {
                 lines.push(chars_locations.length - 1);
                 
-                console.log(lines);
-                console.log(chars_locations);
                 logCommand();
             }
         }
@@ -81,8 +77,6 @@ function loadCanvas() {
     context.fillText("$", 25, current_y);
     
     document.addEventListener('click', function() {
-        //console.log(document.activeElement);
-        //console.log(document.getElementById("canvas-terminal-body"));
         if (document.activeElement.tagName != "BODY") {
             hollow_cursor = true;
             drawHollowCursor(current_x, current_y); // Update the cursor immediately instead of waiting  <= 750 milliseconds for setInterval() to update
@@ -115,7 +109,6 @@ function addText(character, color) {
         chars_locations.push([character, current_x, current_y]);
         
         current_x += character_width + space_width;
-        console.log(character + " (" + current_x + ", " + current_y + ")");
         if (current_x + space_width + cursor_width >= canvas_width) {
             current_x = 65;
             current_y += 45;
@@ -197,7 +190,6 @@ function logCommand() {
         log += chars_locations[i][0];
     }
     user_commands.push(log);
-    console.log(log);
     
     executeCommand(log);
 }
@@ -287,8 +279,6 @@ function executeCommand(command) {
     
     solid_cursor = true;
     drawCursor(current_x, current_y);
-  
-    console.log(user_commands);
 }
 
 function updateCursor() {
