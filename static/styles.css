@@ -81,7 +81,7 @@ a.panel-a:hover {
 }
 
 .panel1:hover {
-    background-image: url("/static/generate-animation-forever.gif"); /* animation created with Wolfram Mathematica (manipulating parametric lines) */
+    background-image: url("/static/generate-animation-forever.gif"); /* animation created with Wolfram Mathematica (manipulating parametric lines)--CHANGE THIS ANIMATION TO HAVE RANDOM NEURONS IN THE FIRST LAYER FIRE AND TRIGGER DIFFERENT NEURONS IN EACH LAYER THEREAFTER */
 }
 
 .panel2 {
