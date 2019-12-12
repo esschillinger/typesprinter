@@ -77,10 +77,18 @@ a.panel-a:hover {
 }
 
 .panel1 {
-    background-image: url("/static/typesprinter-animation-resized.png");
+    background-image: url("/static/generate-animation.png");
 }
 
 .panel1:hover {
+    background-image: url("/static/generate-animation-forever.gif"); /* animation created with Wolfram Mathematica (manipulating parametric lines) */
+}
+
+.panel2 {
+    background-image: url("/static/typesprinter-animation-resized.png");
+}
+
+.panel2:hover {
     background-image: url("/static/typesprinter-animation-resized.gif"); /* animation created with Wolfram Mathematica (parametric plotting 3 rotated ellipses and creating points to trace their paths) */
 }
 
