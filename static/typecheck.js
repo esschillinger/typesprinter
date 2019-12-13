@@ -176,7 +176,7 @@ function speedsHeatmap(WPM, passage_list) {
     let current_y = 20;
     let bkg_width = 10;
     let bkg_height = 20;
-    let space_width = 3;
+    let space_width = 15;
                 
     for (var i = 0; i < times.length; i++) {
         if (i == 0) {
@@ -254,7 +254,7 @@ function speedsHeatmap(WPM, passage_list) {
     }
     
     speeds.height = (temp_y + 25).toString();
-    context.font = "20px Ubuntu Mono"; // TODO: Change to .friendly-font
+    context.font = "20px Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif"; // TODO: Change to .friendly-font
   
     for (var k = 0; k < adjusted_times.length; k++) {
         if (word_wpms[k] > mean + (3 * std_dev / 4)) { // Super fast                                CHANGE SPEED DISTINCTIONS TO BE IN TERMS OF THE STD. DEV.
@@ -331,7 +331,7 @@ function createGraph(elem, wpms, stats) {
         lower = min - stats[0] / 4;
     }
     
-    context.font = "15px Ubuntu Mono";
+    context.font = "15px Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif";
     context.fillText(upper.toString(), 10, 20);
     context.fillText(lower.toString(), 10, elem.height - 10)
     
