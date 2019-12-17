@@ -25,7 +25,8 @@ PRESET_PASSAGES = [
     'I could tell he was trying to shake off his feelings. He didn\'t like to be angry. I loved that about him, that he really wanted to be happy.',
     'Everyone is to blame. He says that when you separate people into groups, they start to believe that one group is better than another. I think about Papa\'s medical books and how we all have the same blood, and organs, and bones inside us, no matter what religion we\'re supposed to be.',
     'We know that there is not one person who, after hearing these words, would deny their truth and say that he wanted something else, but he would believe that he had heard exactly what he had desired for a long time - namely, to be melted in unison with his beloved, and the two of them become one. The reason is that our ancient nature was thus and we were whole. And so love is merely the name for the desire and pursuit of the whole.',
-    'I never thought I\'d feel this way, and as far as I\'m concerned I\'m glad I got the chance to say that I do believe I love you.'
+    'I never thought I\'d feel this way, and as far as I\'m concerned I\'m glad I got the chance to say that I do believe I love you.',
+    'Sometimes terrible things happen, but there\'s nothing more terrible than not having anybody to tell it to.'
 ]
 BEST_PASSAGE = 'When you realize you want to spend the rest of your life with somebody, you want the rest of your life to start as soon as possible.'
 
