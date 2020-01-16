@@ -2,38 +2,36 @@
 
 
 {% block title %}
-: Enter a cheat
+: Enter a word
 {% endblock %}
 
 
 {% block head %}
+    <script type="text/javascript" src="static/terminal.js"></script>
     <script type="text/javascript" src="static/canvas.js"></script>
     <script>
-        window.onload = function() {
-            loadKeyboardListener();
-        }
+        window.onload = function() { load_term(); load_canvas(); };
     </script>
 {% endblock %}
 
 
 {% block body %}
-  <div class="terminal code shadow-lg" id="term" style="display: none;">
-      <canvas id="canvas-terminal" class="terminal-top" width="1000px" height="40px"></canvas>
-      <canvas id="canvas-terminal-body" width="1000px" height="400px"></canvas>
-      <!--
+  <div class="terminal code shadow-lg">
+      <canvas id="canvas_terminal" class="canvas-terminal" width="1000px"; height="40px;"></canvas>
       <div class="terminal-body">
           <div class="command-start">
-              $  
+              $ generate -m "
           </div>
-          <form name="cheats" action="/1v1" method="post" class="code cheat-form">
-              <input type="text" name="cheat" id="term_command" class="terminal-input" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
-          </form>
+          <div class="command-main">
+              <form name="starter" action="/ml_practice_index" method="post" class="code">
+                  <input type="text" name="first_word" id="term_command" class="terminal-input" oninput="stretch()" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
+              </form>
+          </div>
+          <div class="command-end" id="term_command_end">
+              "
+          </div>
       </div>
-      -->
   </div>
-  <form name="command-form" action="/1v1" method="post" style="display: none; font-family: Ubuntu Mono;">
-      <input name="commands" type="text" value="">
-  </form>
 {% block tabs %}
 {% endblock %}
 
