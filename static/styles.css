@@ -35,6 +35,18 @@ body {
         margin-left: 0.1%; /* WHY DO I NEED THIS LINE FOR IT TO ACTUALLY CENTER?! */
         max-width: 100%;
     }
+
+    #term {
+        width: 800px;
+    }
+
+    #canvas-terminal {
+        width: 800px;
+    }
+
+    #canvas-terminal-body {
+        width: 800px;
+    }
 }
 
 .panel {

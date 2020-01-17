@@ -2,7 +2,7 @@ let solid_cursor = true;
 let hollow_cursor = false;
 let current_x = 65;
 let current_y = 40;
-let canvas_width = 1000;
+let canvas_width = 0;
 let character_width = 20;
 let space_width = 5;
 let cursor_width = 20;
@@ -28,7 +28,7 @@ function loadKeyboardListener() {
     document.addEventListener('keydown', (e) => {
         if (document.querySelector("div").style.display === "none") {
             char_sequence.push(e.key);
-            
+
             let l = char_sequence.length;
             if (l >= 4 && (char_sequence[l - 4] == "L" && char_sequence[l - 3] == "I" && char_sequence[l - 2] == "M" && char_sequence[l - 1] == "E")) {
                 document.getElementById("term").style.display = "block";
@@ -50,7 +50,7 @@ function loadKeyboardListener() {
                 }
             } else if (e.key === "Enter") {
                 lines.push(chars_locations.length - 1);
-                
+
                 logCommand();
             }
         }
@@ -58,24 +58,27 @@ function loadKeyboardListener() {
 }
 
 function loadCanvas() {
+    var term = document.getElementById("canvas-terminal-body");
+    canvas_width = term.width;
+
     var canvas_top = document.getElementById("canvas-terminal");
     var context = canvas_top.getContext("2d");
-    
+
     drawCircle(20, 20, 10, "#ff6159", context);
     drawCircle(50, 20, 10, "#febf2d", context);
     drawCircle(80, 20, 10, "#29cd42", context);
-    
+
     context.font = "24px Ubuntu Mono";
     context.fillStyle = "white";
     context.fillText(">_ Terminal", 425, 27.5);
-  
+
     var canvas_main = document.getElementById("canvas-terminal-body");
     context = canvas_main.getContext("2d");
-    
+
     context.font = font;
     context.fillStyle = "white";
     context.fillText("$", 25, current_y);
-    
+
     document.addEventListener('click', function() {
         if (document.activeElement.tagName != "BODY") {
             hollow_cursor = true;
@@ -97,23 +100,23 @@ function drawCircle(x, y, r, color, context) {
 function addText(character, color) {
     var canvas_main = document.getElementById("canvas-terminal-body");
     var context = canvas_main.getContext("2d");
-    
+
     context.fillStyle = "#1e2325";
     context.fillRect(current_x, current_y - 33, cursor_width, cursor_height);
-  
+
     context.font = font;
     context.fillStyle = color;
-    
+
     if (color == "white") {
         context.fillText(character, current_x, current_y);
         chars_locations.push([character, current_x, current_y]);
-        
+
         current_x += character_width + space_width;
         if (current_x + space_width + cursor_width >= canvas_width) {
             current_x = 65;
             current_y += 45;
         }
-        
+
         context.fillRect(current_x, current_y - 33, cursor_width, cursor_height); //Keep moving the cursor to right in front of the last character
     } else {
         let i = chars_locations.length - 1;
@@ -121,7 +124,7 @@ function addText(character, color) {
             let removed_character = chars_locations.pop();
             current_x = removed_character[1];
             current_y = removed_character[2];
-            
+
             context.fillStyle = "white";
             context.fillRect(current_x, current_y - 33, cursor_width, cursor_height); //Keep moving the cursor back
         }
@@ -131,12 +134,12 @@ function addText(character, color) {
 function drawCursor(x, y) {
     var canvas_main = document.getElementById("canvas-terminal-body");
     var context = canvas_main.getContext("2d");
-    
+
     context.fillStyle = "white";
     if (!solid_cursor) {
         context.fillStyle = "#1e2325";
     }
-    
+
     context.fillRect(x, y - 33, cursor_width, cursor_height);
     let index = checkCoordinates(x, y);
     if (index != -1) {
@@ -145,10 +148,10 @@ function drawCursor(x, y) {
         } else {
             context.fillStyle = "white";
         }
-        
+
         context.fillText(chars_locations[index][0], x, y)
     }
-    
+
     if (solid_cursor) {
         solid_cursor = false;
     } else {
@@ -159,7 +162,7 @@ function drawCursor(x, y) {
 function drawHollowCursor(x, y) {
     var canvas_main = document.getElementById("canvas-terminal-body");
     var context = canvas_main.getContext("2d");
-  
+
     context.fillStyle = "white";
     context.fillRect(x, y - 33, cursor_width, cursor_height);
     context.fillStyle = "#1e2325";
@@ -181,108 +184,108 @@ function logCommand() {
     if (lines.length > 1) {
         i = lines[lines.length - 2] + 1;
     }
-    
+
     if (i > lines[lines.length - 1]) { // Deals with user entering "clear" command?
         i = 0;
     }
-  
+
     for (i; i <= lines[lines.length - 1]; i++) {
         log += chars_locations[i][0];
     }
     user_commands.push(log);
-    
+
     executeCommand(log);
 }
 
 function executeCommand(command) {
     var canvas_main = document.getElementById("canvas-terminal-body");
     var context = canvas_main.getContext("2d");
-  
+
     context.fillStyle = "#1e2325";
     context.fillRect(current_x, current_y - 33, cursor_width, cursor_height);
-    
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
     // Change from Flask app to SocketIO app and figure out how to get the command changes to apply only to the other player
     // Another TODO: Change index.html so that the focused panel (being hovered over) expands smoothly in size (ANIMATION), make actual icons (generate should be an atom that animates on panel hover--the atom should be traced out with the animation on loop, as if you had a parameterization for the atom as a curve and you were dragging a slider that shows the particle's path over all values of t)
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
     switch (command) { // Consider using two input fields: one for commands that apply to me, the other for commands that apply to my opponent
         case "clear":
             context.fillStyle = "#1e2325";
             context.fillRect(0, 0, canvas_main.width, canvas_main.height);
-        
+
             chars_locations = [];
             current_y = 40;
-        
+
             break;
-        
+
         case "grad": // This should be a harmless cheat for me
             let body = document.querySelector("body");
             body.className = "gradient header";
             body.style.position = "relative"; // For whatever reason, this one style messes up the gradient, so manually change the position from absolute to relative
             current_y += 45;
-        
+
             break;
-          
+
         case "wpm -rb": // This should be a disadvantageous cheat for them
             document.querySelector("input").value += command;
             current_y += 45;
-        
+
             break;
-        
+
         case "wpm -sz": // This should be a disadvantageous cheat for them
             document.querySelector("input").value += command;
             current_y += 45;
-            
+
             break;
-        
+
         case "autowin": // This should be an advantageous cheat for me
             document.querySelector("input").value += command;
             current_y += 45;
-        
+
             break;
-          
+
         case "p best":
             document.querySelector("input").value += command;
             current_y += 45;
-            
+
             break;
-        
+
         case "run":
             document.querySelector("form").submit();
-        
+
             break;
-        
+
         default:
             current_y += 45;
     }
-  
+
     context.font = font;
     context.fillStyle = "white";
     context.fillText("$", 25, current_y);
-    
+
     current_x = 65;
-    
+
     solid_cursor = true;
     drawCursor(current_x, current_y);
 }
 
 function updateCursor() {
-    setInterval(function() { 
+    setInterval(function() {
         if (!hollow_cursor) {
             drawCursor(current_x, current_y);
         } else {
