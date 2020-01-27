@@ -6,13 +6,39 @@
 {% endblock %}
 
 {% block head %}
+  <script type="text/javascript">
+      $(document).ready(function({
+          $('form#create').submit(function(event) {
+              socket.emit('join', {
+                  room: $('#room-id1').val()
+              });
+              return false;
+          });
+
+          $('form#join').submit(function(event) {
+              socket.emit('join', {
+                  room: $('#room-id2').val()
+              });
+              return false;
+          });
+      }));
+  </script>
 {% endblock %}
 
 
 {% block body %}
 
-  <div>
-      <input type="text">
+  <div class="panel-title">
+      <form id="create" action="#">
+          <input type="text" placeholder="Name" id="create-name">
+          <input type="text" placeholder="Room ID" id="room-id1">
+          <input type="submit" value="Create Room" action="/">
+      </form>
+      <form id="join" action="#">
+          <input type="text" placeholder="Name" id="join-name">
+          <input type="text" placeholder="Room ID" id="room-id2">
+          <input type="submit" value="Join Room">
+      </form>
   </div>
 
 {% endblock %}
