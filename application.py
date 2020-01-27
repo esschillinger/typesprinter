@@ -3,12 +3,10 @@ import os
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
 from tempfile import mkdtemp
 
-from helpers import generate_passage
-from helpers import pick_passage
-from helpers import BEST_PASSAGE
+from helpers import generate_passage, pick_passage, BEST_PASSAGE
 
 # Configure application
 
@@ -36,7 +34,7 @@ def after_request(response):
 # Session(app)
 
 
-# db = SQL(os.environ.get("DATABASE_URL")) # replace "DATABASE_URL" with the actual PostgreSQL URL - used to store RNN weights
+# db = SQL(os.environ.get("DATABASE_URL")) # replace "DATABASE_URL" with the actual PostgreSQL URL
 
 
 @app.route("/")
@@ -54,13 +52,6 @@ def ml():
     if request.method == "GET":
         return render_template("1v1.html")
 
-    condition = request.form.get("first_word")
-    passage = generate_passage(condition)
-
-    session["passage"] = passage
-
-    return redirect("/practice")
-
 
 @app.route("/practice")
 def practice():
@@ -76,18 +67,6 @@ def practice():
 
     if "p best" in commands:
         passage = BEST_PASSAGE
-
-    '''
-    first = passage[0]
-
-    stop = passage.find(" ")
-    if stop == -1:
-        second = ""
-    else:
-        second = passage[1:stop]
-
-    third = passage[stop:]
-    '''
 
     return render_template("practice.html", passage=passage, commands=commands)
 
@@ -114,7 +93,33 @@ def race():
 @app.route("/generate", methods=["GET", "POST"])
 def generate():
 
-    return render_template("generate.html")
+    if request.method == "GET":
+        return render_template("generate.html")
+
+    condition = request.form.get("first_word")
+    passage = generate_passage(condition)
+
+    session["passage"] = passage
+
+    return redirect("/practice")
+
+
+@socketio.on('join', namespace='/test')
+def join(message):
+    join_room(message['room'])
+    session['receive_count'] = session.get('receive_count', 0) + 1
+    emit('my_response',
+         {'data': 'In rooms: ' + ', '.join(rooms()),
+          'count': session['receive_count']})
+
+
+@socketio.on('leave', namespace='/test')
+def leave(message):
+    leave_room(message['room'])
+    session['receive_count'] = session.get('receive_count', 0) + 1
+    emit('my_response',
+         {'data': 'In rooms: ' + ', '.join(rooms()),
+          'count': session['receive_count']})
 
 
 if __name__ == '__main__':
