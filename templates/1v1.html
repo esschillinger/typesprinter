@@ -6,39 +6,61 @@
 {% endblock %}
 
 {% block head %}
+  <script type="text/javascript" src="static/typecheck.js"></script>
   <script type="text/javascript">
+      let rooms = 0;
+
       $(document).ready(function({
-          $('form#create').submit(function(event) {
+
+          document.getElementById('create').submit(function(event) {
               socket.emit('join', {
-                  room: $('#room-id1').val()
+                  room: `room-${rooms++}`
               });
               return false;
           });
-
-          $('form#join').submit(function(event) {
+          
+          document.getElementById('join').submit(function(event) {
               socket.emit('join', {
-                  room: $('#room-id2').val()
+                  room: $('#room-id').val()
               });
               return false;
           });
       }));
+
+      function loadPassage() {
+          document.getElementById('form-room').style.display = "none";
+
+          document.getElementById('race-passage').style.display = "block";
+      }
   </script>
 {% endblock %}
 
 
 {% block body %}
 
-  <div class="panel-title">
+  <div class="panel-title" id="form-room">
       <form id="create" action="#">
           <input type="text" placeholder="Name" id="create-name">
-          <input type="text" placeholder="Room ID" id="room-id1">
           <input type="submit" value="Create Room" action="/">
       </form>
       <form id="join" action="#">
           <input type="text" placeholder="Name" id="join-name">
-          <input type="text" placeholder="Room ID" id="room-id2">
+          <input type="text" placeholder="Room ID" id="room-id">
           <input type="submit" value="Join Room">
       </form>
+  </div>
+
+  <div class="friendly-font container" id="race-passage" style="display: none">
+      <div id="passage" class="response">
+          <span id="correct"></span><span id="incorrect"></span><span id="incomplete">{{ passage }}</span>
+          <p id="end_message"></p>
+          <div id="div-links" class="race-links">
+              <a href="/1v1" id="ml-link" class="race-link">Race Another User ></a>
+              <a href="/again" id="practice-link" class="race-link">Practice ></a>
+              <a href="/generate" id="generate-link" class="race-link">Generate a Passage ></a>
+              <a href="/commands" id="1v1-link" class="race-link">Commands ></a>
+          </div>
+      </div>
   </div>
 
 {% endblock %}

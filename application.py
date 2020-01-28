@@ -17,6 +17,8 @@ app.config['SECRET_KEY'] = 'secret!'
 
 socketio = SocketIO(app)
 
+rooms = 0;
+
 # Ensure responses aren't cached
 @app.after_request
 def after_request(response):
@@ -50,7 +52,7 @@ def ml():
     session.pop("commands", None)
 
     if request.method == "GET":
-        return render_template("1v1.html")
+        return render_template("1v1.html", passage=pick_passage())
 
 
 @app.route("/practice")
