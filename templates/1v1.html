@@ -6,32 +6,37 @@
 {% endblock %}
 
 {% block head %}
+  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="static/typecheck.js"></script>
   <script type="text/javascript">
+      namespace = '/test'
+      var socket= io(namespace);
       let rooms = 0;
 
-      $(document).ready(function({
+      $(document).ready(function() {
 
-          document.getElementById('create').submit(function(event) {
+          $('form#create').submit(function(event) {
               socket.emit('join', {
                   room: `room-${rooms++}`
               });
               return false;
           });
-          
-          document.getElementById('join').submit(function(event) {
+
+          $('form#join').submit(function(event) {
               socket.emit('join', {
                   room: $('#room-id').val()
               });
               return false;
           });
-      }));
+      });
 
       function loadPassage() {
           document.getElementById('form-room').style.display = "none";
 
           document.getElementById('race-passage').style.display = "block";
       }
+
   </script>
 {% endblock %}
 
@@ -40,13 +45,13 @@
 
   <div class="panel-title" id="form-room">
       <form id="create" action="#">
-          <input type="text" placeholder="Name" id="create-name">
-          <input type="submit" value="Create Room" action="/">
+          <input type="text" placeholder="Name" id="create-name" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
+          <input type="submit" value="Create Room" action="/" autocomplete="off" autocorrect="off" spellcheck="false">
       </form>
       <form id="join" action="#">
-          <input type="text" placeholder="Name" id="join-name">
-          <input type="text" placeholder="Room ID" id="room-id">
-          <input type="submit" value="Join Room">
+          <input type="text" placeholder="Name" id="join-name" autocomplete="off" autocorrect="off" spellcheck="false">
+          <input type="text" placeholder="Room ID" id="room-id" autocomplete="off" autocorrect="off" spellcheck="false">
+          <input type="submit" value="Join Room" autocomplete="off" autocorrect="off" spellcheck="false">
       </form>
   </div>
 
