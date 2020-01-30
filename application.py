@@ -125,5 +125,17 @@ def leave(message):
     #       'count': session['receive_count']})
 
 
+# @socketio.on('player1', namespace='/test')
+# def player1():
+#
+
+
+@socketio.on('send_message', namespace='/test')
+def send(message):
+    emit('room_message', {
+        'data' : message['data']
+    }, room=message['room'])
+
+
 if __name__ == '__main__':
     socketio.run(app, debug=True)
