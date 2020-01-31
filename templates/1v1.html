@@ -18,6 +18,8 @@
 
       $(document).ready(function() {
 
+          load($("#correct").html(), $("#incorrect").html(), $("#incomplete").html());
+
           socket.on('room_message', function(message) {
               $('div#temp').append('<br>' + $('<div/>').text(message.data).html());
           });
@@ -26,6 +28,7 @@
               socket.emit('join', {
                   room: `room-${rooms++}`
               });
+              loadPassage();
               return false;
           });
 
@@ -33,22 +36,29 @@
               socket.emit('join', {
                   room: $('#room-id').val()
               });
+              loadPassage();
               return false;
           });
 
           $('form#temp-form').submit(function(event) {
               socket.emit('send_message', {
-                  room: $('#room-id').val(), data: $('#temp-chat').val()
+                  room: $('#room-id').val(),
+                  data: $('#temp-chat').val()
               });
+
               return false;
           });
-          
+
       });
 
       function loadPassage() {
-          document.getElementById('form-room').style.display = "none";
+          $('#form-room').css({
+              display: "none"
+          });
 
-          document.getElementById('race-passage').style.display = "block";
+          $('#main').css({
+              display: "block"
+          });
       }
 
   </script>
@@ -77,9 +87,9 @@
       </form>
   </div>
 
-  <div class="friendly-font container" id="race-passage" style="display: none">
+  <div id="main" class="friendly-font container" style="display: none">
       <div id="passage" class="response">
-          <span id="correct"></span><span id="incorrect"></span><span id="incomplete"></span>
+          <span id="correct"></span><span id="incorrect"></span><span id="incomplete">{{ passage }}</span>
           <p id="end_message"></p>
           <div id="div-links" class="race-links">
               <a href="/1v1" id="ml-link" class="race-link">Race Another User ></a>
@@ -87,7 +97,31 @@
               <a href="/generate" id="generate-link" class="race-link">Generate a Passage ></a>
               <a href="/commands" id="1v1-link" class="race-link">Commands ></a>
           </div>
+          <div id="speed-breakdown-key" class="key">
+              <p>
+                  <span id="fastest">&nbsp;&nbsp;&nbsp;</span><span> Fastest Typing</span> <!-- CONSIDER CHANGING TO THE ACTUAL VALUES WHEN THE PASSAGE IS FINISHED -->
+              </p>
+              <p>
+                  <span id="fast">&nbsp;&nbsp;&nbsp;</span><span> Fast Typing</span> <!-- CONSIDER CHANGING TO THE ACTUAL VALUES WHEN THE PASSAGE IS FINISHED -->
+              </p>
+              <p>
+                  <span id="slow">&nbsp;&nbsp;&nbsp;</span><span> Slow Typing</span> <!-- CONSIDER CHANGING TO THE ACTUAL VALUES WHEN THE PASSAGE IS FINISHED -->
+              </p>
+              <p>
+                  <span id="slowest">&nbsp;&nbsp;&nbsp;</span><span> Slowest Typing</span> <!-- CONSIDER CHANGING TO THE ACTUAL VALUES WHEN THE PASSAGE IS FINISHED -->
+              </p>
+          </div>
+          <canvas id="speed-breakdown-text" width="10px" height="10px" class="stats"></canvas>
+          <canvas id="speed-graph-interval" width="10px" height="10px" class="stats graphs"></canvas>
+          <canvas id="speed-graph-instantaneous" width="10px" height="10px" class="stats graphs"></canvas>
+          <input type="text" id="user_input" class="response-input" oninput="check()" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
       </div>
+      <div id="wpm_counter" class="wpm-counter">
+          0
+      </div>
+  </div>
+  <div id="hidden-commands" style="display: none;">
+      {{ commands }}
   </div>
 
 {% endblock %}

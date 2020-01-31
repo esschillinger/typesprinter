@@ -17,7 +17,8 @@ app.config['SECRET_KEY'] = 'secret!'
 
 socketio = SocketIO(app)
 
-rooms = 0;
+# Dictionary in the form { room_id : frequency } where frequency is the number of players in the room
+room_list = {}
 
 # Ensure responses aren't cached
 @app.after_request
@@ -110,6 +111,14 @@ def generate():
 def join(message):
     print('Joined room ' + message['room'])
     join_room(message['room'])
+
+    # Gets room frequency, returns 0 if not found
+    freq = room_list.get(message['room'], 0)
+
+    emit('join_lobby', {
+        'players' : freq
+    }, room=message['room'])
+
     session['receive_count'] = session.get('receive_count', 0) + 1
     # emit('my_response',
     #      {'data': 'In rooms: ' + ', '.join(rooms()),
