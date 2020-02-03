@@ -115,8 +115,15 @@ def join(message):
     # Gets room frequency, returns 0 if not found
     freq = room_list.get(message['room'], 0)
 
+    if freq == 0:
+        room_list[message['room']] = 1
+        session['shared_passage'] = pick_passage()
+    else:
+        room_list[message['room']] += 1
+
     emit('join_lobby', {
-        'players' : freq
+        'players' : freq + 1,
+        'passage' : session['shared_passage']
     }, room=message['room'])
 
     session['receive_count'] = session.get('receive_count', 0) + 1

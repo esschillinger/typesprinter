@@ -24,11 +24,14 @@
               $('div#temp').append('<br>' + $('<div/>').text(message.data).html());
           });
 
+          socket.on('join_lobby', function(message) {
+              loadPassage(message.passage, (message.players == 1));
+          });
+
           $('form#create').submit(function(event) {
               socket.emit('join', {
                   room: `room-${rooms++}`
               });
-              loadPassage();
               return false;
           });
 
@@ -36,7 +39,6 @@
               socket.emit('join', {
                   room: $('#room-id').val()
               });
-              loadPassage();
               return false;
           });
 
@@ -51,7 +53,7 @@
 
       });
 
-      function loadPassage() {
+      function loadPassage(passage, locked) {
           $('#form-room').css({
               display: "none"
           });
@@ -59,6 +61,16 @@
           $('#main').css({
               display: "block"
           });
+
+          $('span#incomplete').css({
+              innerHTML: passage
+          });
+
+          if (locked) {
+              $('input#user-input').attr('disabled', 'disabled');
+          } else {  // include the 'else' statement so that the first player's input is enabled
+              $('input#user-input').attr('disabled', 'enabled');
+          }
       }
 
   </script>
@@ -114,7 +126,7 @@
           <canvas id="speed-breakdown-text" width="10px" height="10px" class="stats"></canvas>
           <canvas id="speed-graph-interval" width="10px" height="10px" class="stats graphs"></canvas>
           <canvas id="speed-graph-instantaneous" width="10px" height="10px" class="stats graphs"></canvas>
-          <input type="text" id="user_input" class="response-input" oninput="check()" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
+          <input type="text" id="user-input" class="response-input" oninput="check()" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
       </div>
       <div id="wpm_counter" class="wpm-counter">
           0
