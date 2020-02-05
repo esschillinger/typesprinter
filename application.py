@@ -19,6 +19,8 @@ socketio = SocketIO(app)
 
 # Dictionary in the form { room_id : frequency } where frequency is the number of players in the room
 room_list = {}
+room_passage = {}
+
 
 # Ensure responses aren't cached
 @app.after_request
@@ -113,17 +115,22 @@ def join(message):
     join_room(message['room'])
 
     # Gets room frequency, returns 0 if not found
-    freq = room_list.get(message['room'], 0)
+    freq = room_list.get(message['room'], 0) # https://github.com/miguelgrinberg/Flask-SocketIO/issues/105
 
     if freq == 0:
         room_list[message['room']] = 1
-        session['shared_passage'] = pick_passage()
+        room_passage[message['room']] = pick_passage()
     else:
         room_list[message['room']] += 1
 
+    print('Look for this line...')
+    print(rooms())
+    print('room_list: ' + str(room_list))
+    print(room_list[message['room']])
+
     emit('join_lobby', {
-        'players' : freq + 1,
-        'passage' : session['shared_passage']
+        'players' : room_list[message['room']],
+        'passage' : room_passage[message['room']]
     }, room=message['room'])
 
     session['receive_count'] = session.get('receive_count', 0) + 1

@@ -54,6 +54,8 @@
       });
 
       function loadPassage(passage, locked) {
+          console.log(locked);
+
           $('#form-room').css({
               display: "none"
           });
@@ -62,14 +64,12 @@
               display: "block"
           });
 
-          $('span#incomplete').css({
-              innerHTML: passage
-          });
+          $('span#incomplete').html('').append(passage);
 
           if (locked) {
-              $('input#user-input').attr('disabled', 'disabled');
+              $('input#user-input').attr('disabled', true);
           } else {  // include the 'else' statement so that the first player's input is enabled
-              $('input#user-input').attr('disabled', 'enabled');
+              $('input#user-input').attr('disabled', false);
           }
       }
 
@@ -101,7 +101,7 @@
 
   <div id="main" class="friendly-font container" style="display: none">
       <div id="passage" class="response">
-          <span id="correct"></span><span id="incorrect"></span><span id="incomplete">{{ passage }}</span>
+          <span id="correct"></span><span id="incorrect"></span><span id="incomplete"></span>
           <p id="end_message"></p>
           <div id="div-links" class="race-links">
               <a href="/1v1" id="ml-link" class="race-link">Race Another User ></a>
