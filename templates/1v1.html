@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block head %}
+  <link rel="stylesheet" href="static/css/skeleton.css"> <!-- minimal CSS framework, makes inputs look pretty -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="static/typecheck.js"></script>
@@ -23,7 +24,7 @@
           });
 
           socket.on('join_lobby', function(message) {
-              loadPassage(message.passage, (message.players == 1));
+              loadPassage(message.passage, (message.players == 1), message.room);
           });
 
           $('form#create').submit(function(event) {
@@ -39,7 +40,8 @@
               });
               return false;
           });
-
+/*
+TEMPORARY ACTION TO TEST SOCKET CONNECTIONS
           $('form#temp-form').submit(function(event) {
               socket.emit('send_message', {
                   room: $('#room-id').val(),
@@ -48,10 +50,11 @@
 
               return false;
           });
+*/
 
       });
 
-      function loadPassage(passage, locked) {
+      function loadPassage(passage, locked, room) {
 
           $('#form-room').css({
               display: "none"
@@ -70,6 +73,7 @@
 
               // load typecheck.js as late as possible so that both players get the passage processed correctly
               load($("#correct").html(), $("#incorrect").html(), $("#incomplete").html());
+              load_socket(socket, room);
           }
       }
 
@@ -90,13 +94,15 @@
           <input type="submit" value="Join Room" autocomplete="off" autocorrect="off" spellcheck="false">
       </form>
 
-
+<!--
+TEMPORARY FORM TO TEST SOCKET CONNECTIONS
       <form id="temp-form" action="#">
           <input type="text" placeholder="Enter your message" id="temp-chat" autocomplete="off" autocorrect="off" spellcheck="false">
           <input type="submit" value="Send" autocomplete="off" autocorrect="off" spellcheck="false">
           <div id="temp">
           </div>
       </form>
+-->
   </div>
 
   <div id="main" class="friendly-font container" style="display: none">

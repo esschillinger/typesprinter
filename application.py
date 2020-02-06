@@ -19,7 +19,10 @@ socketio = SocketIO(app)
 
 # Dictionary in the form { room_id : frequency } where frequency is the number of players in the room
 room_list = {}
+# form { room_id: passage }
 room_passage = {}
+# form { room_id: number of completed passages }
+room_finish = {}
 
 
 # Ensure responses aren't cached
@@ -130,7 +133,8 @@ def join(message):
 
     emit('join_lobby', {
         'players' : room_list[message['room']],
-        'passage' : room_passage[message['room']]
+        'passage' : room_passage[message['room']],
+        'room' : message['room']
     }, room=message['room'])
 
     session['receive_count'] = session.get('receive_count', 0) + 1
@@ -146,6 +150,11 @@ def leave(message):
     # emit('my_response',
     #      {'data': 'In rooms: ' + ', '.join(rooms()),
     #       'count': session['receive_count']})
+
+
+@socket.on('race finished', namespace='/test')
+def rank(message):
+    finished = room_finished.get(message['room'], 0)
 
 
 # @socketio.on('player1', namespace='/test')
