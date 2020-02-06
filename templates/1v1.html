@@ -18,8 +18,6 @@
 
       $(document).ready(function() {
 
-          load($("#correct").html(), $("#incorrect").html(), $("#incomplete").html());
-
           socket.on('room_message', function(message) {
               $('div#temp').append('<br>' + $('<div/>').text(message.data).html());
           });
@@ -54,7 +52,6 @@
       });
 
       function loadPassage(passage, locked) {
-          console.log(locked);
 
           $('#form-room').css({
               display: "none"
@@ -67,9 +64,12 @@
           $('span#incomplete').html('').append(passage);
 
           if (locked) {
-              $('input#user-input').attr('disabled', true);
+              $('input#user_input').attr('disabled', true);
           } else {  // include the 'else' statement so that the first player's input is enabled
-              $('input#user-input').attr('disabled', false);
+              $('input#user_input').attr('disabled', false);
+
+              // load typecheck.js as late as possible so that both players get the passage processed correctly
+              load($("#correct").html(), $("#incorrect").html(), $("#incomplete").html());
           }
       }
 
@@ -126,7 +126,7 @@
           <canvas id="speed-breakdown-text" width="10px" height="10px" class="stats"></canvas>
           <canvas id="speed-graph-interval" width="10px" height="10px" class="stats graphs"></canvas>
           <canvas id="speed-graph-instantaneous" width="10px" height="10px" class="stats graphs"></canvas>
-          <input type="text" id="user-input" class="response-input" oninput="check()" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
+          <input type="text" id="user_input" class="response-input" oninput="check()" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
       </div>
       <div id="wpm_counter" class="wpm-counter">
           0
