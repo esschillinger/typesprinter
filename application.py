@@ -126,6 +126,7 @@ def join(message):
     else:
         room_list[message['room']] += 1
 
+    # debugging
     print('Look for this line...')
     print(rooms())
     print('room_list: ' + str(room_list))
@@ -152,10 +153,21 @@ def leave(message):
     #       'count': session['receive_count']})
 
 
-@socket.on('race finished', namespace='/test')
+@socketio.on('race finished', namespace='/test')
 def rank(message):
-    finished = room_finished.get(message['room'], 0)
+    finished = room_finish.get(message['room'], 0)
 
+    if finished == 0:
+        room_finish[message['room']] = 1
+    else:
+        room_finish[message['room']] += 1
+
+    # taken from https://stackoverflow.com/questions/9647202/ordinal-numbers-replacement
+    ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+
+    emit('end_message', {
+        'place' : ordinal(room_finish[message['room']])
+    })
 
 # @socketio.on('player1', namespace='/test')
 # def player1():

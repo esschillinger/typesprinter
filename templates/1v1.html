@@ -27,6 +27,24 @@
               loadPassage(message.passage, (message.players == 1), message.room);
           });
 
+          socket.on('end_message', function(message) {
+              let summary = 'You finished ' + message.place;
+              let css = '';
+
+              if (message.place == '1st') {
+                  summary += '!';
+                  css = 'green';
+              } else {
+                  summary += '.'
+                  css = 'red';
+              }
+              $('p#place').append(summary).html();
+              $('p#place').css({
+                  size : '20px',
+                  color: css
+              });
+          });
+
           $('form#create').submit(function(event) {
               socket.emit('join', {
                   room: `room-${rooms++}`
@@ -109,6 +127,7 @@ TEMPORARY FORM TO TEST SOCKET CONNECTIONS
       <div id="passage" class="response">
           <span id="correct"></span><span id="incorrect"></span><span id="incomplete"></span>
           <p id="end_message"></p>
+          <p id="place"></p>
           <div id="div-links" class="race-links">
               <a href="/1v1" id="ml-link" class="race-link">Race Another User ></a>
               <a href="/again" id="practice-link" class="race-link">Practice ></a>
