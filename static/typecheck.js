@@ -134,9 +134,11 @@ function check() {
                 document.getElementById("div-links").style.display = "block";
                 conn.style.display = "none";
 
-                socket_conn.emit('race finished', {
-                    room: room_id
-                });
+                if (socket_conn != "") {
+                    socket_conn.emit('race finished', {
+                        room: room_id
+                    });
+                }
 
                 statsAnalysis(WPM);
             }
