@@ -4,15 +4,16 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
-    <link href="/static/styles.css" rel="stylesheet">
-    <link href="/static/favicon.ico" rel="icon">
-    
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/css/skeleton.css"> <!-- minimal CSS framework, makes inputs look pretty -->
+    <link rel="icon" href="/static/favicon.ico">
+
     <title>TypeSprinter{% block title %}{% endblock %}</title>
-    
+
     {% block head %}
-    
+
     {% endblock %}
-    
+
   </head>
   <body>
     <!--
@@ -26,15 +27,15 @@
                         <li class="nav-item"><a class="nav-link text-dark" href="/">Practice</a></li>
                         <li class="nav-item"><a class="nav-link text-dark" href="/1v1">One-on-One</a></li>
                         {% block tabs %}
-                        
+
                         {% endblock %}
                     </ul>
             </div>
         </nav>
     -->
     {% block body %}
-    
+
     {% endblock %}
-    
+
   </body>
 </html>
