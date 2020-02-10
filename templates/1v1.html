@@ -10,7 +10,8 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="static/typecheck.js"></script>
   <script type="text/javascript">
-      const passage = "{{ passage }}";
+      const PASSAGE = "{{ passage }}";
+      const COUNTDOWN = 5;
 
       namespace = '/test'
       var socket = io(namespace);
@@ -88,10 +89,30 @@ TEMPORARY ACTION TO TEST SOCKET CONNECTIONS
           } else {  // include the 'else' statement so that the first player's input is enabled
               $('input#user_input').attr('disabled', false);
 
-              // load typecheck.js as late as possible so that both players get the passage processed correctly
-              load($("#correct").html(), $("#incorrect").html(), $("#incomplete").html());
-              load_socket(socket, room);
+              loadMatch(COUNTDOWN, room);
           }
+      }
+
+      async function loadMatch(timer, room) {
+          for (var i = timer; i > 0; i--) {
+              await sleep(1000);
+              showAlert(i);
+          }
+
+          $('div#countdown').css({
+              display : "none"
+          });
+
+          load($("#correct").html(), $("#incorrect").html(), $("#incomplete").html()); // load typecheck.js as late as possible so that both players get the passage processed correctly
+          loadSocket(socket, room);
+      }
+
+      function sleep(ms) {
+          return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      function showAlert(num) { // change CSS to make more like an overlaying alert
+          $('div#countdown').html(num);
       }
 
   </script>
@@ -151,9 +172,11 @@ TEMPORARY FORM TO TEST SOCKET CONNECTIONS
           <canvas id="speed-graph-interval" width="10px" height="10px" class="stats graphs"></canvas>
           <canvas id="speed-graph-instantaneous" width="10px" height="10px" class="stats graphs"></canvas>
           <input type="text" id="user_input" class="response-input" oninput="check()" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
+          <div id="wpm_counter" class="wpm-counter">
+              0
+          </div>
       </div>
-      <div id="wpm_counter" class="wpm-counter">
-          0
+      <div id="countdown">
       </div>
   </div>
   <div id="hidden-commands" style="display: none;">

@@ -19,9 +19,9 @@ socketio = SocketIO(app)
 
 # Dictionary in the form { room_id : frequency } where frequency is the number of players in the room
 room_list = {}
-# form { room_id: passage }
+# form { room_id : passage }
 room_passage = {}
-# form { room_id: number of completed passages }
+# form { room_id : number of completed passages }
 room_finish = {}
 
 

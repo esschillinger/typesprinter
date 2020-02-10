@@ -43,9 +43,11 @@ function load(first, second, third) {
             race_commands += "autowin";
         }
     }
+
+    $('input#user_input').focus();
 }
 
-function load_socket(socket, room) {
+function loadSocket(socket, room) {
     socket_conn = socket;
     room_id = room;
 }
