@@ -95,8 +95,8 @@ TEMPORARY ACTION TO TEST SOCKET CONNECTIONS
 
       async function loadMatch(timer, room) {
           for (var i = timer; i > 0; i--) {
-              await sleep(1000);
               showAlert(i);
+              await sleep(1000);
           }
 
           $('div#countdown').css({
@@ -172,11 +172,11 @@ TEMPORARY FORM TO TEST SOCKET CONNECTIONS
           <canvas id="speed-graph-interval" width="10px" height="10px" class="stats graphs"></canvas>
           <canvas id="speed-graph-instantaneous" width="10px" height="10px" class="stats graphs"></canvas>
           <input type="text" id="user_input" class="response-input" oninput="check()" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
-          <div id="wpm_counter" class="wpm-counter">
-              0
+          <div id="countdown">
           </div>
       </div>
-      <div id="countdown">
+      <div id="wpm_counter" class="wpm-counter">
+          0
       </div>
   </div>
   <div id="hidden-commands" style="display: none;">
