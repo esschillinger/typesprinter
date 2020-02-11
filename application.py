@@ -55,18 +55,10 @@ def index():
 
 @app.route("/1v1", methods=["GET", "POST"])
 def ml():
-    session.pop("commands", None)
-
-    if request.method == "GET":
-        return render_template("1v1.html", passage=pick_passage())
-
-
-@app.route("/practice")
-def practice():
-    try:
-        passage = session["passage"]
-    except:
-        passage = pick_passage()
+    # try:
+    #     passage = session["passage"]
+    # except:
+    #     passage = pick_passage()
 
     try:
         commands = session["commands"]
@@ -74,9 +66,19 @@ def practice():
         commands = ""
 
     if "p best" in commands:
-        passage = BEST_PASSAGE
+        passage, session["passage"] = BEST_PASSAGE, BEST_PASSAGE
+    else:
+        passage = pick_passage()
 
-    return render_template("practice.html", passage=passage, commands=commands)
+    if request.method == "GET":
+        return render_template("1v1.html", passage=passage, commands=commands)
+
+
+@app.route("/practice")
+def practice():
+    session.pop("commands", None)
+
+    return render_template("practice.html", passage=pick_passage())
 
 
 @app.route("/again")
@@ -89,13 +91,14 @@ def again():
 @app.route("/commands", methods=["GET", "POST"])
 def race():
     session.pop("commands", None)
+    session.pop("passage", None)
 
     if request.method == "GET":
         return render_template("commands.html")
 
     session["commands"] = request.form.get("commands")
 
-    return redirect("/practice")
+    return redirect("/1v1")
 
 
 @app.route("/generate", methods=["GET", "POST"])
@@ -122,7 +125,11 @@ def join(message):
 
     if freq == 0:
         room_list[message['room']] = 1
-        room_passage[message['room']] = pick_passage()
+        try:
+            room_passage[message['room']] = session["passage"]
+        except:
+            room_passage[message['room']] = pick_passage()
+
     else:
         room_list[message['room']] += 1
 

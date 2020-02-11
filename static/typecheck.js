@@ -31,7 +31,13 @@ function load(first, second, third) {
     incomplete = document.getElementById("incomplete");
     wpm_counter = document.getElementById("wpm_counter");
 
-    let commands = document.getElementById("hidden-commands").innerHTML;
+    let commands = "";
+    if (socket_conn != "") {
+        commands = document.getElementById("hidden-commands-2").innerHTML;
+    } else {
+        commands = document.getElementById("hidden-commands").innerHTML;
+    }
+    
     if (commands != "") {
         if (commands.includes("wpm -rb")) {
             wpm_style += "rainbow";
