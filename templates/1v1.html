@@ -44,13 +44,6 @@
               });
           });
 
-          $('form#create').submit(function(event) {
-              socket.emit('join', {
-                  room: `room-${rooms++}`
-              });
-              return false;
-          });
-
           $('form#join').submit(function(event) {
               socket.emit('join', {
                   room: $('#room-id').val()
@@ -123,12 +116,7 @@ TEMPORARY ACTION TO TEST SOCKET CONNECTIONS
 {% block body %}
 
   <div class="panel-title" id="form-room">
-      <form id="create" action="#">
-          <input type="text" placeholder="Name" id="create-name" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
-          <input type="submit" value="Create Room" action="/" autocomplete="off" autocorrect="off" spellcheck="false">
-      </form>
       <form id="join" action="#">
-          <input type="text" placeholder="Name" id="join-name" autocomplete="off" autocorrect="off" spellcheck="false">
           <input type="text" placeholder="Room ID" id="room-id" autocomplete="off" autocorrect="off" spellcheck="false">
           <input type="submit" value="Join Room" autocomplete="off" autocorrect="off" spellcheck="false">
       </form>
