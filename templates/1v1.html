@@ -10,7 +10,8 @@
   <script type="text/javascript" src="static/typecheck.js"></script>
   <script type="text/javascript">
       const PASSAGE = "{{ passage }}";
-      const COUNTDOWN = 5;
+
+      let countdown_global = 10;
 
       namespace = '/test'
       var socket = io(namespace);
@@ -24,6 +25,10 @@
 
           socket.on('join_lobby', function(message) {
               loadPassage(message.passage, (message.players == 1), message.room);
+          });
+
+          socket.on('countdown_updated', function(message) {
+              countdown_global = message.timer;
           });
 
           socket.on('end_message', function(message) {
@@ -80,29 +85,33 @@ TEMPORARY ACTION TO TEST SOCKET CONNECTIONS
               $('input#user_input').attr('disabled', true);
               $('div#hidden-commands-2').append($('div#hidden-commands').html()).html(); // bodge of the century.
           } else {  // include the 'else' statement so that the first player's input is enabled
-              $('input#user_input').attr('disabled', false);
-              $('div#hidden-commands').html(""); // clear the commands for the joining user--only room creator can have commands
+              $('div#hidden-commands').html(""); // clear the commands for the joining users--only room creator can have commands
 
-              loadMatch(COUNTDOWN, room);
+              loadMatch(room);
           }
       }
 
-      async function loadMatch(timer, room) {
-          for (var i = timer; i > 0; i--) {
-              showAlert(i);
-              await sleep(1000);
+      async function loadMatch(room) { // get multiplayer countdown to work
+          while (countdown_global > 0) { // when a player joins, reset countdown
+              showAlert(countdown_global);
+              await new Promise(r => setTimeout(r, 1000));
+
+              countdown_global--;
+              // socket.emit('update_countdown', {
+              //     room : room,
+              //     timer : countdown_global
+              // });
+
+              if (countdown_global == 1) {
+                  $('div#countdown').css({
+                      display : "none"
+                  });
+
+                  $('input#user_input').attr('disabled', false);
+                  loadSocket(socket, room);
+                  load($("#correct").html(), $("#incorrect").html(), $("#incomplete").html()); // load typecheck.js as late as possible so that both players get the passage processed correctly
+              }
           }
-
-          $('div#countdown').css({
-              display : "none"
-          });
-
-          loadSocket(socket, room);
-          load($("#correct").html(), $("#incorrect").html(), $("#incomplete").html()); // load typecheck.js as late as possible so that both players get the passage processed correctly
-      }
-
-      function sleep(ms) {
-          return new Promise(resolve => setTimeout(resolve, ms));
       }
 
       function showAlert(num) { // change CSS to make more like an overlaying alert

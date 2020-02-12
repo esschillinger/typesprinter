@@ -23,6 +23,10 @@ room_list = {}
 room_passage = {}
 # form { room_id : number of completed passages }
 room_finish = {}
+# form { room_id : seconds left on countdown }
+room_timers = {}
+
+COUNTDOWN = 10
 
 
 # Ensure responses aren't cached
@@ -120,10 +124,28 @@ def join(message):
     print('Joined room ' + message['room'])
     join_room(message['room'])
 
+    room_timers[message['room']] = COUNTDOWN # set countdown timer to max value whenever a player joins (this allows the countdown to reset upon join)
+    emit('countdown_updated', {
+        'timer' : COUNTDOWN
+    }, room=message['room'])
+
     # Gets room frequency, returns 0 if not found
     freq = room_list.get(message['room'], 0) # https://github.com/miguelgrinberg/Flask-SocketIO/issues/105
 
     if freq == 0:
+
+
+
+
+
+
+        # TODO: emit a 'player 1' event
+
+
+
+
+
+
         room_list[message['room']] = 1
         try:
             room_passage[message['room']] = session["passage"]
@@ -131,6 +153,18 @@ def join(message):
             room_passage[message['room']] = pick_passage()
 
     else:
+
+
+
+
+
+        # TODO: emit a 'player n' event
+
+
+
+
+
+
         room_list[message['room']] += 1
 
     # debugging
@@ -149,6 +183,11 @@ def join(message):
     # emit('my_response',
     #      {'data': 'In rooms: ' + ', '.join(rooms()),
     #       'count': session['receive_count']})
+
+
+# @socketio.on('update_countdown', namespace='/test')
+# def countdown(message):
+#     room_timers[message['room']] = message['timer']
 
 
 @socketio.on('leave', namespace='/test')
@@ -179,13 +218,6 @@ def rank(message):
 # @socketio.on('player1', namespace='/test')
 # def player1():
 #
-
-
-@socketio.on('send_message', namespace='/test')
-def send(message):
-    emit('room_message', {
-        'data' : message['data']
-    }, room=message['room'])
 
 
 if __name__ == '__main__':
