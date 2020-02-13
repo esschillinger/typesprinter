@@ -1,4 +1,5 @@
 import os
+import time
 
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
@@ -124,16 +125,11 @@ def join(message):
     print('Joined room ' + message['room'])
     join_room(message['room'])
 
-    room_timers[message['room']] = COUNTDOWN # set countdown timer to max value whenever a player joins (this allows the countdown to reset upon join)
-    emit('countdown_updated', {
-        'timer' : COUNTDOWN
-    }, room=message['room'])
-
     # Gets room frequency, returns 0 if not found
     freq = room_list.get(message['room'], 0) # https://github.com/miguelgrinberg/Flask-SocketIO/issues/105
 
     if freq == 0:
-
+        room_timers[message['room']] = COUNTDOWN
 
 
 
@@ -166,6 +162,7 @@ def join(message):
 
 
         room_list[message['room']] += 1
+        start_countdown(message['room'])
 
     # debugging
     print('Look for this line...')
@@ -218,6 +215,19 @@ def rank(message):
 # @socketio.on('player1', namespace='/test')
 # def player1():
 #
+
+
+def start_countdown(room):
+    timer = room_timers[room]
+    print(timer)
+    while timer > 0:
+        emit('update_countdown', {
+            'timer' : timer,
+            'room' : room
+        }, room=room)
+
+        time.sleep(1)
+        timer -= 1
 
 
 if __name__ == '__main__':

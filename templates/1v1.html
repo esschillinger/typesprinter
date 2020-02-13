@@ -11,7 +11,7 @@
   <script type="text/javascript">
       const PASSAGE = "{{ passage }}";
 
-      let countdown_global = 10;
+      var countdown_global;
 
       namespace = '/test'
       var socket = io(namespace);
@@ -24,11 +24,13 @@
           });
 
           socket.on('join_lobby', function(message) {
-              loadPassage(message.passage, (message.players == 1), message.room);
+              loadPassage(message.passage, (message.players == 1));
           });
 
-          socket.on('countdown_updated', function(message) {
+          socket.on('update_countdown', function(message) {
               countdown_global = message.timer;
+              showAlert(countdown_global);
+              loadMatch(message.room);
           });
 
           socket.on('end_message', function(message) {
@@ -69,7 +71,7 @@ TEMPORARY ACTION TO TEST SOCKET CONNECTIONS
 
       });
 
-      function loadPassage(passage, locked, room) {
+      function loadPassage(passage, locked) {
 
           $('#form-room').css({
               display: "none"
@@ -86,31 +88,18 @@ TEMPORARY ACTION TO TEST SOCKET CONNECTIONS
               $('div#hidden-commands-2').append($('div#hidden-commands').html()).html(); // bodge of the century.
           } else {  // include the 'else' statement so that the first player's input is enabled
               $('div#hidden-commands').html(""); // clear the commands for the joining users--only room creator can have commands
-
-              loadMatch(room);
           }
       }
 
       async function loadMatch(room) { // get multiplayer countdown to work
-          while (countdown_global > 0) { // when a player joins, reset countdown
-              showAlert(countdown_global);
-              await new Promise(r => setTimeout(r, 1000));
+          if (countdown_global == 0) { // need to keep this in the while loop so that it doesn't execute before the loop finishes
+              $('div#countdown').css({
+                  display : "none"
+              });
 
-              countdown_global--;
-              // socket.emit('update_countdown', {
-              //     room : room,
-              //     timer : countdown_global
-              // });
-
-              if (countdown_global == 1) {
-                  $('div#countdown').css({
-                      display : "none"
-                  });
-
-                  $('input#user_input').attr('disabled', false);
-                  loadSocket(socket, room);
-                  load($("#correct").html(), $("#incorrect").html(), $("#incomplete").html()); // load typecheck.js as late as possible so that both players get the passage processed correctly
-              }
+              $('input#user_input').attr('disabled', false);
+              loadSocket(socket, room);
+              load($("#correct").html(), $("#incorrect").html(), $("#incomplete").html()); // load typecheck.js as late as possible so that both players get the passage processed correctly
           }
       }
 
