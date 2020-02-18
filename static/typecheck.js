@@ -37,7 +37,7 @@ function load(first, second, third) {
     } else {
         commands = document.getElementById("hidden-commands").innerHTML;
     }
-    
+
     if (commands != "") {
         if (commands.includes("wpm -rb")) {
             wpm_style += "rainbow";
@@ -143,6 +143,7 @@ function check() {
                 conn.style.display = "none";
 
                 if (socket_conn != "") {
+                    console.log("Should be emitting... room : " + room_id);
                     socket_conn.emit('race finished', {
                         room: room_id
                     });

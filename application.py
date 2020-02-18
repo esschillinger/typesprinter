@@ -24,8 +24,7 @@ room_list = {}
 room_passage = {}
 # form { room_id : number of completed passages }
 room_finish = {}
-# form { room_id : seconds left on countdown }
-room_timers = {}
+
 
 COUNTDOWN = 10
 
@@ -125,8 +124,6 @@ def join(message):
     print('Joined room ' + message['room'])
     join_room(message['room'])
 
-    room_timers[message['room']] = COUNTDOWN
-
     # Gets room frequency, returns 0 if not found
     freq = room_list.get(message['room'], 0) # https://github.com/miguelgrinberg/Flask-SocketIO/issues/105
 
@@ -178,7 +175,10 @@ def join(message):
 
     if not freq == 0:
         time.sleep(1) # sleep 1s to allow for event to be processed client-side so user2+ joins
-        start_countdown(message['room'])
+        emit('update_countdown', {
+            'timer' : COUNTDOWN,
+            'room' : message['room']
+        }, room=message['room'])
 
     session['receive_count'] = session.get('receive_count', 0) + 1
     # emit('my_response',
@@ -221,6 +221,7 @@ def rank(message):
 #
 
 
+"""
 def start_countdown(room):
     while room_timers[room] > 0:
         print(room_timers[room])
@@ -231,6 +232,7 @@ def start_countdown(room):
 
         time.sleep(1)
         room_timers[room] -= 1
+"""
 
 
 if __name__ == '__main__':

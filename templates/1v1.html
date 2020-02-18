@@ -11,7 +11,7 @@
   <script type="text/javascript">
       const PASSAGE = "{{ passage }}";
 
-      var countdown_global;
+      let final_time;
 
       namespace = '/test'
       var socket = io(namespace);
@@ -28,9 +28,8 @@
           });
 
           socket.on('update_countdown', function(message) {
-              countdown_global = message.timer;
-              showAlert(countdown_global);
-              loadMatch(message.room);
+              final_time = Date.now() + (message.timer * 1000);
+              countdown(message.room);
           });
 
           socket.on('end_message', function(message) {
@@ -91,8 +90,17 @@ TEMPORARY ACTION TO TEST SOCKET CONNECTIONS
           }
       }
 
-      async function loadMatch(room) { // get multiplayer countdown to work
-          if (countdown_global == 1) { // need to keep this in the while loop so that it doesn't execute before the loop finishes
+      async function countdown(room) {
+          while(final_time >= Date.now()) {
+              showAlert(Math.round((final_time - Date.now()) / 1000));
+              await new Promise(resolve => setTimeout(resolve, 1000));
+          }
+
+          loadMatch(room);
+      }
+
+      function loadMatch(room) { // get multiplayer countdown to work
+          if (final_time <= Date.now()) { // need to keep this in the while loop so that it doesn't execute before the loop finishes
               $('div#countdown').css({
                   display : "none"
               });
