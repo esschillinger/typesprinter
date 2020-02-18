@@ -216,6 +216,11 @@ def rank(message):
         'place' : ordinal(room_finish[message['room']])
     })
 
+    if room_finish[message['room']] == room_list[message['room']]:
+        room_list.pop(message['room'], None)
+        room_passage.pop(message['room'], None)
+        room_finish.pop(message['room'], None)
+
 # @socketio.on('player1', namespace='/test')
 # def player1():
 #
