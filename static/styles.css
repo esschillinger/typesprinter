@@ -118,6 +118,29 @@ a.panel-a:hover {
     background-repeat: no-repeat;
 }
 
+.container-mini {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.form-dimens {
+    width: 20%;
+    height: 20%;
+    margin: auto;
+    margin-top: 20%;
+}
+
+.form-elements {
+    /*
+    margin-left: 35%;
+    margin-top: 20%;
+    */
+    width: 100%;
+}
+
 .terminal-input:focus {
     outline: none;
 }

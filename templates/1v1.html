@@ -24,7 +24,7 @@
           });
 
           socket.on('join_lobby', function(message) {
-              loadPassage(message.passage, (message.players == 1));
+              loadPassage(message.room, message.passage, (message.players == 1));
           });
 
           socket.on('update_countdown', function(message) {
@@ -70,9 +70,9 @@ TEMPORARY ACTION TO TEST SOCKET CONNECTIONS
 
       });
 
-      function loadPassage(passage, locked) {
+      function loadPassage(room_id, passage, locked) {
 
-          $('#form-room').css({
+          $('#container-mini').css({
               display: "none"
           });
 
@@ -85,6 +85,8 @@ TEMPORARY ACTION TO TEST SOCKET CONNECTIONS
           if (locked) {
               $('input#user_input').attr('disabled', true);
               $('div#hidden-commands-2').append($('div#hidden-commands').html()).html(); // bodge of the century.
+
+              $('div#countdown').html('Tell your friends to join using Room ID : ' + room_id);
           } else {  // include the 'else' statement so that the first player's input is enabled
               $('div#hidden-commands').html(""); // clear the commands for the joining users--only room creator can have commands
           }
@@ -120,11 +122,11 @@ TEMPORARY ACTION TO TEST SOCKET CONNECTIONS
 
 
 {% block body %}
-
-  <div class="panel-title" id="form-room">
-      <form id="join" action="#">
-          <input type="text" placeholder="Room ID" id="room-id" autocomplete="off" autocorrect="off" spellcheck="false">
-          <input type="submit" value="Join Room" autocomplete="off" autocorrect="off" spellcheck="false">
+<div id="container-mini" class="container-mini panel-title">
+      <form id="join" action="#" class="form-dimens">
+          <input type="text" placeholder="Room ID" id="room-id" autocomplete="off" autocorrect="off" spellcheck="false" class="form-elements">
+          <br>
+          <input type="submit" value="Join Room" autocomplete="off" autocorrect="off" spellcheck="false" class="form-elements">
       </form>
 
 <!--
@@ -136,7 +138,7 @@ TEMPORARY FORM TO TEST SOCKET CONNECTIONS
           </div>
       </form>
 -->
-  </div>
+</div>
 
   <div id="main" class="friendly-font container" style="display: none">
       <div id="passage" class="response">

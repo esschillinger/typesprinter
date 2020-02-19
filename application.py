@@ -26,7 +26,7 @@ room_passage = {}
 room_finish = {}
 
 
-COUNTDOWN = 10
+COUNTDOWN = 5
 
 
 # Ensure responses aren't cached
