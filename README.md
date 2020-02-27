@@ -8,7 +8,7 @@ To run locally:
 2. Open a terminal or command prompt window
 3. Enter the following:
 ```sh
-$ cd "C:\path\to\repo\typesprinter"
+$ cd "C:\path\to\typesprinter"
 $ python application.py
  * Restarting with stat
  * Debugger is active!
