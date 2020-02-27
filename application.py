@@ -174,7 +174,7 @@ def join(message):
     }, room=message['room'])
 
     if not freq == 0:
-        time.sleep(1) # sleep 1s to allow for event to be processed client-side so user2+ joins
+        # time.sleep(1) # sleep 1s to allow for event to be processed client-side so user2+ joins
         emit('update_countdown', {
             'timer' : COUNTDOWN,
             'room' : message['room']

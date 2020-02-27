@@ -1,4 +1,6 @@
-# Welcome to TypeSprinter! Test your typing speed by playing in any of the modes shown by the panels.
+# Welcome to TypeSprinter!
+
+Test your typing speed by playing in any of the modes shown by the panels.
 
 To run locally:
 

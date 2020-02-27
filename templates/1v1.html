@@ -56,18 +56,6 @@
               });
               return false;
           });
-/*
-TEMPORARY ACTION TO TEST SOCKET CONNECTIONS
-          $('form#temp-form').submit(function(event) {
-              socket.emit('send_message', {
-                  room: $('#room-id').val(),
-                  data: $('#temp-chat').val()
-              });
-
-              return false;
-          });
-*/
-
       });
 
       function loadPassage(room_id, passage, locked) {
