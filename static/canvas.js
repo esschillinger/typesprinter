@@ -30,10 +30,17 @@ function loadKeyboardListener() {
             char_sequence.push(e.key);
 
             let l = char_sequence.length;
-            if (l >= 4 && (char_sequence[l - 4] == "L" && char_sequence[l - 3] == "I" && char_sequence[l - 2] == "M" && char_sequence[l - 1] == "E")) {
-                document.getElementById("term").style.display = "block";
-                loadCanvas();
-                updateCursor();
+            if (l >= 14) {
+                var temp = "";
+                for (var i = 14; i >= 1; i--) {
+                    temp += char_sequence[l - i];
+                }
+
+                if (temp == "THISTHEAUTOMOD") {
+                  document.getElementById("term").style.display = "block";
+                  loadCanvas();
+                  updateCursor();
+                }
             }
         } else {
             if (acceptable_chars.includes(e.key.toLowerCase())) {
