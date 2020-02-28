@@ -17,11 +17,11 @@ $ python application.py
 ```
 4. Open a browser and go to the output link `http://127.0.0.1:5000/`
 
-Alternatively, you can visit [TypeSprinter's website](http://typesprinter.herokuapp.com/) to play--no extra work required! Currently hosting the 2/19/2020 version of the app.
+Alternatively, you can visit the [TypeSprinter website](http://typesprinter.herokuapp.com/) to play--no extra work required! Currently hosting the 2/19/2020 version of the app.
 
 ## Race Another User
 
-Choose any `room_id` that you'd like and tell your friend(s) to join you in the same room! Supports 2+ players as well! If you'd like to reuse the same `room_id` again, be sure that everyone that has joined has finished the race, otherwise the passage won't reset.
+Choose any `room_id` that you'd like and tell your friend(s) to join you in the same room! Supports 3+ players as well! If you'd like to reuse the same `room_id` again, be sure that everyone that has joined has finished the race, otherwise the passage won't reset.
 
 ## Practice
 
