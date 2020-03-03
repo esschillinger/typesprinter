@@ -17,7 +17,7 @@ $ python application.py
 ```
 4. Open a browser and go to the output link `http://127.0.0.1:5000/`
 
-Alternatively, you can visit the [TypeSprinter website](http://typesprinter.herokuapp.com/) to play--no extra work required! Currently hosting the 2/19/2020 version of the app.
+Alternatively, you can visit the [TypeSprinter website](http://typesprinter.herokuapp.com/) to play--no extra work required! Currently hosting the 2/29/2020 version of the app (leap day!).
 
 ## Race Another User
 
@@ -31,6 +31,4 @@ You can start typing whenever you'd like, which will start the timer. Just you, 
 
 Still in development, though currently semi-functional but mostly incoherent. Type a word, any word, and if it's currently known to the cloud "dictionary," it'll be used to generate a random sentence (and random it is, at the moment). You can then type this entirely unique sentence, never before read by another human being, as your practice passage.
 
-## Commands
-
-Not for you! Nice try, though. All you'll see is a blank screen, but I've got some tricks up my sleeve, being the creator and all :)
+Happy sprinting (or jogging)!
