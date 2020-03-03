@@ -92,7 +92,7 @@ def again():
     return render_template("practice.html", passage=pick_passage())
 
 
-@app.route("/commands", methods=["GET", "POST"])
+@app.route("/admin", methods=["GET", "POST"])
 def race():
     session.pop("commands", None)
     session.pop("passage", None)
