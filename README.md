@@ -17,7 +17,7 @@ $ python application.py
 ```
 4. Open a browser and go to the output link `http://127.0.0.1:5000/`
 
-Alternatively, you can visit the [TypeSprinter website](http://typesprinter.herokuapp.com/) to play--no extra work required! Currently hosting the 2/29/2020 version of the app (leap day!).
+Alternatively, you can visit the [TypeSprinter website](http://typesprinter.herokuapp.com/) to play--no extra work required! Currently hosting the 3/5/2020 version of the app.
 
 ## Race Another User
 
