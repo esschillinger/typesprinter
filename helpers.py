@@ -3,6 +3,9 @@ from firebase_admin import credentials, firestore
 from numpy.random import choice
 import random
 
+from flask import redirect, render_template, request, session
+from functools import wraps
+
 TAGSETS_COLLECTION = 'tagsets'
 WORDS_COLLECTION = 'words'
 PRESET_PASSAGES = [
@@ -29,6 +32,18 @@ PRESET_PASSAGES = [
     'Sometimes terrible things happen, but there\'s nothing more terrible than not having anybody to tell it to.'
 ]
 BEST_PASSAGE = 'When you realize you want to spend the rest of your life with somebody, you want the rest of your life to start as soon as possible.'
+
+def login_required(f):
+    """
+    Decorate routes to require login.
+    http://flask.pocoo.org/docs/1.0/patterns/viewdecorators/
+    """
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/verify")
+        return f(*args, **kwargs)
+    return decorated_function
 
 def initialize_database():
     cred = credentials.Certificate('./ServiceAccountKey.json')
@@ -100,14 +115,14 @@ def generate_passage(initial_condition):
         else:
             word = generate_random_word(database, tag)
             word = re_substitute(word)
-            
+
             if word == ',' or word == '\'s' or word == ':' or word == ';':
                 sentence += word
             else:
                 sentence += ' ' + word
-                
+
             initial_condition = word
-            
+
     return sentence
 
 def pick_passage():

@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+: Verify
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+
+<div class="container-mini panel-title">
+<form name="password-form" action="/verify" class="form-dimens" method="post">
+    <input name="password" type="password" placeholder="Enter password" autocomplete="off" autocorrect="off" spellcheck="false">
+</form>
+</div>
+
+{% endblock %}

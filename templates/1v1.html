@@ -9,8 +9,6 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
   <script type="text/javascript" src="static/typecheck.js"></script>
   <script type="text/javascript">
-      const PASSAGE = "{{ passage }}";
-
       let final_time;
 
       namespace = '/test'
@@ -116,16 +114,6 @@
           <br>
           <input type="submit" value="Join Room" autocomplete="off" autocorrect="off" spellcheck="false" class="form-elements">
       </form>
-
-<!--
-TEMPORARY FORM TO TEST SOCKET CONNECTIONS
-      <form id="temp-form" action="#">
-          <input type="text" placeholder="Enter your message" id="temp-chat" autocomplete="off" autocorrect="off" spellcheck="false">
-          <input type="submit" value="Send" autocomplete="off" autocorrect="off" spellcheck="false">
-          <div id="temp">
-          </div>
-      </form>
--->
 </div>
 
   <div id="main" class="friendly-font container" style="display: none">

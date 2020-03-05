@@ -13,7 +13,6 @@ let font = "40px Ubuntu Mono";
 let chars_locations = [];
 let lines = []; // Keeps track of the last index of a command when a user hits enter
 let user_commands = [];
-let char_sequence = [];
 let acceptable_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
                        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
                        'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
@@ -25,24 +24,10 @@ let acceptable_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
                        '\'', '\\'];
 
 function loadKeyboardListener() {
+    loadCanvas();
+    updateCursor();
+
     document.addEventListener('keydown', (e) => {
-        if (document.querySelector("div").style.display === "none") {
-            char_sequence.push(e.key);
-
-            let l = char_sequence.length;
-            if (l >= 14) {
-                var temp = "";
-                for (var i = 14; i >= 1; i--) {
-                    temp += char_sequence[l - i];
-                }
-
-                if (temp == "THISTHEAUTOMOD") {
-                  document.getElementById("term").style.display = "block";
-                  loadCanvas();
-                  updateCursor();
-                }
-            }
-        } else {
             if (acceptable_chars.includes(e.key.toLowerCase())) {
                 addText(e.key, "white");
             } else if (e.key === "Backspace") {
@@ -60,7 +45,6 @@ function loadKeyboardListener() {
 
                 logCommand();
             }
-        }
     });
 }
 

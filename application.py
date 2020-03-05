@@ -6,8 +6,9 @@ from flask import Flask, flash, jsonify, redirect, render_template, request, ses
 from flask_session import Session
 from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
 from tempfile import mkdtemp
+from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import generate_passage, pick_passage, BEST_PASSAGE
+from helpers import generate_passage, pick_passage, BEST_PASSAGE, login_required
 
 # Configure application
 
@@ -92,7 +93,23 @@ def again():
     return render_template("practice.html", passage=pick_passage())
 
 
+@app.route("/verify", methods=["GET", "POST"])
+def login():
+    session.clear()
+
+    if request.method == "GET":
+        return render_template("verify.html")
+
+    # You really thought I was gonna hard-code a non-hashed password?
+    if(check_password_hash("pbkdf2:sha256:150000$Yd7q1JuY$06aeeb26761c11fa8ebf687f493207bd18cbf0be42fd567fbe35215c1ed42bd0", request.form.get("password"))):
+        session["user_id"] = "admin"
+        return redirect("/admin")
+
+    return redirect("/")
+
+
 @app.route("/admin", methods=["GET", "POST"])
+@login_required
 def race():
     session.pop("commands", None)
     session.pop("passage", None)

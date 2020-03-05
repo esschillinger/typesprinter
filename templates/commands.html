@@ -17,21 +17,12 @@
 
 
 {% block body %}
-  <div class="terminal code shadow-lg" id="term" style="display: none;">
+  <div class="terminal code shadow-lg" id="term">
       <canvas id="canvas-terminal" class="terminal-top" width="1000px" height="40px"></canvas>
       <canvas id="canvas-terminal-body" width="1000px" height="400px"></canvas>
-      <!--
-      <div class="terminal-body">
-          <div class="command-start">
-              $
-          </div>
-          <form name="cheats" action="/1v1" method="post" class="code cheat-form">
-              <input type="text" name="cheat" id="term_command" class="terminal-input" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
-          </form>
-      </div>
-      -->
   </div>
-  <form name="command-form" action="/commands" method="post" style="display: none; font-family: Ubuntu Mono;">
+
+  <form name="command-form" action="/admin" method="post" style="display: none; font-family: Ubuntu Mono;">
       <input name="commands" type="text" value="">
   </form>
 {% block tabs %}
