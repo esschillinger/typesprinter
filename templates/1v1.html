@@ -14,6 +14,7 @@
       namespace = '/test'
       var socket = io(namespace);
       let rooms = 0;
+      let player1 = false;
 
       $(document).ready(function() {
 
@@ -69,12 +70,14 @@
           $('span#incomplete').html('').append(passage);
 
           if (locked) {
+              player1 = true;
+
               $('input#user_input').attr('disabled', true);
-              $('div#hidden-commands-2').append($('div#hidden-commands').html()).html(); // bodge of the century.
+              // $('div#hidden-commands-2').append($('div#hidden-commands').html()).html(); // bodge of the century.
 
               $('div#countdown').html('Tell your friends to join using Room ID : ' + room_id);
           } else {  // include the 'else' statement so that the first player's input is enabled
-              $('div#hidden-commands').html(""); // clear the commands for the joining users--only room creator can have commands
+              // $('div#hidden-commands').html(""); // clear the commands for the joining users--only room creator can have commands
           }
       }
 
@@ -95,6 +98,7 @@
 
               $('input#user_input').attr('disabled', false);
               loadSocket(socket, room);
+              loadCommands(player1);
               load($("#correct").html(), $("#incorrect").html(), $("#incomplete").html()); // load typecheck.js as late as possible so that both players get the passage processed correctly
           }
       }

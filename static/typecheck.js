@@ -19,9 +19,23 @@ let num_categories = 5;
 let category_wpms = [];
 let wpm_style = "";
 let race_commands = "";
+let goodCmds = false;
 let rainbow_colors = ["red", "orange", "yellow",
                      "green", "blue", "indigo",
                      "violet"];
+let key_positions = {
+    "q" : 0, "a" : 0, "z" : 0,
+    "w" : 1, "s" : 1, "x" : 1,
+    "e" ; 2, "d" : 2, "c" : 2,
+    "r" : 3, "f" : 3, "v" : 3,
+    "t" : 4, "g" : 4, "b" : 4,
+    "y" : 5, "h" : 5, "n" : 5,
+    "u" : 6, "j" : 6, "m" : 6,
+    "i" : 7, "k" : 7, "," : 7,
+    "o" : 8, "l" : 8, "." : 8,
+    "p" : 9, ";" : 9, "/" : 9,
+    "'" : 10
+}
 
 function load(first, second, third) {
     original_passage = first + second + third;
@@ -31,24 +45,18 @@ function load(first, second, third) {
     incomplete = document.getElementById("incomplete");
     wpm_counter = document.getElementById("wpm_counter");
 
+    commands = document.getElementById("hidden-commands").innerHTML;
+
+    /*
     let commands = "";
     if (socket_conn != "") {
         commands = document.getElementById("hidden-commands-2").innerHTML;
     } else {
         commands = document.getElementById("hidden-commands").innerHTML;
     }
+    */
 
-    if (commands != "") {
-        if (commands.includes("wpm -rb")) {
-            wpm_style += "rainbow";
-        }
-        if (commands.includes("wpm -sz")) {
-            wpm_style += "size";
-        }
-        if (commands.includes("autowin")) {
-            race_commands += "autowin";
-        }
-    }
+    filterCmds();
 
     $('input#user_input').focus();
 }
@@ -56,6 +64,28 @@ function load(first, second, third) {
 function loadSocket(socket, room) {
     socket_conn = socket;
     room_id = room;
+}
+
+function loadCommands(tf) {
+    goodCmds = tf;
+}
+
+function filterCmds() {
+    if (goodCmds) {
+        if (commands.includes("autowin")) {
+            race_commands += "autowin";
+        }
+    } else {
+        if (commands.includes("incorrect")) {
+            race_commands += "incorrect";
+        }
+        if (commands.includes("wpm -rb")) {
+            wpm_style += "rainbow";
+        }
+        if (commands.includes("wpm -sz")) {
+            wpm_style += "size";
+        }
+    }
 }
 
 function check() {

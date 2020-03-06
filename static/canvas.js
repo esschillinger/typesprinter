@@ -250,13 +250,17 @@ function executeCommand(command) {
 
             break;
 
-        case "p best":
+        case "p best": // This one could go either way--Mrs. Denna beat me on it by going 125 wpm
             document.querySelector("input").value += command;
             current_y += 45;
 
             break;
 
-        case "run":
+        case "inorrect": // Makes every nth character typed by them wrong no matter what, ideally pretty inconspicuous
+            document.querySelector("input").value += command;
+            current_y += 45;
+
+        case "run": // Executes the commands
             document.querySelector("form").submit();
 
             break;
