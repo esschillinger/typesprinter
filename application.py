@@ -67,6 +67,7 @@ def ml():
 
     try:
         commands = session["commands"]
+        print(commands)
     except:
         commands = ""
 

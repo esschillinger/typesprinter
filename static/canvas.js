@@ -256,9 +256,11 @@ function executeCommand(command) {
 
             break;
 
-        case "inorrect": // Makes every nth character typed by them wrong no matter what, ideally pretty inconspicuous
+        case "incorrect": // Makes every nth character typed by them wrong no matter what, ideally pretty inconspicuous
             document.querySelector("input").value += command;
             current_y += 45;
+
+            break;
 
         case "run": // Executes the commands
             document.querySelector("form").submit();

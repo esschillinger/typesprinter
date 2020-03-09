@@ -26,7 +26,7 @@ let rainbow_colors = ["red", "orange", "yellow",
 let key_positions = {
     "q" : 0, "a" : 0, "z" : 0,
     "w" : 1, "s" : 1, "x" : 1,
-    "e" ; 2, "d" : 2, "c" : 2,
+    "e" : 2, "d" : 2, "c" : 2,
     "r" : 3, "f" : 3, "v" : 3,
     "t" : 4, "g" : 4, "b" : 4,
     "y" : 5, "h" : 5, "n" : 5,
@@ -46,15 +46,6 @@ function load(first, second, third) {
     wpm_counter = document.getElementById("wpm_counter");
 
     commands = document.getElementById("hidden-commands").innerHTML;
-
-    /*
-    let commands = "";
-    if (socket_conn != "") {
-        commands = document.getElementById("hidden-commands-2").innerHTML;
-    } else {
-        commands = document.getElementById("hidden-commands").innerHTML;
-    }
-    */
 
     filterCmds();
 
@@ -108,8 +99,6 @@ function check() {
 
     let value = conn.value;
 
-    //current_text = document.getElementById("user_input").value;
-
     if (value.length == 0) {
         if (error_index != -1) {
             correct.innerHTML = original_passage.substring(0, correct.innerHTML.length - (error_index - user_progress.length));
@@ -128,6 +117,24 @@ function check() {
         conn.value = "";
         prev_length = 0;
         return;
+    }
+
+    if (race_commands.includes("incorrect")) {
+        if (Math.floor(Math.random() * 50) == 0) {
+            let base = value.substring(0, value.length - 1);
+            let last_char_position = key_positions[value.substring(value.length - 1)];
+
+            let replacements = [];
+            for (var key in key_positions) {
+                let temp_position = key_positions[key];
+                if ((temp_position - 1 == last_char_position || temp_position == last_char_position || temp_position + 1 == last_char_position) && (key != value.substring(value.length - 1))) {
+                    replacements.push(key);
+                }
+            }
+
+            value = base + replacements[Math.floor(Math.random() * replacements.length)]
+            conn.value = value;
+        }
     }
 
     let offset = user_progress.length
@@ -194,14 +201,12 @@ function statsAnalysis(WPM) {
 
     let std_dev = speedsHeatmap(WPM, passage_list);
     speedsGraph(category_wpms, word_wpms, std_dev);
-
-    // TODO: FILL IN POINTS FOR THE GRAPH (FOR LOOP OVER word_wpms THAT CREATES A SPHERE AT (<incremented x-value>, canvas.height - word_wpms[l]) AND DRAW IN A SINGLE LINE THAT CONNECTS THEM (POPULATE A LIST OF COORDINATES AS YOU GO OVER THE FIRST LOOP AND JUST MAKE A LINE CONNECTING EACH COORDINATE))
 }
 
 function speedsHeatmap(WPM, passage_list) {
     let speeds = document.getElementById("speed-breakdown-text");
-    speeds.width = "800"; //document.getElementById("passage").style.width;
-    speeds.height = "400"; //document.getElementById("passage").style.height;
+    speeds.width = "800";
+    speeds.height = "400";
     speeds.style.display = "block";
 
     let context = speeds.getContext("2d");
@@ -221,20 +226,6 @@ function speedsHeatmap(WPM, passage_list) {
 
         word_wpms.push((passage_list[i].length / 5) / adjusted_times[i]);
     }
-
-
-
-
-
-
-
-    // WORK ON THIS BLOCK OF CODE--YOU NEED TO SPLIT UP THE PASSAGE INTO <num_categories> INTERVALS TO MAKE PLOTTING MORE CONSISTENT
-
-
-
-
-
-
 
     let l_interval = Math.floor(times.length / num_categories); // Length of a standard interval
     let remainder = times.length % num_categories; // Remainder
@@ -288,10 +279,10 @@ function speedsHeatmap(WPM, passage_list) {
     }
 
     speeds.height = (temp_y + 25).toString();
-    context.font = "20px Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif"; // TODO: Change to .friendly-font
+    context.font = "20px Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif";
 
     for (var k = 0; k < adjusted_times.length; k++) {
-        if (word_wpms[k] > mean + (3 * std_dev / 4)) { // Super fast                                CHANGE SPEED DISTINCTIONS TO BE IN TERMS OF THE STD. DEV.
+        if (word_wpms[k] > mean + (3 * std_dev / 4)) { // Super fast
             context.fillStyle = "#3f8e68";
         } else if (word_wpms[k] > mean) { // Fast
             context.fillStyle = "#a0d58c";
@@ -308,9 +299,6 @@ function speedsHeatmap(WPM, passage_list) {
             rectangle_width = bkg_width * passage_list[k].length;
         }
 
-        //context.fillRect(current_x, current_y - (0.75 * bkg_height), rectangle_width, bkg_height);
-
-        //context.fillStyle = "black";
         context.fillText(passage_list[k], current_x, current_y);
 
         current_x += passage_list[k].length * bkg_width + space_width;
@@ -370,7 +358,6 @@ function createGraph(elem, wpms, stats) {
     context.fillText(lower.toString(), 10, elem.height - 10)
 
     let interval_length = Math.floor(elem.width / wpms.length);
-    //let vertical_scale = Math.floor(elem.height / (upper - lower));
 
     let point_x = 0;
     let point_y = elem.height;
