@@ -122,12 +122,13 @@ function check() {
     if (race_commands.includes("incorrect")) {
         if (Math.floor(Math.random() * 50) == 0) {
             let base = value.substring(0, value.length - 1);
-            let last_char_position = key_positions[value.substring(value.length - 1)];
+            let last_char = value.substring(value.length - 1);
+            let last_char_position = key_positions[last_char];
 
             let replacements = [];
             for (var key in key_positions) {
                 let temp_position = key_positions[key];
-                if ((temp_position - 1 == last_char_position || temp_position == last_char_position || temp_position + 1 == last_char_position) && (key != value.substring(value.length - 1))) {
+                if (last_char != " " && (temp_position - 1 == last_char_position || temp_position == last_char_position || temp_position + 1 == last_char_position) && (key != last_char)) {
                     replacements.push(key);
                 }
             }

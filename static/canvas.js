@@ -203,7 +203,6 @@ function executeCommand(command) {
 
 
 
-    // Change from Flask app to SocketIO app and figure out how to get the command changes to apply only to the other player
     // Another TODO: Change index.html so that the focused panel (being hovered over) expands smoothly in size (ANIMATION), make actual icons (generate should be an atom that animates on panel hover--the atom should be traced out with the animation on loop, as if you had a parameterization for the atom as a curve and you were dragging a slider that shows the particle's path over all values of t)
 
 

@@ -60,11 +60,6 @@ def index():
 
 @app.route("/1v1", methods=["GET", "POST"])
 def ml():
-    # try:
-    #     passage = session["passage"]
-    # except:
-    #     passage = pick_passage()
-
     try:
         commands = session["commands"]
         print(commands)
@@ -146,44 +141,13 @@ def join(message):
     freq = room_list.get(message['room'], 0) # https://github.com/miguelgrinberg/Flask-SocketIO/issues/105
 
     if freq == 0:
-
-
-
-
-
-        # TODO: emit a 'player 1' event
-
-
-
-
-
-
         room_list[message['room']] = 1
         try:
             room_passage[message['room']] = session["passage"]
         except:
             room_passage[message['room']] = pick_passage()
-
     else:
-
-
-
-
-
-        # TODO: emit a 'player n' event
-
-
-
-
-
-
         room_list[message['room']] += 1
-
-    # debugging
-    print('Look for this line...')
-    print(rooms())
-    print('room_list: ' + str(room_list))
-    print(room_list[message['room']])
 
     emit('join_lobby', {
         'players' : room_list[message['room']],
@@ -192,30 +156,18 @@ def join(message):
     }, room=message['room'])
 
     if not freq == 0:
-        # time.sleep(1) # sleep 1s to allow for event to be processed client-side so user2+ joins
         emit('update_countdown', {
             'timer' : COUNTDOWN,
             'room' : message['room']
         }, room=message['room'])
 
     session['receive_count'] = session.get('receive_count', 0) + 1
-    # emit('my_response',
-    #      {'data': 'In rooms: ' + ', '.join(rooms()),
-    #       'count': session['receive_count']})
-
-
-# @socketio.on('update_countdown', namespace='/test')
-# def countdown(message):
-#     room_timers[message['room']] = message['timer']
 
 
 @socketio.on('leave', namespace='/test')
 def leave(message):
     leave_room(message['room'])
     session['receive_count'] = session.get('receive_count', 0) + 1
-    # emit('my_response',
-    #      {'data': 'In rooms: ' + ', '.join(rooms()),
-    #       'count': session['receive_count']})
 
 
 @socketio.on('race finished', namespace='/test')
@@ -238,24 +190,6 @@ def rank(message):
         room_list.pop(message['room'], None)
         room_passage.pop(message['room'], None)
         room_finish.pop(message['room'], None)
-
-# @socketio.on('player1', namespace='/test')
-# def player1():
-#
-
-
-"""
-def start_countdown(room):
-    while room_timers[room] > 0:
-        print(room_timers[room])
-        emit('update_countdown', {
-            'timer' : room_timers[room],
-            'room' : room
-        }, room=room)
-
-        time.sleep(1)
-        room_timers[room] -= 1
-"""
 
 
 if __name__ == '__main__':
