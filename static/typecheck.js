@@ -37,6 +37,49 @@ let key_positions = {
     "'" : 10
 }
 
+// Use immediate_key_neighbors for "incorrect" command to be less inconspicuous, I just don't want to get rid
+// of key_neighbors because I spent a lot of time writing it and some of them look cool
+
+let key_neighbors = {
+    "!" : "@Q", "1" : "2q", "q" : "wa", "a" : "qsz", "z" : "asx",
+    "@" : "!#QW", "2" : "13qw", "w" : "qse", "s" : "waxd", "x" : "zsdc",
+    "#" : "@$WE", "3" : "24we", "e" : "wdr", "d" : "escf", "c" : "xdfv",
+    "$" : "#%ER", "4" : "35er", "r" : "eft", "f" : "rdvg", "v" : "cfgb",
+    "%" : "$^RT", "5" : "46rt", "t" : "rgy", "g" : "tfvbh", "b" : "vghn",
+    "^" : "%&TY", "6" : "57ty", "y" : "thu", "h" : "ygbnj", "n" : "bhjm",
+    "&" : "^*YU", "7" : "68yu", "u" : "yji", "j" : "uhnmk", "m" : "njk,",
+    "*" : "&(UI", "8" : "79ui", "i" : "uko", "k" : "ijml,", "," : "mkl.",
+    "(" : "*)IO", "9" : "80io", "o" : "ilp", "l" : "ok,.;", "." : ",l;/",
+    ")" : "(_op", "0" : "9-op", "p" : "o;[", ";" : "pl./\'", "/" : ".;\'",
+    "-" : "0=p[", "[" : "\'p]", "\'" : "[;/", ":" : "\"LP>?",
+    "_" : ")+P{", "]" : "[", "\"" : "{:?",
+    "=" : "-[]", "{" : "\"P}",
+    "+" : "_{}", "}" : "{",
+    "`" : "1", "<" : ">MKL",
+    "~" : "!", ">" : "<L:?",
+    " " : " ", "?" : ">:\"" // last one looks like a slightly irked/puzzled man
+}
+
+let immediate_key_neighbors = {
+    "!" : "@~", "1" : "2", "q" : "w", "a" : "s", "z" : "x",
+    "@" : "!#", "2" : "13", "w" : "qe", "s" : "ad", "x" : "zc",
+    "#" : "@$", "3" : "24", "e" : "wr", "d" : "sf", "c" : "xv",
+    "$" : "#%", "4" : "35", "r" : "et", "f" : "dg", "v" : "cb",
+    "%" : "$^", "5" : "46", "t" : "ry", "g" : "fh", "b" : "vn",
+    "^" : "%&", "6" : "57", "y" : "tu", "h" : "gj", "n" : "bm",
+    "&" : "^*", "7" : "68", "u" : "yi", "j" : "hk", "m" : "n,",
+    "*" : "&(", "8" : "79", "i" : "uo", "k" : "jl,", "," : "m.",
+    "(" : "*)", "9" : "80", "o" : "ip", "l" : "k;", "." : ",/",
+    ")" : "(_", "0" : "9-", "p" : "o[", ";" : "l\'", "/" : ".",
+    "-" : "0=", "[" : "p]", "\'" : ";", ":" : "\"L",
+    "_" : ")+", "]" : "[", "\"" : ":",
+    "=" : "-", "{" : "P}",
+    "+" : "_", "}" : "{",
+    "`" : "1", "<" : ">M",
+    "~" : "!", ">" : "<?",
+    " " : " ", "?" : ">"
+}
+
 function load(first, second, third) {
     original_passage = first + second + third;
     conn = document.getElementById("user_input");
@@ -123,17 +166,16 @@ function check() {
         if (Math.floor(Math.random() * 50) == 0) {
             let base = value.substring(0, value.length - 1);
             let last_char = value.substring(value.length - 1);
-            let last_char_position = key_positions[last_char];
-
-            let replacements = [];
-            for (var key in key_positions) {
-                let temp_position = key_positions[key];
-                if (last_char != " " && (temp_position - 1 == last_char_position || temp_position == last_char_position || temp_position + 1 == last_char_position) && (key != last_char)) {
-                    replacements.push(key);
+            let replacement;
+            
+            for (var key in key_neighbors) {
+                if (key == last_char.toLowerCase()) {
+                    replacement = immediate_key_neighbors[key];
+                    let random_num = Math.floor(Math.random() * replacement.length);
+                    value = base + replacement.substring(random_num, random_num + 1);
                 }
             }
 
-            value = base + replacements[Math.floor(Math.random() * replacements.length)]
             conn.value = value;
         }
     }
