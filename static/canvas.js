@@ -261,6 +261,12 @@ function executeCommand(command) {
 
             break;
 
+        case "pos xy -r":
+            document.querySelector("input").value += command;
+            current_y += 45;
+
+            break;
+
         case "run": // Executes the commands
             document.querySelector("form").submit();
 

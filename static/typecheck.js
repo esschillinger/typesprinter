@@ -119,6 +119,9 @@ function filterCmds() {
         if (commands.includes("wpm -sz")) {
             wpm_style += "size";
         }
+        if (commands.includes("pos xy -r")) {
+            wpm_style += "pos xy -r";
+        }
     }
 }
 
@@ -136,6 +139,12 @@ function check() {
     }
     if (wpm_style.includes("size")) {
         wpm_counter.style.fontSize = "" + (100 + Math.floor(Math.random() * 151)) + "px";
+    }
+    if (wpm_style.includes("pos xy -r")) {
+        $('div#passage').css({
+            "margin-left" : Math.floor(200 + Math.random() * 100).toString() + "px",
+            "margin-top" : Math.floor(200 + Math.random() * 100).toString() + "px"
+        });
     }
 
     wpm_counter.innerHTML = Math.ceil((user_progress.length / 5) / (((tf - ti)/60000)));
@@ -167,7 +176,7 @@ function check() {
             let base = value.substring(0, value.length - 1);
             let last_char = value.substring(value.length - 1);
             let replacement;
-            
+
             for (var key in key_neighbors) {
                 if (key == last_char.toLowerCase()) {
                     replacement = immediate_key_neighbors[key];

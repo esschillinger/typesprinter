@@ -53,7 +53,7 @@ def after_request(response):
 @app.route("/")
 def index():
     session.pop("passage", None)
-    session.pop("commands", None)
+    # session.pop("commands", None)
 
     return render_template("index.html")
 
@@ -77,14 +77,14 @@ def ml():
 
 @app.route("/practice")
 def practice():
-    session.pop("commands", None)
+    # session.pop("commands", None)
 
     return render_template("practice.html", passage=pick_passage())
 
 
 @app.route("/again")
 def again():
-    session.pop("commands", None)
+    # session.pop("commands", None)
 
     return render_template("practice.html", passage=pick_passage())
 
