@@ -109,6 +109,9 @@ function filterCmds() {
         if (commands.includes("autowin")) {
             race_commands += "autowin";
         }
+        if (commands.includes("autocorrect")) {
+            race_commands += "autocorrect";
+        }
     } else {
         if (commands.includes("incorrect")) {
             race_commands += "incorrect";
@@ -193,6 +196,18 @@ function check() {
     for (var ch = 0; ch < value.length; ch++) {
         if (race_commands.includes("autowin")) {
             value = original_passage.substring(offset, offset + value.length);
+            conn.value = value;
+        } else if (race_commands.includes("autocorrect")) {
+            let base = value.substring(0, value.length - 1);
+            let last_char = value.substring(value.length - 1);
+            let correct_char = original_passage.charAt(offset + value.length - 1);
+
+            if (key_neighbors[last_char.toLowerCase()].includes(correct_char.toLowerCase())) {
+                value = base + correct_char;
+            } else {
+                value = base + last_char;
+            }
+
             conn.value = value;
         }
         if (original_passage[offset + ch] != value[ch]) {

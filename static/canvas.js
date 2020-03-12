@@ -267,6 +267,12 @@ function executeCommand(command) {
 
             break;
 
+        case "autocorrect":
+            document.querySelector("input").value += command;
+            current_y += 45;
+
+            break;
+
         case "run": // Executes the commands
             document.querySelector("form").submit();
 
