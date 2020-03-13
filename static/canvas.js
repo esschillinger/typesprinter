@@ -273,6 +273,12 @@ function executeCommand(command) {
 
             break;
 
+        case "motherload -e":
+            document.querySelector("input").value += command;
+            current_y += 45;
+
+            break;
+
         case "run": // Executes the commands
             document.querySelector("form").submit();
 
@@ -280,6 +286,10 @@ function executeCommand(command) {
 
         default:
             current_y += 45;
+
+            if (command.includes("room")) {
+                document.querySelector("input").value += command;
+            }
     }
 
     context.font = font;

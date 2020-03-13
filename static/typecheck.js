@@ -116,6 +116,10 @@ function filterCmds() {
         if (commands.includes("incorrect")) {
             race_commands += "incorrect";
         }
+        if (commands.includes("motherload -e")) {
+            race_commands += "incorrect";
+            wpm_style += "rainbow" + "size" + "pos xy -r";
+        }
         if (commands.includes("wpm -rb")) {
             wpm_style += "rainbow";
         }
@@ -145,8 +149,8 @@ function check() {
     }
     if (wpm_style.includes("pos xy -r")) {
         $('div#passage').css({
-            "margin-left" : Math.floor(200 + Math.random() * 100).toString() + "px",
-            "margin-top" : Math.floor(200 + Math.random() * 100).toString() + "px"
+            "margin-left" : Math.floor(200 + Math.random() * 25).toString() + "px",
+            "margin-top" : Math.floor(200 + Math.random() * 25).toString() + "px"
         });
     }
 

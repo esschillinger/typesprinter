@@ -62,9 +62,11 @@ def index():
 def ml():
     try:
         commands = session["commands"]
+        room = session["room-commands"]
         print(commands)
     except:
         commands = ""
+        room = ""
 
     if "p best" in commands:
         passage, session["passage"] = BEST_PASSAGE, BEST_PASSAGE
@@ -72,7 +74,7 @@ def ml():
         passage = pick_passage()
 
     if request.method == "GET":
-        return render_template("1v1.html", passage=passage, commands=commands)
+        return render_template("1v1.html", passage=passage, commands=commands, room=room)
 
 
 @app.route("/practice")
@@ -113,7 +115,12 @@ def race():
     if request.method == "GET":
         return render_template("commands.html")
 
-    session["commands"] = request.form.get("commands")
+    commands = request.form.get("commands")
+    index = commands.rfind(" ")
+
+    if index > 0 and commands[index-4:index] == "room":
+        session["room-commands"] = commands[index + 1:]
+        session["commands"] = commands
 
     return redirect("/1v1")
 
@@ -190,6 +197,10 @@ def rank(message):
         room_list.pop(message['room'], None)
         room_passage.pop(message['room'], None)
         room_finish.pop(message['room'], None)
+
+        if message['room'] == session["room-commands"]:
+            session.pop("commands")
+            session.pop("room-commands")
 
 
 if __name__ == '__main__':
