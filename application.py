@@ -8,7 +8,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, ro
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import generate_passage, pick_passage, BEST_PASSAGE, login_required
+from helpers import scrape_for_passage, get_links, generate_passage, pick_passage, BEST_PASSAGE, login_required
 
 # Configure application
 
@@ -131,10 +131,12 @@ def generate():
     if request.method == "GET":
         return render_template("generate.html")
 
+    '''
     condition = request.form.get("first_word")
     passage = generate_passage(condition)
+    '''
 
-    session["passage"] = passage
+    session["passage"] = scrape_for_passage(request.form.get("first_word"))
 
     return redirect("/practice")
 

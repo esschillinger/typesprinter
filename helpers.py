@@ -3,6 +3,10 @@ from firebase_admin import credentials, firestore
 from numpy.random import choice
 import random
 
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+import re
+
 from flask import redirect, render_template, request, session
 from functools import wraps
 
@@ -128,3 +132,17 @@ def generate_passage(initial_condition):
 def pick_passage():
     random.seed()
     return PRESET_PASSAGES[random.randint(0, len(PRESET_PASSAGES) - 1)]
+
+def get_links(query):
+    search = urlopen('https://www.google.com/search?q=' + query.replace(' ', '+'))
+    soup = BeautifulSoup(search, 'html.parser')
+
+    return soup.find_all('a')
+
+def scrape_for_passage(query):
+    links = get_links(query)
+
+    page = urlopen(links[random.randint(0, len(links) - 1)].attrs['href'])
+    paras = [p for p in soup.find_all('p') if query in p]
+
+    return paras[random.randint(0, len(paras) - 1)]
