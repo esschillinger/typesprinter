@@ -1,14 +1,18 @@
-import firebase_admin
-from firebase_admin import credentials, firestore
-from numpy.random import choice
-import random
-
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
-import re
-
 from flask import redirect, render_template, request, session
+from firebase_admin import credentials, firestore
+from urllib.request import urlopen
+from numpy.random import choice
+from bs4 import BeautifulSoup
 from functools import wraps
+import http.cookiejar
+import firebase_admin
+# import mechanize
+import requests
+import random
+# import json
+# import sys
+# import os
+# import re
 
 TAGSETS_COLLECTION = 'tagsets'
 WORDS_COLLECTION = 'words'
@@ -133,16 +137,70 @@ def pick_passage():
     random.seed()
     return PRESET_PASSAGES[random.randint(0, len(PRESET_PASSAGES) - 1)]
 
-def get_links(query):
-    search = urlopen('https://www.google.com/search?q=' + query.replace(' ', '+'))
-    soup = BeautifulSoup(search, 'html.parser')
+"""
+def query_google(query):
+    br = mechanize.Browser()
+    cj = http.cookiejar.LWPCookieJar()
+    br.set_cookiejar(cj)
 
-    return soup.find_all('a')
+    br.set_handle_equiv(True)
+    br.set_handle_gzip(True)
+    br.set_handle_redirect(True)
+    br.set_handle_referer(True)
+    br.set_handle_robots(False)
+
+    br.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(), max_time=1)
+
+    br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
+
+    url = "https://www.google.com/search?q=" + query.replace(" ", "+") + "&safe=off&client=ubuntu&hs=Hrw&channel=fs&biw=1317&bih=678&hl=en&um=1&ie=UTF-8&source=og&sa=N&tab=wi"
+    print("\n\n\n" + url + "\n\n\n")
+
+    r = br.open(url)
+    html = r.read()
+    soup = BeautifulSoup(html, "html.parser")
+
+    return soup
 
 def scrape_for_passage(query):
-    links = get_links(query)
+    response = query_google(query)
+    urls = [url for url in response.find_all("a") if "http://" in url or "https://" in url]
 
-    page = urlopen(links[random.randint(0, len(links) - 1)].attrs['href'])
+    page = BeautifulSoup(urllib.request.urlopen(urls[random.randint(0, len(urls) - 1)].attrs['href']), "html.parser")
     paras = [p for p in soup.find_all('p') if query in p]
 
     return paras[random.randint(0, len(paras) - 1)]
+"""
+
+def remove_non_ascii(s):
+    return ''.join(i for i in s if ord(i) < 128)
+
+def find_passage(query):
+    print(query)
+    headers = { "User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36" }
+
+    r = requests.get("https://www.google.com/search?q=" + query, headers=headers)
+    soup = BeautifulSoup(r.text, "html.parser")
+
+    elements = soup.select("a")
+    elems = []
+    for i in range(len(elements)):
+        try:
+            href = elements[i]['href']
+            if href[:7] == "http://" or href[:8] == "https://":
+                elems.append(href)
+        except:
+            pass
+
+    ps = []
+    while len(ps) == 0:
+        url = elems[random.randint(0, len(elems) - 1)]
+        r2 = requests.get(url, headers=headers)
+        soup2 = BeautifulSoup(r2.text, "html.parser")
+        ps = [p.text.strip() for p in soup2.find_all("p") if query in p.text]
+
+    upper = len(ps) - 1
+    if upper == 0:
+        return remove_non_ascii(ps[0])
+    else:
+        return remove_non_ascii(ps[random.randint(0, upper)])

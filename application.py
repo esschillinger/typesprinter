@@ -1,14 +1,12 @@
+from helpers import find_passage, generate_passage, pick_passage, BEST_PASSAGE, login_required
+from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
+from flask import Flask, flash, jsonify, redirect, render_template, request, session
+from werkzeug.security import check_password_hash, generate_password_hash
+from flask_session import Session
+from tempfile import mkdtemp
+from cs50 import SQL
 import os
 import time
-
-from cs50 import SQL
-from flask import Flask, flash, jsonify, redirect, render_template, request, session
-from flask_session import Session
-from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
-from tempfile import mkdtemp
-from werkzeug.security import check_password_hash, generate_password_hash
-
-from helpers import scrape_for_passage, get_links, generate_passage, pick_passage, BEST_PASSAGE, login_required
 
 # Configure application
 
@@ -20,15 +18,13 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
 # Dictionary in the form { room_id : frequency } where frequency is the number of players in the room
-room_list = {}
 # form { room_id : passage }
-room_passage = {}
 # form { room_id : number of completed passages }
+room_list = {}
+room_passage = {}
 room_finish = {}
 
-
 COUNTDOWN = 5
-
 
 # Ensure responses aren't cached
 @app.after_request
@@ -136,7 +132,7 @@ def generate():
     passage = generate_passage(condition)
     '''
 
-    session["passage"] = scrape_for_passage(request.form.get("first_word"))
+    session["passage"] = find_passage(request.form.get("first_word"))
 
     return redirect("/practice")
 
