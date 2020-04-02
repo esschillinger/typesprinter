@@ -76,8 +76,12 @@ def ml():
 @app.route("/practice")
 def practice():
     # session.pop("commands", None)
+    try:
+        passage = session['passage']
+    except:
+        passage = pick_passage()
 
-    return render_template("practice.html", passage=pick_passage())
+    return render_template("practice.html", passage=passage)
 
 
 @app.route("/again")
