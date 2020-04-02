@@ -175,9 +175,6 @@ def scrape_for_passage(query):
 def remove_non_ascii(s):
     return ''.join(i for i in s if ord(i) < 128)
 
-def scan_case_insensitive(query, text):
-    return query.lower() in text or query.upper() in text or query.title() in text
-
 def find_passage(query):
     headers = { "User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36" }
 
@@ -199,7 +196,7 @@ def find_passage(query):
         url = elems[random.randint(0, len(elems) - 1)]
         r2 = requests.get(url, headers=headers)
         soup2 = BeautifulSoup(r2.text, "html.parser")
-        ps = [p.text.strip() for p in soup2.find_all("p") if scan_case_insensitive(query, p.text)]
+        ps = [p.text.strip() for p in soup2.find_all("p") if query.lower() in p.text.lower()]
 
     upper = len(ps) - 1
     if upper == 0:
