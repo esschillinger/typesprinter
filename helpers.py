@@ -196,7 +196,7 @@ def find_passage(query):
         url = elems[random.randint(0, len(elems) - 1)]
         r2 = requests.get(url, headers=headers)
         soup2 = BeautifulSoup(r2.text, "html.parser")
-        ps = [p.text.strip() for p in soup2.find_all("p") if query in p.text]
+        ps = [p.text.strip() for p in soup2.find_all("p") if query.lower() in p.text]
 
     upper = len(ps) - 1
     if upper == 0:
