@@ -10,7 +10,7 @@ import firebase_admin
 import requests
 import random
 # import json
-# import sys
+import sys
 # import os
 # import re
 
@@ -176,7 +176,6 @@ def remove_non_ascii(s):
     return ''.join(i for i in s if ord(i) < 128)
 
 def find_passage(query):
-    print(query)
     headers = { "User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36" }
 
     r = requests.get("https://www.google.com/search?q=" + query, headers=headers)
