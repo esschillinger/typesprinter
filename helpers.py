@@ -198,7 +198,7 @@ def shorten_passage(s, num, tagged, tags):
     for _ in range(num):
         index = tags.index(".", index + 1)
 
-    end_string = tagged[index - 1][0] + "." # Bogde. Not guaranteed to work, but pretty damn sure it will
+    end_string = tagged[index - 1][0] + tagged[index][0] # Bogde. Not guaranteed to work, but pretty damn sure it will
 
     return s[:s.index(end_string)] + end_string
 
@@ -208,8 +208,7 @@ def remove_non_ascii(s):
     return ''.join(filter(lambda x: x in printable, s))
 
 def find_passage(query, exact):
-    # headers = { "User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36" }
-    headers = { "User-agent" : "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1" }
+    headers = { "User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36" }
 
     r = requests.get("https://www.google.com/search?q=" + query, headers=headers)
     soup = BeautifulSoup(r.text, "html.parser")

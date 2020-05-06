@@ -9,11 +9,9 @@
 {% block head %}
     <script type="text/javascript" src="static/terminal.js"></script>
     <script type="text/javascript" src="static/canvas.js"></script>
-    <!--
     <script>
         window.onload = function() { load_term(); load_canvas(); };
     </script>
-    -->
 {% endblock %}
 
 
@@ -33,7 +31,7 @@
     -->
 
     <div id="container-mini" class="container-mini panel-title">
-          <form action="/generate" method="post" class="form-dimens-2 form-inline">
+          <form name="starter" action="/generate" method="post" class="form-dimens-2 form-inline">
               <input type="text" name="first_word" placeholder="Enter a term" id="term_command" class="form-elements float" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
               <!--<label class="checkbox-label float">
                   <input type="checkbox" name="exact" id="exact">
