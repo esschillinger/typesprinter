@@ -9,6 +9,8 @@ import firebase_admin
 # import mechanize
 import requests
 import random
+import string
+import nltk
 # import json
 import sys
 # import os
@@ -133,6 +135,19 @@ def generate_passage(initial_condition):
 
     return sentence
 
+def apology(message, code=400):
+    """Render message as an apology to user."""
+    def escape(s):
+        """
+        Escape special characters.
+        https://github.com/jacebrowning/memegen#special-characters
+        """
+        for old, new in [("-", "--"), (" ", "-"), ("_", "__"), ("?", "~q"),
+                         ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
+            s = s.replace(old, new)
+        return s
+    return render_template("apology.html", top=code, bottom=escape(message)), code
+
 def pick_passage():
     random.seed()
     return PRESET_PASSAGES[random.randint(0, len(PRESET_PASSAGES) - 1)]
@@ -172,34 +187,67 @@ def scrape_for_passage(query):
     return paras[random.randint(0, len(paras) - 1)]
 """
 
-def remove_non_ascii(s):
-    return ''.join(i for i in s if ord(i) < 128)
+def num_sentences(s):
+    tagged = nltk.pos_tag(nltk.word_tokenize(s))
+    tags = [tag[1] for tag in tagged]
 
-def find_passage(query):
-    headers = { "User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36" }
+    return tags.count("."), tagged, tags
+
+def shorten_passage(s, num, tagged, tags):
+    index = -1
+    for _ in range(num):
+        index = tags.index(".", index + 1)
+
+    end_string = tagged[index - 1][0] + "." # Bogde. Not guaranteed to work, but pretty damn sure it will
+
+    return s[:s.index(end_string)] + end_string
+
+def remove_non_ascii(s):
+    printable = set(string.printable)
+
+    return ''.join(filter(lambda x: x in printable, s))
+
+def find_passage(query, exact):
+    # headers = { "User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36" }
+    headers = { "User-agent" : "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1" }
 
     r = requests.get("https://www.google.com/search?q=" + query, headers=headers)
     soup = BeautifulSoup(r.text, "html.parser")
 
     elements = soup.select("a")
     elems = []
-    for i in range(len(elements)):
+    for elem in elements:
         try:
-            href = elements[i]['href']
+            href = elem['href']
             if href[:7] == "http://" or href[:8] == "https://":
                 elems.append(href)
         except:
             pass
 
+    if len(elems) == 0:
+        return "<NO-URLS>"
+
     ps = []
-    while len(ps) == 0:
-        url = elems[random.randint(0, len(elems) - 1)]
+    while(len(elems)) > 0:
+        url = random.choice(elems)
+        elems.remove(url)
+
         r2 = requests.get(url, headers=headers)
         soup2 = BeautifulSoup(r2.text, "html.parser")
-        ps = [p.text.strip() for p in soup2.find_all("p") if query.lower() in p.text.lower()]
 
-    upper = len(ps) - 1
-    if upper == 0:
-        return remove_non_ascii(ps[0])
-    else:
-        return remove_non_ascii(ps[random.randint(0, upper)])
+        ps = [p.text.strip() for p in soup2.find_all("p") if query.lower() in p.text.lower() or not bool(exact)]
+        if len(ps) > 0:
+            break
+
+    if len(ps) == 0:
+        return "<NO-PASSAGES>"
+
+    chosen = random.choice(ps)
+
+    n, tagged, tags = num_sentences(chosen)
+
+    MAX_SENTENCES = 4
+    if n > MAX_SENTENCES:
+        chosen = shorten_passage(chosen, MAX_SENTENCES, tagged, tags)
+
+    return remove_non_ascii(chosen)
