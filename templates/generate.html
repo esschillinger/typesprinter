@@ -9,9 +9,11 @@
 {% block head %}
     <script type="text/javascript" src="static/terminal.js"></script>
     <script type="text/javascript" src="static/canvas.js"></script>
+    <!--
     <script>
         window.onload = function() { load_term(); load_canvas(); };
     </script>
+    -->
 {% endblock %}
 
 
@@ -37,13 +39,22 @@
                   <input type="checkbox" name="exact" id="exact">
                   <span class="checkbox-custom"></span>
               </label>-->
+
+
+              <!--
               <div class="custom-control custom-checkbox my-1 mr-sm-2">
+              -->
+
                 <input type="checkbox" name="exact" id="exact" class="custom-control-input">
                 <label for="exact" class="custom-control-label">
                     &nbsp;
                     Passage must include query
                 </label>
+
+              <!--
               </div>
+              -->
+              
               <br><br><br>
               <input type="submit" value="Create Passage" class="form-elements" autocomplete="off" autocorrect="off" spellcheck="false">
           </form>
