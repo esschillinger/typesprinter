@@ -135,6 +135,7 @@ def generate_passage(initial_condition):
 
     return sentence
 
+'''
 def apology(message, code=400):
     """Render message as an apology to user."""
     def escape(s):
@@ -147,6 +148,7 @@ def apology(message, code=400):
             s = s.replace(old, new)
         return s
     return render_template("apology.html", top=code, bottom=escape(message)), code
+'''
 
 def pick_passage():
     random.seed()

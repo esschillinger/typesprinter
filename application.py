@@ -1,6 +1,6 @@
 from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
-from helpers import find_passage, pick_passage, BEST_PASSAGE, login_required, apology
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
+from helpers import find_passage, pick_passage, BEST_PASSAGE, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_session import Session
 from tempfile import mkdtemp
@@ -136,8 +136,8 @@ def generate():
     passage = generate_passage(condition)
     '''
 
-    p = find_passage(request.form.get("first_word"), request.form.get("exact"))
-    error = "Query unsuccessful--try using a different term"
+    session["passage"] = find_passage(request.form.get("first_word"), request.form.get("exact"))
+    # error = "Query unsuccessful--try using a different term"
 
 
     # Temporarily commenting this out
@@ -147,7 +147,7 @@ def generate():
     # elif p == "<NO-PASSAGES>":
     #     return apology(error + " OR uncheck the 'strictly-require' box.")
 
-    session["passage"] = p
+    # session["passage"] = p
 
     return redirect("/practice")
 
