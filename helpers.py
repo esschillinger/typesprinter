@@ -154,6 +154,19 @@ def pick_passage():
     random.seed()
     return PRESET_PASSAGES[random.randint(0, len(PRESET_PASSAGES) - 1)]
 
+def apology(message, code=400):
+    """Render message as an apology to user."""
+    def escape(s):
+        """
+        Escape special characters.
+        https://github.com/jacebrowning/memegen#special-characters
+        """
+        for old, new in [("-", "--"), (" ", "-"), ("_", "__"), ("?", "~q"),
+                         ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
+            s = s.replace(old, new)
+        return s
+    return render_template("apology.html", top=code, bottom=escape(message)), code
+
 """
 def query_google(query):
     br = mechanize.Browser()
@@ -248,18 +261,10 @@ def find_passage(query, exact):
 
     chosen = random.choice(ps)
 
-    """
-    try:
-        (n, tagged, tags) = num_sentences(chosen)
-    except:
-        return "Second BUT I SWEAR TO GOD"
+    (n, tagged, tags) = num_sentences(chosen)
 
     MAX_SENTENCES = 4
     if n > MAX_SENTENCES:
-        try:
-            chosen = shorten_passage(chosen, MAX_SENTENCES, tagged, tags)
-        except:
-            return "Third" + chosen
-    """
+        chosen = shorten_passage(chosen, MAX_SENTENCES, tagged, tags)
 
     return remove_non_ascii(chosen)
