@@ -190,16 +190,10 @@ def scrape_for_passage(query):
 """
 
 def num_sentences(s):
-    try:
-        tagged = nltk.pos_tag(nltk.word_tokenize(s))
-    except:
-        return "Tagged"
-    try:
-        tags = [tag[1] for tag in tagged]
-    except:
-        return tagged
+    tagged = nltk.pos_tag(nltk.word_tokenize(s))
+    tags = [tag[1] for tag in tagged]
 
-    return tags.count("."), tagged, tags
+    return (tags.count("."), tagged, tags)
 
 def shorten_passage(s, num, tagged, tags):
     index = -1
@@ -255,7 +249,7 @@ def find_passage(query, exact):
     chosen = random.choice(ps)
 
     try:
-        n, tagged, tags = num_sentences(chosen)
+        (n, tagged, tags) = num_sentences(chosen)
     except:
         return "Second " + str(bool(exact))
 
