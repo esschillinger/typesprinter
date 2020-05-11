@@ -248,12 +248,12 @@ def find_passage(query, exact):
 
     chosen = random.choice(ps)
 
+    """
     try:
         (n, tagged, tags) = num_sentences(chosen)
     except:
         return "Second BUT I SWEAR TO GOD"
 
-    """
     MAX_SENTENCES = 4
     if n > MAX_SENTENCES:
         try:
