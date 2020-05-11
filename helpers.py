@@ -248,20 +248,15 @@ def find_passage(query, exact):
 
     chosen = random.choice(ps)
 
-    try:
-        (n, tagged, tags) = num_sentences(chosen)
-    except:
-        return "Second " + str(bool(exact))
+    (n, tagged, tags) = num_sentences(chosen)
 
+    """
     MAX_SENTENCES = 4
     if n > MAX_SENTENCES:
         try:
             chosen = shorten_passage(chosen, MAX_SENTENCES, tagged, tags)
         except:
             return "Third" + chosen
-    try:
-        chosen = remove_non_ascii(chosen)
-        return chosen
-    except:
-        return "Fourth"
-    # return remove_non_ascii(chosen)
+    """
+
+    return remove_non_ascii(chosen)
