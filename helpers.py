@@ -251,14 +251,14 @@ def find_passage(query, exact):
     try:
         n, tagged, tags = num_sentences(chosen)
     except:
-        return "Second"
+        return "Second " + chosen
 
     MAX_SENTENCES = 4
     if n > MAX_SENTENCES:
         try:
             chosen = shorten_passage(chosen, MAX_SENTENCES, tagged, tags)
         except:
-            return "Third"
+            return "Third" + chosen
     try:
         chosen = remove_non_ascii(chosen)
         return chosen
