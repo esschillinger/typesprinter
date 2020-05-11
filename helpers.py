@@ -212,8 +212,11 @@ def remove_non_ascii(s):
 def find_passage(query, exact):
     headers = { "User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36" }
 
-    r = requests.get("https://www.google.com/search?q=" + query, headers=headers)
-    soup = BeautifulSoup(r.text, "html.parser")
+    try:
+        r = requests.get("https://www.google.com/search?q=" + query, headers=headers)
+        soup = BeautifulSoup(r.text, "html.parser")
+    except:
+        return "First"
 
     elements = soup.select("a")
     elems = []
@@ -245,10 +248,20 @@ def find_passage(query, exact):
 
     chosen = random.choice(ps)
 
-    n, tagged, tags = num_sentences(chosen)
+    try:
+        n, tagged, tags = num_sentences(chosen)
+    except:
+        return "Second"
 
     MAX_SENTENCES = 4
     if n > MAX_SENTENCES:
-        chosen = shorten_passage(chosen, MAX_SENTENCES, tagged, tags)
-
-    return remove_non_ascii(chosen)
+        try:
+            chosen = shorten_passage(chosen, MAX_SENTENCES, tagged, tags)
+        except:
+            return "Third"
+    try:
+        chosen = remove_non_ascii(chosen)
+        return chosen
+    except:
+        return "Fourth"
+    # return remove_non_ascii(chosen)
