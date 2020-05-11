@@ -190,12 +190,10 @@ def scrape_for_passage(query):
 """
 
 def num_sentences(s):
-    nltk.download('all')
-    nltk.download('punkt')
-    nltk.download('averaged_perceptron_tagger')
-    nltk.download('tagsets')
-    
-    tagged = nltk.pos_tag(nltk.word_tokenize(s))
+    try:
+        tagged = nltk.pos_tag(nltk.word_tokenize(s))
+    except:
+        return "Tagged"
     tags = [tag[1] for tag in tagged]
 
     return tags.count("."), tagged, tags
