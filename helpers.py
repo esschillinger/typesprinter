@@ -251,7 +251,7 @@ def find_passage(query, exact):
     try:
         n, tagged, tags = num_sentences(chosen)
     except:
-        return "Second " + chosen
+        return "Second " + str(exact)
 
     MAX_SENTENCES = 4
     if n > MAX_SENTENCES:
