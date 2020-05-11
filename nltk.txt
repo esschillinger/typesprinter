@@ -1,2 +1,2 @@
-pos_tag
-word_tokenize
+tag
+tokenize
