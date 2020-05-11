@@ -194,7 +194,10 @@ def num_sentences(s):
         tagged = nltk.pos_tag(nltk.word_tokenize(s))
     except:
         return "Tagged"
-    tags = [tag[1] for tag in tagged]
+    try:
+        tags = [tag[1] for tag in tagged]
+    except:
+        return tagged
 
     return tags.count("."), tagged, tags
 
