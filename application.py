@@ -59,14 +59,16 @@ def ml():
     try:
         commands = session["commands"]
         room = session["room-commands"]
-        print(commands)
     except:
         commands = ""
         room = ""
 
     if "p best" in commands:
-        passage, session["passage"] = BEST_PASSAGE, BEST_PASSAGE
-    else:
+        session["passage"] = BEST_PASSAGE
+
+    try:
+        passage = session["passage"] # Accounts for "generate" passage as well
+    except:
         passage = pick_passage()
 
     if request.method == "GET":
@@ -146,7 +148,10 @@ def generate():
 
     session["passage"] = p
 
-    return redirect("/practice")
+    if bool(request.form.get("join_room")) == True:
+        return redirect("/1v1")
+    else:
+        return redirect("/practice")
 
 
 @socketio.on('join', namespace='/test')
