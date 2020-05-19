@@ -39,7 +39,11 @@ PRESET_PASSAGES = [
     'Everyone is to blame. He says that when you separate people into groups, they start to believe that one group is better than another. I think about Papa\'s medical books and how we all have the same blood, and organs, and bones inside us, no matter what religion we\'re supposed to be.',
     'We know that there is not one person who, after hearing these words, would deny their truth and say that he wanted something else, but he would believe that he had heard exactly what he had desired for a long time - namely, to be melted in unison with his beloved, and the two of them become one. The reason is that our ancient nature was thus and we were whole. And so love is merely the name for the desire and pursuit of the whole.',
     'I never thought I\'d feel this way, and as far as I\'m concerned I\'m glad I got the chance to say that I do believe I love you.',
-    'Sometimes terrible things happen, but there\'s nothing more terrible than not having anybody to tell it to.'
+    'Sometimes terrible things happen, but there\'s nothing more terrible than not having anybody to tell it to.',
+    'There is nothing sweeter in this sad world than the sound of someone you love calling your name.',
+    'But I really believe that there are more good people on this earth than bad people, and the good people watch out for each other and take care of each other.',
+    'Few smart kids can spare the attention that popularity requires. Unless they also happen to be good-looking, natural athletes, or siblings of popular kids, they\'ll tend to become nerds. And that\'s why smart people\'s lives are worst between, say, the ages of eleven and seventeen. Life at that age revolves far more around popularity than before or after.',
+    'Imagine for a moment that among humans some people can fly. Government staff come and tell you that you can take a course that will teach you how. This sounds great, and one hears of emotional accounts of what it is like to soar in the sky. But you have no personal experience of what flying feels like. To learn it you must go for six to nine months daily to school. You do exercises like flapping your arms but you never really take off. And you do not often need to fly anywhere. Whenever you do, you can either take the plane or send a relative who can fly to do what is needed. So, is the benefit worth the effort?'
 ]
 BEST_PASSAGE = 'When you realize you want to spend the rest of your life with somebody, you want the rest of your life to start as soon as possible.'
 
